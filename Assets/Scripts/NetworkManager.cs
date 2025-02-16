@@ -15,7 +15,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [Header("UI References")]
     [SerializeField] private GameObject loginPanel;
     [SerializeField] private GameObject profilePanel;
-    [SerializeField] private GameObject roomPanel;
+    [SerializeField] private GameObject mainLobbyPanel;
     [SerializeField] private Transform roomListContent;
     [SerializeField] private GameObject roomListItemPrefab;
     [SerializeField] private Transform previousRoomsContent;
@@ -52,7 +52,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         
         loginPanel.SetActive(false);
         profilePanel.SetActive(true);
-        roomPanel.SetActive(true);
+        mainLobbyPanel.SetActive(true);
         chatManager.SetActive(true);
 
         // Fetch player username, avatar URL, and MMR
@@ -220,7 +220,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             PhotonNetwork.LoadLevel("RoomLobby");
         }
 
-        roomPanel.SetActive(false);
+        mainLobbyPanel.SetActive(false);
 
         gameObject.GetComponent<PlayerListUI>().enabled = true;
 
