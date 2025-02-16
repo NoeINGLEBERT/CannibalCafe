@@ -16,8 +16,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject loginPanel;
     [SerializeField] private GameObject profilePanel;
     [SerializeField] private GameObject mainLobbyPanel;
-    [SerializeField] private Transform roomListContent;
-    [SerializeField] private GameObject roomListItemPrefab;
+    [SerializeField] private Transform roomCardContent;
+    [SerializeField] private GameObject roomCardPrefab;
     [SerializeField] private Transform previousRoomsContent;
     [SerializeField] private GameObject previousRoomItemPrefab;
 
@@ -38,6 +38,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private string currentRoomName;
 
     [SerializeField] private int maxPlayer;
+
+    private int currentRoomIndex = 0;
+    private List<RoomInfo> availableRooms = new List<RoomInfo>();
 
     private void Start()
     {
@@ -147,30 +150,36 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        // Clear existing room items
-        foreach (Transform child in roomListContent)
-        {
-            Destroy(child.gameObject);
-        }
+        availableRooms = new List<RoomInfo>();
 
-        // Populate the room list
         foreach (RoomInfo room in roomList)
         {
-            if (!room.RemovedFromList && room.CustomProperties.TryGetValue("GameStarted", out object started))
+            if (!room.RemovedFromList && room.CustomProperties.TryGetValue("GameStarted", out object started) && !(bool)started)
             {
-                bool gameStarted = (bool)started;
-                if (!gameStarted)
-                {
-                    GameObject roomItem = Instantiate(roomListItemPrefab, roomListContent);
-                    roomItem.GetComponentInChildren<TMP_Text>().text = room.Name;
-                    roomItem.GetComponent<Button>().onClick.AddListener(() => JoinRoom(room.Name));
-                }
-            }
-            else
-            {
-                Debug.LogWarning($"Room {room.Name} missing 'GameStarted' property or is removed.");
+                availableRooms.Add(room);
             }
         }
+
+        if (availableRooms.Count > 0)
+        {
+            currentRoomIndex = 0;
+            ShowNextRoom();
+        }
+    }
+
+    public void ShowNextRoom()
+    {
+        if (currentRoomIndex >= availableRooms.Count)
+        {
+            Debug.Log("No more rooms available.");
+            return;
+        }
+
+        RoomInfo room = availableRooms[currentRoomIndex];
+
+        GameObject roomCard = Instantiate(roomCardPrefab, roomCardContent);
+
+        roomCard.GetComponent<RoomCardUI>().Setup(room, this);
     }
 
     public override void OnJoinedRoom()
