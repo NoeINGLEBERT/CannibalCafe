@@ -62,15 +62,14 @@ public class SwipeHandler : MonoBehaviour
     private IEnumerator SwipeLeftAnimation()
     {
         yield return SwipeAnimation(-exitDistance, rotationAngle);
-        Destroy(gameObject);
-        FindFirstObjectByType<NetworkManager>().ShowNextRoom();
+        FindFirstObjectByType<NetworkManager>().AdvanceToNextRoom();
     }
 
     private IEnumerator SwipeRightAnimation()
     {
         yield return SwipeAnimation(exitDistance, -rotationAngle);
         roomCardUI.JoinRoom();
-        Destroy(gameObject);
+        FindFirstObjectByType<NetworkManager>().AdvanceToNextRoom();
     }
 
     private IEnumerator SwipeAnimation(float distance, float rotation)
@@ -91,6 +90,9 @@ public class SwipeHandler : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.1f); // Optional small delay before finishing
+
+        transform.position = startPos;
+        transform.rotation = startRotation;
     }
 
     private float EaseOutQuad(float t)

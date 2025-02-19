@@ -39,8 +39,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     [SerializeField] private int maxPlayer;
 
+    [SerializeField] private GameObject frontRoomCard;
+    [SerializeField] private GameObject backRoomCard;
     private int currentRoomIndex = 0;
     private List<RoomInfo> availableRooms = new List<RoomInfo>();
+
 
     private void Start()
     {
@@ -150,7 +153,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        availableRooms = new List<RoomInfo>();
+        availableRooms.Clear();
 
         foreach (RoomInfo room in roomList)
         {
@@ -163,23 +166,67 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         if (availableRooms.Count > 0)
         {
             currentRoomIndex = 0;
-            ShowNextRoom();
+            UpdateRoomCards();
+        }
+        else
+        {
+            HideRoomCards();
         }
     }
 
-    public void ShowNextRoom()
+    private void UpdateRoomCards()
     {
-        if (currentRoomIndex >= availableRooms.Count)
+        if (availableRooms.Count == 0)
         {
-            Debug.Log("No more rooms available.");
+            HideRoomCards();
             return;
         }
 
-        RoomInfo room = availableRooms[currentRoomIndex];
+        // Assign the first two rooms
+        if (currentRoomIndex < availableRooms.Count)
+        {
+            frontRoomCard.SetActive(true);
+            frontRoomCard.GetComponent<RoomCardUI>().Setup(availableRooms[currentRoomIndex], this);
+        }
+        else
+        {
+            frontRoomCard.SetActive(false);
+        }
 
-        GameObject roomCard = Instantiate(roomCardPrefab, roomCardContent);
+        if (currentRoomIndex + 1 < availableRooms.Count)
+        {
+            backRoomCard.SetActive(true);
+            backRoomCard.GetComponent<RoomCardUI>().Setup(availableRooms[currentRoomIndex + 1], this);
+        }
+        else
+        {
+            backRoomCard.SetActive(false);
+        }
+    }
 
-        roomCard.GetComponent<RoomCardUI>().Setup(room, this);
+    public void AdvanceToNextRoom()
+    {
+        if (currentRoomIndex < availableRooms.Count - 1)
+        {
+            currentRoomIndex++;
+            UpdateRoomCards();
+        }
+        else
+        {
+            HideRoomCards();
+        }
+    }
+
+    private void HideRoomCards()
+    {
+        frontRoomCard.SetActive(false);
+        backRoomCard.SetActive(false);
+    }
+
+    public void RefreshRoomCards()
+    {
+        currentRoomIndex = 0;
+        UpdateRoomCards();
     }
 
     public override void OnJoinedRoom()
