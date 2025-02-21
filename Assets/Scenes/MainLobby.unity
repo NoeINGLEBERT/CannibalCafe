@@ -1042,7 +1042,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -10, y: 40}
+  m_AnchoredPosition: {x: -25, y: 30}
   m_SizeDelta: {x: 140, y: 30}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &148987198
@@ -1076,7 +1076,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278190335
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -1611,7 +1611,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -10, y: -40}
+  m_AnchoredPosition: {x: -25, y: -30}
   m_SizeDelta: {x: 140, y: 30}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &305290410
@@ -1643,7 +1643,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278190335
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -2655,8 +2655,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 817197396}
-        m_TargetAssemblyTypeName: NetworkManager, Assembly-CSharp
+      - m_Target: {fileID: 817197400}
+        m_TargetAssemblyTypeName: RoomManager, Assembly-CSharp
         m_MethodName: RefreshRoomCards
         m_Mode: 1
         m_Arguments:
@@ -2921,7 +2921,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -30, y: -30}
-  m_SizeDelta: {x: 275, y: 130}
+  m_SizeDelta: {x: 275, y: 110}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &624951748
 MonoBehaviour:
@@ -2936,7 +2936,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.75, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.16078432, g: 0.16078432, b: 0.2, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2952,7 +2952,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 4
+  m_PixelsPerUnitMultiplier: 4.5
 --- !u!222 &624951749
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7932,7 +7932,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 15, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1964995058
 MonoBehaviour:

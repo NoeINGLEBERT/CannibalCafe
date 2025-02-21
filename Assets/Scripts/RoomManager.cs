@@ -47,28 +47,41 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
         foreach (RoomInfo room in roomList)
         {
-            if (!room.RemovedFromList &&
-                room.CustomProperties.TryGetValue("GameStarted", out object started) &&
-                !(bool)started)
+            if (!room.RemovedFromList && room.CustomProperties.TryGetValue("GameStarted", out object started) && !(bool)started)
             {
                 availableRooms.Add(room);
             }
         }
 
-        UpdateRoomCards();
+        if (availableRooms.Count > 0)
+        {
+            currentRoomIndex = 0;
+            UpdateRoomCards();
+        }
+        else
+        {
+            HideRoomCards();
+        }
     }
 
     private void UpdateRoomCards()
     {
         if (availableRooms.Count == 0)
         {
-            frontRoomCard.SetActive(false);
-            backRoomCard.SetActive(false);
+            HideRoomCards();
             return;
         }
 
-        frontRoomCard.SetActive(true);
-        frontRoomCard.GetComponent<RoomCardUI>().Setup(availableRooms[currentRoomIndex], this);
+        // Assign the first two rooms
+        if (currentRoomIndex < availableRooms.Count)
+        {
+            frontRoomCard.SetActive(true);
+            frontRoomCard.GetComponent<RoomCardUI>().Setup(availableRooms[currentRoomIndex], this);
+        }
+        else
+        {
+            frontRoomCard.SetActive(false);
+        }
 
         if (currentRoomIndex + 1 < availableRooms.Count)
         {
@@ -88,6 +101,16 @@ public class RoomManager : MonoBehaviourPunCallbacks
             currentRoomIndex++;
             UpdateRoomCards();
         }
+        else
+        {
+            HideRoomCards();
+        }
+    }
+
+    private void HideRoomCards()
+    {
+        frontRoomCard.SetActive(false);
+        backRoomCard.SetActive(false);
     }
 
     public void RefreshRoomCards()
