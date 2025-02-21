@@ -328,7 +328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -958,8 +958,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 817197396}
-        m_TargetAssemblyTypeName: NetworkManager, Assembly-CSharp
+      - m_Target: {fileID: 817197400}
+        m_TargetAssemblyTypeName: RoomManager, Assembly-CSharp
         m_MethodName: CreateRoom
         m_Mode: 1
         m_Arguments:
@@ -2217,7 +2217,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &477420385
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2513,7 +2513,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &541386082
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2936,14 +2936,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0.75, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: c80a965edcac4db4297609d805ebcfb3, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2952,7 +2952,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 0.25
+  m_PixelsPerUnitMultiplier: 4
 --- !u!222 &624951749
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3670,6 +3670,9 @@ GameObject:
   m_Component:
   - component: {fileID: 817197397}
   - component: {fileID: 817197396}
+  - component: {fileID: 817197401}
+  - component: {fileID: 817197400}
+  - component: {fileID: 817197399}
   - component: {fileID: 817197398}
   m_Layer: 0
   m_Name: NetworkManager
@@ -3693,19 +3696,7 @@ MonoBehaviour:
   loginPanel: {fileID: 691040165}
   profilePanel: {fileID: 624951746}
   mainLobbyPanel: {fileID: 1251637221}
-  roomCardContent: {fileID: 114850495}
-  roomCardPrefab: {fileID: 9128452087829474192, guid: 04ac2c2e165644249ab1bf8d17a07842, type: 3}
-  previousRoomsContent: {fileID: 97692121}
-  previousRoomItemPrefab: {fileID: 7018938728162034124, guid: 570f9ba4b9f1821418ce4bf7c619299f, type: 3}
-  usernameText: {fileID: 305290410}
-  mmrText: {fileID: 148987198}
-  avatarImage: {fileID: 365834748}
   chatManager: {fileID: 421766278}
-  lobbyManager: {fileID: 1459273836}
-  previousRoomsList: []
-  maxPlayer: 2
-  frontRoomCard: {fileID: 908284264}
-  backRoomCard: {fileID: 291893235}
 --- !u!4 &817197397
 Transform:
   m_ObjectHideFlags: 0
@@ -3735,6 +3726,56 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerListPanel: {fileID: 734925108}
   playerItemPrefab: {fileID: 4019081050226075671, guid: 61956849175314a4b9c92a071c98e7c1, type: 3}
+--- !u!114 &817197399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 817197395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ff0f4ea37f410748af9bec8964aff91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  previousRoomsContent: {fileID: 97692121}
+  previousRoomItemPrefab: {fileID: 7018938728162034124, guid: 570f9ba4b9f1821418ce4bf7c619299f, type: 3}
+  maxPlayer: 4
+  previousRoomsList: []
+--- !u!114 &817197400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 817197395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e27ef461680d9a4d85ea45939e2b397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frontRoomCard: {fileID: 908284264}
+  backRoomCard: {fileID: 291893235}
+  maxPlayer: 4
+  lobbyManager: {fileID: 1459273836}
+  mainLobbyPanel: {fileID: 1695891332}
+  playerListUI: {fileID: 817197395}
+  previousRoomsManager: {fileID: 817197399}
+--- !u!114 &817197401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 817197395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74c1681fc50e44146a73c0e425c06c1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usernameText: {fileID: 305290410}
+  mmrText: {fileID: 148987198}
+  avatarImage: {fileID: 365834748}
 --- !u!1 &823460747
 GameObject:
   m_ObjectHideFlags: 0
@@ -5771,7 +5812,7 @@ MonoBehaviour:
   readyButton: {fileID: 39012399}
   leaveButton: {fileID: 1193196563}
   readyStatusText: {fileID: 997232607}
-  networkManager: {fileID: 817197396}
+  previousRoomsManager: {fileID: 817197399}
   chatManager: {fileID: 421766280}
 --- !u!4 &1459273838
 Transform:

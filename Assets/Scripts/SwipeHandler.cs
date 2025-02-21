@@ -62,14 +62,14 @@ public class SwipeHandler : MonoBehaviour
     private IEnumerator SwipeLeftAnimation()
     {
         yield return SwipeAnimation(-exitDistance, rotationAngle);
-        FindFirstObjectByType<NetworkManager>().AdvanceToNextRoom();
+        FindFirstObjectByType<RoomManager>().AdvanceToNextRoom();
     }
 
     private IEnumerator SwipeRightAnimation()
     {
         yield return SwipeAnimation(exitDistance, -rotationAngle);
         roomCardUI.JoinRoom();
-        FindFirstObjectByType<NetworkManager>().AdvanceToNextRoom();
+        FindFirstObjectByType<RoomManager>().AdvanceToNextRoom();
     }
 
     private IEnumerator SwipeAnimation(float distance, float rotation)

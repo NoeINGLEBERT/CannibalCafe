@@ -16,7 +16,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject leaveButton;
     [SerializeField] private TMP_Text readyStatusText;
 
-    [SerializeField] private NetworkManager networkManager;
+    [SerializeField] private PreviousRoomsManager previousRoomsManager;
     [SerializeField] private ChatManager chatManager;
 
     private Dictionary<int, bool> playerReadyStatus = new Dictionary<int, bool>();
@@ -131,10 +131,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperties);
 
             // Save game state to PlayFab
-            if (!networkManager.previousRoomsList.Contains(PhotonNetwork.CurrentRoom.Name))
+            if (!previousRoomsManager.previousRoomsList.Contains(PhotonNetwork.CurrentRoom.Name))
             {
-                networkManager.previousRoomsList.Add(PhotonNetwork.CurrentRoom.Name);
-                networkManager.SavePreviousRooms();
+                previousRoomsManager.previousRoomsList.Add(PhotonNetwork.CurrentRoom.Name);
+                previousRoomsManager.SavePreviousRooms();
             }
         }
 

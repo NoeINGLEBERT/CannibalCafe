@@ -9,12 +9,12 @@ public class RoomCardUI : MonoBehaviour
     public TMP_Text roomNameText;
     public TMP_Text playerCountText;
     private RoomInfo roomInfo;
-    private NetworkManager networkManager;
+    private RoomManager roomManager;
 
-    public void Setup(RoomInfo room, NetworkManager manager)
+    public void Setup(RoomInfo room, RoomManager manager)
     {
         roomInfo = room;
-        networkManager = manager;
+        roomManager = manager;
 
         roomNameText.text = room.Name;
         playerCountText.text = $"{room.PlayerCount} / {room.MaxPlayers}";
@@ -22,6 +22,6 @@ public class RoomCardUI : MonoBehaviour
 
     public void JoinRoom()
     {
-        networkManager.JoinRoom(roomInfo.Name);
+        roomManager.JoinRoom(roomInfo.Name);
     }
 }
