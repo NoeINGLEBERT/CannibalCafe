@@ -18,17 +18,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject playerListUI;
 
     [Header("External Managers")]
-    private PreviousRoomsManager previousRoomsManager;
-    private PlayerListManager playerListManager;
+    [SerializeField] private PreviousRoomsManager previousRoomsManager; 
 
     private int currentRoomIndex = 0;
     private List<RoomInfo> availableRooms = new List<RoomInfo>();
-
-    private void Start()
-    {
-        previousRoomsManager = GetComponent<PreviousRoomsManager>();
-        playerListManager = GetComponent<PlayerListManager>();
-    }
 
     public void CreateRoom()
     {
@@ -157,7 +150,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             }
             else
             {
-                playerListManager.RoomCreated();
+                lobbyManager.SetActive(true);
             }
         }
         else

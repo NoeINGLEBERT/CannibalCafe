@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "347799429101",
+    "firebase_url": "https://cannibalcafe-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "cannibalcafe",
+    "storage_bucket": "cannibalcafe.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:347799429101:android:cfe1b8338e5ea8cf1851e4",
+        "android_client_info": {
+          "package_name": "com.blackstarstudio.cannibalcafe"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAq9Yrlnb2mpgye7HQG54UkU117wpaJPk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

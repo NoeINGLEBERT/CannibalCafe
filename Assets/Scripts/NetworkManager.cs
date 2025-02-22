@@ -13,14 +13,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private AccountManager accountManager;
     private RoomManager roomManager;
     private PreviousRoomsManager previousRoomsManager;
-    private PlayerListManager playerListManager;
 
     private void Start()
     {
         accountManager = GetComponent<AccountManager>();
         roomManager = GetComponent<RoomManager>();
         previousRoomsManager = GetComponent<PreviousRoomsManager>();
-        playerListManager = GetComponent<PlayerListManager>();
     }
 
     public override void OnConnectedToMaster()
@@ -34,6 +32,5 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         accountManager.FetchAccountInfo();
         previousRoomsManager.LoadPreviousRooms();
-        playerListManager.Initialize();
     }
 }
