@@ -866,8 +866,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 908284265}
   - {fileID: 291893236}
+  - {fileID: 908284265}
   m_Father: {fileID: 477420385}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1954,6 +1954,10 @@ PrefabInstance:
     - target: {fileID: 9128452087829474192, guid: 04ac2c2e165644249ab1bf8d17a07842, type: 3}
       propertyPath: m_Name
       value: FrontRoomCard
+      objectReference: {fileID: 0}
+    - target: {fileID: 9128452087829474192, guid: 04ac2c2e165644249ab1bf8d17a07842, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3756,7 +3760,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frontRoomCard: {fileID: 908284264}
   backRoomCard: {fileID: 291893235}
-  maxPlayer: 4
+  maxPlayer: 2
   lobbyManager: {fileID: 1459273836}
   mainLobbyPanel: {fileID: 1695891332}
   playerListUI: {fileID: 817197395}
@@ -5301,6 +5305,10 @@ PrefabInstance:
     - target: {fileID: 9128452087829474192, guid: 04ac2c2e165644249ab1bf8d17a07842, type: 3}
       propertyPath: m_Name
       value: BackRoomCard
+      objectReference: {fileID: 0}
+    - target: {fileID: 9128452087829474192, guid: 04ac2c2e165644249ab1bf8d17a07842, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3192107749406558566, guid: 04ac2c2e165644249ab1bf8d17a07842, type: 3}

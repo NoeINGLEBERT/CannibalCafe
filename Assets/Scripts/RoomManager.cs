@@ -1,7 +1,8 @@
-using Photon.Pun;
-using Photon.Realtime;
+﻿using Photon.Pun;
 using UnityEngine;
 using System.Collections.Generic;
+using Firebase.Database;
+using Firebase.Extensions;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
@@ -18,50 +19,130 @@ public class RoomManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject playerListUI;
 
     [Header("External Managers")]
-    [SerializeField] private PreviousRoomsManager previousRoomsManager; 
+    [SerializeField] private PreviousRoomsManager previousRoomsManager;
 
+
+    private DatabaseReference roomsRef;
+    private List<string> availableRooms = new List<string>();
     private int currentRoomIndex = 0;
-    private List<RoomInfo> availableRooms = new List<RoomInfo>();
+
+    void Start()
+    {
+        // Get Firebase reference
+        roomsRef = FirebaseDatabase.DefaultInstance.GetReference("rooms");
+
+        // Start listening for room updates
+        StartListeningForRoomUpdates();
+    }
 
     public void CreateRoom()
     {
         string roomName = "Room_" + Random.Range(1000, 9999);
-        RoomOptions options = new RoomOptions
-        {
-            MaxPlayers = maxPlayer,
-            CustomRoomProperties = new ExitGames.Client.Photon.Hashtable { { "GameStarted", false } },
-            CustomRoomPropertiesForLobby = new string[] { "GameStarted" }
-        };
-
-        PhotonNetwork.CreateRoom(roomName, options);
+        FirebaseManager.Instance.CreateRoom(roomName, maxPlayer, PlayFabAuth.PlayFabId);
     }
 
     public void JoinRoom(string roomName)
     {
-        PhotonNetwork.JoinRoom(roomName);
+        FirebaseManager.Instance.JoinRoom(roomName, PlayFabAuth.PlayFabId);
     }
 
-    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    private void StartListeningForRoomUpdates()
     {
-        availableRooms.Clear();
+        roomsRef.ChildChanged += HandleRoomUpdated;
+        roomsRef.ChildAdded += HandleRoomUpdated;
+        //roomsRef.ChildRemoved += HandleRoomUpdated;
 
-        foreach (RoomInfo room in roomList)
+        // Initial fetch
+        FetchAvailableRooms();
+    }
+
+    private void HandleRoomUpdated(object sender, ChildChangedEventArgs args)
+    {
+        if (args.DatabaseError != null)
         {
-            if (!room.RemovedFromList && room.CustomProperties.TryGetValue("GameStarted", out object started) && !(bool)started)
+            Debug.LogError($"❌ Firebase error: {args.DatabaseError.Message}");
+            return;
+        }
+
+        // Refresh the room list whenever there is a change
+        FetchAvailableRooms();
+    }
+
+    private void FetchAvailableRooms()
+    {
+        roomsRef.GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted)
             {
-                availableRooms.Add(room);
-            }
-        }
+                availableRooms.Clear();
+                foreach (var room in task.Result.Children)
+                {
+                    string roomName = room.Key;
 
-        if (availableRooms.Count > 0)
+                    // Fetch the list of players in the room
+                    var playersRef = roomsRef.Child(roomName).Child("players");
+
+                    playersRef.GetValueAsync().ContinueWithOnMainThread(playerTask =>
+                    {
+                        if (playerTask.IsCompleted)
+                        {
+                            List<string> playerList = new List<string>();
+                            foreach (var player in playerTask.Result.Children)
+                            {
+                                playerList.Add(player.Key); // Assuming player IDs/names are the keys
+                            }
+
+                            int playerCount = playerList.Count; 
+
+                            // If player count is equal to the max player count, trigger the action
+                            if (playerCount == maxPlayer)
+                            {
+                                // Example of calling your method (you can replace it with actual code)
+                                Debug.Log($"Room {roomName} has reached max players. Deleting room...");
+                                DeleteRoom(roomName, playerList); // Placeholder for your method
+                            }
+                        }
+                        else
+                        {
+                            Debug.LogError($"❌ Failed to fetch players in room {roomName}: {playerTask.Exception}");
+                        }
+                    });
+
+                    availableRooms.Add(roomName);
+                }
+
+                // Update the room cards
+                UpdateRoomCards();
+            }
+            else
+            {
+                Debug.LogError($"❌ Failed to fetch rooms: {task.Exception}");
+            }
+        });
+    }
+
+    private void DeleteRoom(string roomName, List<string> players)
+    {
+        DatabaseReference roomRef = roomsRef.Child(roomName); // Reference to the room node in the database
+        roomRef.RemoveValueAsync().ContinueWithOnMainThread(task =>
         {
-            currentRoomIndex = 0;
-            UpdateRoomCards();
-        }
-        else
-        {
-            HideRoomCards();
-        }
+            if (task.IsCompleted)
+            {
+                Debug.Log($"Room {roomName} successfully deleted from the Firebase database.");
+                
+                if (availableRooms.IndexOf(roomName) < currentRoomIndex)
+                {
+                    currentRoomIndex--;
+                }
+                availableRooms.Remove(roomName);
+                
+                UpdateRoomCards();
+            }
+            else
+            {
+                Debug.LogError($"❌ Failed to delete room {roomName} from Firebase: {task.Exception}");
+            }
+        });
     }
 
     private void UpdateRoomCards()

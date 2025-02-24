@@ -11,10 +11,12 @@ public class SwipeHandler : MonoBehaviour
     private InputAction touchPress;
     private InputAction touchPosition;
 
-    private float swipeThreshold = 100f; // Threshold for detecting swipes
-    private float swipeDuration = 0.4f; // Duration of the swipe animation
-    private float rotationAngle = 30f;  // Rotation angle during the swipe
-    private float exitDistance = Screen.width * 1.5f; // How far off-screen the object moves
+    private float swipeThreshold = 100f;
+    private float swipeDuration = 0.4f;
+    private float rotationAngle = 30f;
+    private float exitDistance = Screen.width * 1.5f;
+
+    private bool isSwiping = false; // Flag to prevent multiple swipes at once
 
     private void Awake()
     {
@@ -37,11 +39,13 @@ public class SwipeHandler : MonoBehaviour
 
     private void StartTouch()
     {
+        if (isSwiping) return; // Prevent new swipe if already swiping
         startTouchPosition = touchPosition.ReadValue<Vector2>();
     }
 
     private void EndTouch()
     {
+        if (isSwiping) return; // Prevent new swipe if already swiping
         endTouchPosition = touchPosition.ReadValue<Vector2>();
         HandleSwipe();
     }
@@ -52,6 +56,7 @@ public class SwipeHandler : MonoBehaviour
 
         if (Mathf.Abs(deltaX) > swipeThreshold)
         {
+            isSwiping = true; // Block new swipes
             if (deltaX > 0)
                 StartCoroutine(SwipeRightAnimation());
             else
@@ -63,6 +68,7 @@ public class SwipeHandler : MonoBehaviour
     {
         yield return SwipeAnimation(-exitDistance, rotationAngle);
         FindFirstObjectByType<RoomManager>().AdvanceToNextRoom();
+        isSwiping = false; // Allow new swipes after animation
     }
 
     private IEnumerator SwipeRightAnimation()
@@ -70,6 +76,7 @@ public class SwipeHandler : MonoBehaviour
         yield return SwipeAnimation(exitDistance, -rotationAngle);
         roomCardUI.JoinRoom();
         FindFirstObjectByType<RoomManager>().AdvanceToNextRoom();
+        isSwiping = false; // Allow new swipes after animation
     }
 
     private IEnumerator SwipeAnimation(float distance, float rotation)
@@ -89,7 +96,7 @@ public class SwipeHandler : MonoBehaviour
             yield return null;
         }
 
-        yield return new WaitForSeconds(0.1f); // Optional small delay before finishing
+        yield return new WaitForSeconds(0.1f);
 
         transform.position = startPos;
         transform.rotation = startRotation;
