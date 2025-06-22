@@ -10,6 +10,8 @@ public class FirebaseManager : MonoBehaviour
     private DatabaseReference dbReference;
     public static FirebaseManager Instance;
 
+    [SerializeField] private RoomManager roomManager;
+
     void Awake()
     {
         if (Instance == null)
@@ -25,19 +27,21 @@ public class FirebaseManager : MonoBehaviour
 
     void Start()
     {
-        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
+        var options = new AppOptions
         {
-            if (task.Result == DependencyStatus.Available)
-            {
-                FirebaseApp app = FirebaseApp.DefaultInstance;
-                dbReference = FirebaseDatabase.DefaultInstance.RootReference;
-                Debug.Log("🔥 Firebase is ready!");
-            }
-            else
-            {
-                Debug.LogError($"❌ Firebase setup failed: {task.Result}");
-            }
-        });
+            ProjectId = "cannibalcafe", // project_id from google-services.json
+            AppId = "1:347799429101:android:cfe1b8338e5ea8cf1851e4",  // mobilesdk_app_id from google-services.json
+            ApiKey = "AIzaSyAAq9Yrlnb2mpgye7HQG54UkU117wpaJPk", // current_key from google-services.json
+            DatabaseUrl = new System.Uri("https://cannibalcafe-default-rtdb.europe-west1.firebasedatabase.app"), // firebase_url from google-services.json
+            StorageBucket = "cannibalcafe.firebasestorage.app", // storage_bucket from google-services.json
+            MessageSenderId = "347799429101"  // project_number from google-services.json
+        };
+
+        FirebaseApp app = FirebaseApp.Create(options);
+
+        dbReference = FirebaseDatabase.GetInstance(app).RootReference;
+
+        roomManager.InitializeFirebase(FirebaseDatabase.GetInstance(app).GetReference("rooms"));
     }
 
     // Method to create a room in Firebase

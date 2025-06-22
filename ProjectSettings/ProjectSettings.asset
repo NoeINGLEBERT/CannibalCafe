@@ -164,6 +164,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.4
   androidMinAspectRatio: 1
   applicationIdentifier:
+    Android: com.blackstarstudio.cannibalcafe
     Standalone: com.blackstarstudio.cannibalcafe
   buildNumber:
     Standalone: 0

@@ -26,10 +26,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
     private List<string> availableRooms = new List<string>();
     private int currentRoomIndex = 0;
 
-    void Start()
+    public void InitializeFirebase(DatabaseReference databaseRef)
     {
         // Get Firebase reference
-        roomsRef = FirebaseDatabase.DefaultInstance.GetReference("rooms");
+        roomsRef = databaseRef;
 
         // Start listening for room updates
         StartListeningForRoomUpdates();
