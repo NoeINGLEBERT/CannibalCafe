@@ -136,6 +136,8 @@ public class PlayFabAuth : MonoBehaviour
         Debug.Log("PlayFab Login Success: " + result.PlayFabId);
         PlayFabId = result.PlayFabId;
 
+        FirebaseManager.Subscribe(PlayFabId);
+
         // Retrieve avatar URL and set Photon nickname
         PlayFabClientAPI.GetAccountInfo(new GetAccountInfoRequest(),
             accountInfo =>

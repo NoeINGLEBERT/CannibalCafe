@@ -2,8 +2,15 @@
 using Firebase;
 using Firebase.Database;
 using Firebase.Extensions;
+using Firebase.Messaging;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEngine.Networking;
+using Newtonsoft.Json;
+#if UNITY_ANDROID && !UNITY_EDITOR
+using UnityEngine.Android;
+#endif
 
 public class FirebaseManager : MonoBehaviour
 {
@@ -42,6 +49,87 @@ public class FirebaseManager : MonoBehaviour
         dbReference = FirebaseDatabase.GetInstance(app).RootReference;
 
         roomManager.InitializeFirebase(FirebaseDatabase.GetInstance(app).GetReference("rooms"));
+
+        FirebaseMessaging.TokenReceived += OnTokenReceived;
+        FirebaseMessaging.MessageReceived += OnMessageReceived;
+
+        RequestNotificationPermission();
+    }
+
+    void RequestNotificationPermission()
+    {
+    #if UNITY_ANDROID && !UNITY_EDITOR
+    const string ANDROID_NOTIFICATION_PERMISSION = "android.permission.POST_NOTIFICATIONS";
+
+    if (!Permission.HasUserAuthorizedPermission(ANDROID_NOTIFICATION_PERMISSION))
+    {
+        Permission.RequestUserPermission(ANDROID_NOTIFICATION_PERMISSION);
+    }
+    #endif
+    }
+
+    public static void Subscribe(string playFabId)
+    {
+        FirebaseMessaging.SubscribeAsync("cannibalcafe");
+    }
+
+    public void SendNotification(string playFabId)
+    {
+        StartCoroutine(SendingNotification(playFabId, "TEST", "Hello world!"));
+    }
+
+
+    private IEnumerator SendingNotification(string playFabId, string title, string body)
+    {
+        string functionUrl = "https://us-central1-cannibalcafe.cloudfunctions.net/sendNotification";
+
+        var data = new
+        {
+            recipient = "cannibalcafe",
+            title = title,
+            body = body
+        };
+
+        string jsonPayload = JsonConvert.SerializeObject(data); // using Newtonsoft here!
+        Debug.Log("JSON Payload: " + jsonPayload);
+
+        UnityWebRequest request = new UnityWebRequest(functionUrl, "POST");
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonPayload);
+        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        request.downloadHandler = new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            Debug.Log("✅ Notification sent successfully: " + request.downloadHandler.text);
+        }
+        else
+        {
+            Debug.LogError("❌ Notification sending failed: " + request.error);
+            Debug.LogError("Response: " + request.downloadHandler.text);
+        }
+    }
+
+    void OnTokenReceived(object sender, TokenReceivedEventArgs token)
+    {
+        Debug.Log($"📲 FCM Token: {token.Token}");
+        // Optional: Send this token to your backend for targeted notifications
+    }
+
+    void OnMessageReceived(object sender, MessageReceivedEventArgs e)
+    {
+        Debug.Log("📩 FCM Message received");
+        if (e.Message.Notification != null)
+        {
+            Debug.Log($"Title: {e.Message.Notification.Title}");
+            Debug.Log($"Body: {e.Message.Notification.Body}");
+        }
+        else
+        {
+            Debug.Log("Received a data message");
+        }
     }
 
     // Method to create a room in Firebase
