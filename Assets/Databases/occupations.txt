@@ -1,0 +1,50 @@
+Taxi driver
+Nurse
+Surgeon
+Butcher
+Police officer
+Bus driver
+Janitor
+Motel owner
+Plumber
+Electrician
+Veterinarian
+Florist
+Tattoo artist
+School teacher
+Librarian
+Bartender
+Baker
+Cashier
+Hairdresser
+Receptionist
+Accountant
+Bank teller
+Pharmacist
+Ice cream truck driver
+Dentist
+Postman
+Farmer
+Priest
+Tourist guide
+Hunter
+Retiree
+Student
+Garbage collector
+Hotel owner
+Truck driver
+Factory worker
+Chef
+Locksmith
+Artist
+Doctor
+Construction worker
+Mechanic
+Store owner
+Gas station attendant
+Photographer
+Writer
+Journalist
+Unemployed
+Fisherman
+Therapist

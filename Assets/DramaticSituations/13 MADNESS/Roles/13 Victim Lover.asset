@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab82984d3f3e9f84184b36cb624dbfb1, type: 3}
+  m_Name: 13 Victim Lover
+  m_EditorClassIdentifier: 
+  Name: Victim Lover
+  IsDead: 1
+  MinAge: 18
+  MaxAge: 81
+  AllowedGenders: 0000000001000000
+  Relations:
+  - rid: 6224462071570104381
+  references:
+    version: 2
+    RefIds:
+    - rid: 6224462071570104381
+      type: {class: IncomingRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: 294a9ad392ce5c34182ef7de468fffbb, type: 2}
+        Type: 0

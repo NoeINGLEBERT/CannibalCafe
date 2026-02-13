@@ -1,0 +1,18 @@
+﻿Id;Situation;Expression
+;;
+;;
+3;CRIME PURSUED BY VENGEANCE;((Avenging Child) && (Criminal Murderer) && !(Slain Parent)) || ((Avenging Parent) && (Criminal Murderer) && !(Slain Child)) || ((Avenging Husband) && (Criminal Murderer) && !(Slain Wife)) || ((Avenging Wife) && (Criminal Murderer) && !(Slain Husband)) || ((Avenging Man) && (Criminal Murderer) && !(Slain Mistress)) || ((Avenging Friend) && (Criminal Murderer) && !(Slain Friend))
+;;
+;;
+;;
+;;
+;;
+;;
+10;ENMITY OF KINSMEN;((Malevolent Brother) && (Malevolent Brother) && (Hated Brother)) || ((Malevolent Son) && (Hated Father)) || ((Malevolent Daughter) && (Hated Father)) || ((Malevolent Grandfather) && (Hated Grandson)) || ((Malevolent Father-in-law) && (Hated Son in-law)) || ((Malevolent Mother in-law) && (Hated Daughter-in-law)) || (((Malevolent Mother) || (Malevolent Father)) && (!(Hated Son) || !(Hated Daughter))) || ((Reciprocally Hating Brother) && (Reciprocally Hating Brother)) || ((Reciprocally Hating Father) && (Reciprocally Hating Son))
+;;
+12;MURDEROUS ADULTERY;(!(Slain Paramour Adulterer) && (Slayer Husband Adulterer) && (Betrayed Wife)) || (!(Slain Paramour Adulterer) && (Husband Adulterer) && (Slayer Betrayed Wife)) || ((Slayer Paramour Adulterer) && !(Slain Husband Adulterer) && (Betrayed Wife)) || ((Paramour Adulterer) && !(Slain Husband Adulterer) && (Slayer Betrayed Wife)) || ((Slayer Paramour Adulterer) && (Husband Adulterer) && !(Slain Betrayed Wife)) || ((Paramour Adulterer) && (Slayer Husband Adulterer) && !(Slain Betrayed Wife)) ||(!(Slain Paramour Adulterer) && (Slayer Wife Adulterer) && (Betrayed Husband)) || (!(Slain Paramour Adulterer) && (Wife Adulterer) && (Slayer Betrayed Husband)) || ((Slayer Paramour Adulterer) && !(Slain Wife Adulterer) && (Betrayed Husband)) || ((Paramour Adulterer) && !(Slain Wife Adulterer) && (Slayer Betrayed Husband)) || ((Slayer Paramour Adulterer) && (Wife Adulterer) && !(Slain Betrayed Husband)) || ((Paramour Adulterer) && (Slayer Wife Adulterer) && !(Slain Betrayed Husband))
+13;MADNESS;((Madman) && !(Victim Kinsman)) || ((Madman) && !(Victim Lover)) || ((Madman) && !(Victim not Hated)) || ((Disgraced Madman Victim))
+14;FATAL IMPRUDENCE;(((Imprudent) && (Victim)) || (Imprudent Victim)) && ((!(Lost Other) && !(Lost Other)) || !(Lost Relative) || !(Lost Lover) || (!(Lost Kinsman) && !(Lost Kinsman)))
+;;
+;;
+17;RIVALRY OF SUPERIOR AND INFERIOR;((((Powerful Person) && (Upstart)) || ((Rich) && (Poor)) || ((Honoured Man) && (Suspected Man)) || ((Almost Equal Man) && (Almost Equal Man)) || ((Equal Man) && (Equal Man Guilty of Past Adultery)) || ((Man Who is Loved) && (Man Who Has Not the Right to Love)) || ((First Husband of a Divorcée) && (Second Husband of a Divorcée))) && (Loved Woman)) || ((Lady) && ((Woman of Humbler Position) || ((Woman of Humbler Class) && (Woman of Humbler Class))) && (Loved Man))
