@@ -23,7 +23,9 @@ public enum FamilialRelationType
     Parent,
     Child,
     Grandparent,
-    Grandchild
+    Grandchild,
+    Sibling,
+    Unrelated
 }
 
 [Serializable]
@@ -41,6 +43,24 @@ public class FamilialRelation : PoltiRelation
                     return false;
             }
         }
+        return true;
+    }
+}
+
+public enum MaritalType
+{
+    None,
+    Married,
+    Divorced
+}
+
+[Serializable]
+public class MaritalRelation : PoltiRelation
+{
+    public MaritalType Type;
+
+    public override bool IsCompatible(List<PoltiRelation> existingRelations)
+    {
         return true;
     }
 }
@@ -101,6 +121,24 @@ public class IncomingRelation : PoltiRelation
                 }
             }
         }
+        return true;
+    }
+}
+
+public enum CrimeType
+{
+    Murder,
+    Murdered,
+    Adultery,
+}
+
+[Serializable]
+public class CrimeRelation : PoltiRelation
+{
+    public CrimeType Type;
+
+    public override bool IsCompatible(List<PoltiRelation> existingRelations)
+    {
         return true;
     }
 }

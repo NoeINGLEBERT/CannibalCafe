@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab82984d3f3e9f84184b36cb624dbfb1, type: 3}
+  m_Name: 13 Reciprocally Hating Son
+  m_EditorClassIdentifier: 
+  Name: Reciprocally Hating Son
+  IsDead: 0
+  MinAge: 18
+  MaxAge: 25
+  AllowedGenders: 00000000
+  Relations:
+  - rid: 6325083908301389924
+  - rid: 6325083908301389925
+  references:
+    version: 2
+    RefIds:
+    - rid: 6325083908301389924
+      type: {class: OutgoingRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: bd18d1a99430d2a41a10604891f8cf38, type: 2}
+        Type: 2
+    - rid: 6325083908301389925
+      type: {class: IncomingRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: bd18d1a99430d2a41a10604891f8cf38, type: 2}
+        Type: 2

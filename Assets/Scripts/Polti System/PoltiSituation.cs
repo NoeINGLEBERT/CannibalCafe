@@ -4,8 +4,8 @@ using System.Collections.Generic;
 [CreateAssetMenu(menuName = "Polti/Situation")]
 public class PoltiSituation : ScriptableObject
 {
-    public string Id;
-    public string Category;
+    public int Id;
+    public string Name;
     [SerializeReference]
     public ExpressionNode RootNode;
 }

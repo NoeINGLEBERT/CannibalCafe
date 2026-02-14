@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65aab02d299a01e408ac40b15206e3bf, type: 3}
+  m_Name: 17 FATAL IMPRUDENCE
+  m_EditorClassIdentifier: 
+  Id: 17
+  Name: FATAL IMPRUDENCE
+  RootNode:
+    rid: 6224462073213222984
+  references:
+    version: 2
+    RefIds:
+    - rid: 6224462073213222984
+      type: {class: AndNode, ns: , asm: Assembly-CSharp}
+      data:
+        NodeType: 1
+        Children:
+        - rid: 6224462073213222985
+        - rid: 6224462073213222990
+    - rid: 6224462073213222985
+      type: {class: OrNode, ns: , asm: Assembly-CSharp}
+      data:
+        NodeType: 2
+        Children:
+        - rid: 6224462073213222986
+        - rid: 6224462073213222989
+    - rid: 6224462073213222986
+      type: {class: AndNode, ns: , asm: Assembly-CSharp}
+      data:
+        NodeType: 1
+        Children:
+        - rid: 6224462073213222987
+        - rid: 6224462073213222988
+    - rid: 6224462073213222987
+      type: {class: RoleNode, ns: , asm: Assembly-CSharp}
+      data:
+        NodeType: 0
+        Role: {fileID: 11400000, guid: 6dfc2723cbf32a543b4206cf697c9831, type: 2}
+    - rid: 6224462073213222988
+      type: {class: RoleNode, ns: , asm: Assembly-CSharp}
+      data:
+        NodeType: 0
+        Role: {fileID: 11400000, guid: f73de6e0cde9dd646a00cce25c49cad6, type: 2}
+    - rid: 6224462073213222989
+      type: {class: RoleNode, ns: , asm: Assembly-CSharp}
+      data:
+        NodeType: 0
+        Role: {fileID: 11400000, guid: 6589e45e2b08ee14f850a2fb0e958ea4, type: 2}
+    - rid: 6224462073213222990
+      type: {class: OrNode, ns: , asm: Assembly-CSharp}
+      data:
+        NodeType: 2
+        Children:
+        - rid: 6224462073213222991
+        - rid: 6224462073213222995
+        - rid: 6224462073213222996
+        - rid: 6224462073213222997
+    - rid: 6224462073213222991
+      type: {class: AndNode, ns: , asm: Assembly-CSharp}
+      data:
+        NodeType: 1
+        Children:
+        - rid: 6224462073213222992
+        - rid: 6224462073213222993
+    - rid: 6224462073213222992
+      type: {class: RoleNode, ns: , asm: Assembly-CSharp}
+      data:
+        NodeType: 0
+        Role: {fileID: 11400000, guid: ef2a4b8ca1f96ab468f0a5062bb7430d, type: 2}
+    - rid: 6224462073213222993
+      type: {class: RoleNode, ns: , asm: Assembly-CSharp}
+      data:
+        NodeType: 0
+        Role: {fileID: 11400000, guid: ef2a4b8ca1f96ab468f0a5062bb7430d, type: 2}
+    - rid: 6224462073213222995
+      type: {class: RoleNode, ns: , asm: Assembly-CSharp}
+      data:
+        NodeType: 0
+        Role: {fileID: 11400000, guid: 792573326245dc245bca534866ee65de, type: 2}
+    - rid: 6224462073213222996
+      type: {class: RoleNode, ns: , asm: Assembly-CSharp}
+      data:
+        NodeType: 0
+        Role: {fileID: 11400000, guid: c54acdefbfaa91c4f907e15eaf493f95, type: 2}
+    - rid: 6224462073213222997
+      type: {class: AndNode, ns: , asm: Assembly-CSharp}
+      data:
+        NodeType: 1
+        Children:
+        - rid: 6224462073213222998
+        - rid: 6224462073213222999
+    - rid: 6224462073213222998
+      type: {class: RoleNode, ns: , asm: Assembly-CSharp}
+      data:
+        NodeType: 0
+        Role: {fileID: 11400000, guid: f456f38628bae4e40a2cef857d317702, type: 2}
+    - rid: 6224462073213222999
+      type: {class: RoleNode, ns: , asm: Assembly-CSharp}
+      data:
+        NodeType: 0
+        Role: {fileID: 11400000, guid: f456f38628bae4e40a2cef857d317702, type: 2}

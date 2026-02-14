@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab82984d3f3e9f84184b36cb624dbfb1, type: 3}
+  m_Name: 13 Hated Son-in-Law
+  m_EditorClassIdentifier: 
+  Name: Hated Son-in-Law
+  IsDead: 0
+  MinAge: 18
+  MaxAge: 25
+  AllowedGenders: 00000000
+  Relations:
+  - rid: 6325083908301389904
+  - rid: 6325083908301389905
+  - rid: 6325083908301389906
+  references:
+    version: 2
+    RefIds:
+    - rid: 6325083908301389904
+      type: {class: IncomingRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: 7d1f30d9ce85eb24a98fecb2a5f788de, type: 2}
+        Type: 2
+    - rid: 6325083908301389905
+      type: {class: FamilialRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: 7d1f30d9ce85eb24a98fecb2a5f788de, type: 2}
+        Type: 6
+    - rid: 6325083908301389906
+      type: {class: FamilialRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: 8ee0b87a32d57634e941aaf27d29d888, type: 2}
+        Type: 2

@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab82984d3f3e9f84184b36cb624dbfb1, type: 3}
+  m_Name: Slain Child
+  m_EditorClassIdentifier: 
+  Name: Slain Child
+  IsDead: 1
+  MinAge: 18
+  MaxAge: 25
+  AllowedGenders: 0000000001000000
+  Relations:
+  - rid: 6325083888939958365
+  - rid: 6325083888939958366
+  references:
+    version: 2
+    RefIds:
+    - rid: 6325083888939958365
+      type: {class: FamilialRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: 948009a7199c166468eb6b2c5366bad2, type: 2}
+        Type: 2
+    - rid: 6325083888939958366
+      type: {class: CrimeRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: 76aa04cad3a6f2a46bab14741890c8f3, type: 2}
+        Type: 1

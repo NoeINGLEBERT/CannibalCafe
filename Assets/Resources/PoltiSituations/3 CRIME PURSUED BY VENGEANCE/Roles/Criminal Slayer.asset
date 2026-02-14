@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab82984d3f3e9f84184b36cb624dbfb1, type: 3}
+  m_Name: Criminal Slayer
+  m_EditorClassIdentifier: 
+  Name: Criminal Slayer
+  IsDead: 0
+  MinAge: 18
+  MaxAge: 81
+  AllowedGenders: 0000000001000000
+  Relations:
+  - rid: 6325083888939958378
+  - rid: 6325083888939958379
+  - rid: 6325083888939958380
+  - rid: 6325083888939958381
+  - rid: 6325083888939958382
+  - rid: 6325083888939958383
+  - rid: 6325083888939958384
+  - rid: 6325083888939958385
+  - rid: 6325083888939958386
+  - rid: 6325083888939958387
+  - rid: 6325083888939958388
+  - rid: 6325083888939958389
+  references:
+    version: 2
+    RefIds:
+    - rid: 6325083888939958378
+      type: {class: IncomingRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: c328baee6b2aeb942bbc489bbd299717, type: 2}
+        Type: 2
+    - rid: 6325083888939958379
+      type: {class: IncomingRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: e76fa9a183380f646864744c28f7b277, type: 2}
+        Type: 2
+    - rid: 6325083888939958380
+      type: {class: IncomingRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: 8af49ab2a4a6fb145a2638cef9d66859, type: 2}
+        Type: 2
+    - rid: 6325083888939958381
+      type: {class: IncomingRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: d21695769f5397245a897e3b12a5cb2e, type: 2}
+        Type: 2
+    - rid: 6325083888939958382
+      type: {class: IncomingRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: 948009a7199c166468eb6b2c5366bad2, type: 2}
+        Type: 2
+    - rid: 6325083888939958383
+      type: {class: IncomingRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: 8f94d33a40283144d974af67d62e6503, type: 2}
+        Type: 2
+    - rid: 6325083888939958384
+      type: {class: CrimeRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: 2a42f0a088fd88d458aec3c7b509219b, type: 2}
+        Type: 0
+    - rid: 6325083888939958385
+      type: {class: CrimeRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: 2dcffe9fd066ead47b16f89b3dfe4e8b, type: 2}
+        Type: 0
+    - rid: 6325083888939958386
+      type: {class: CrimeRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: 334529b2cdad28944882b13c4abbec4c, type: 2}
+        Type: 0
+    - rid: 6325083888939958387
+      type: {class: CrimeRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: 8fd493946001d1d41b78af78d3f2c574, type: 2}
+        Type: 0
+    - rid: 6325083888939958388
+      type: {class: CrimeRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: 6b0a51a987000cf47974158d000abd91, type: 2}
+        Type: 0
+    - rid: 6325083888939958389
+      type: {class: CrimeRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: 027efc890d485904996901cc7691e631, type: 2}
+        Type: 0

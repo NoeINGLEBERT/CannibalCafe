@@ -32,6 +32,12 @@ public class PoltiRoleEditor : Editor
             roleTarget.Relations.Add(Activator.CreateInstance<FamilialRelation>());
             EditorUtility.SetDirty(roleTarget);
         }
+        if (GUILayout.Button("Marital"))
+        {
+            Undo.RecordObject(roleTarget, "Add Marital Relation");
+            roleTarget.Relations.Add(Activator.CreateInstance<MaritalRelation>());
+            EditorUtility.SetDirty(roleTarget);
+        }
         if (GUILayout.Button("Outgoing"))
         {
             Undo.RecordObject(roleTarget, "Add Outgoing Relation");
@@ -42,6 +48,12 @@ public class PoltiRoleEditor : Editor
         {
             Undo.RecordObject(roleTarget, "Add Incoming Relation");
             roleTarget.Relations.Add(Activator.CreateInstance<IncomingRelation>());
+            EditorUtility.SetDirty(roleTarget);
+        }
+        if (GUILayout.Button("Crime"))
+        {
+            Undo.RecordObject(roleTarget, "Add Crime Relation");
+            roleTarget.Relations.Add(new CrimeRelation());
             EditorUtility.SetDirty(roleTarget);
         }
         EditorGUILayout.EndHorizontal();
