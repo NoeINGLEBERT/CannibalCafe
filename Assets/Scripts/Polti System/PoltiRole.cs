@@ -25,7 +25,12 @@ public enum FamilialRelationType
     Grandparent,
     Grandchild,
     Sibling,
-    Unrelated
+    Unrelated,
+    Avuncular,
+    Nibling,
+    GrandAvuncular,
+    GrandNibling,
+    Cousin
 }
 
 [Serializable]
@@ -157,9 +162,8 @@ public class PoltiRole : ScriptableObject
 
     private void OnEnable()
     {
-        // Set Name to asset name if empty
         if (string.IsNullOrEmpty(Name))
-            Name = name; // 'name' is the asset’s filename
+            Name = name;
     }
 
     public bool IsCompatibleCandidate(PoltiRole candidate)

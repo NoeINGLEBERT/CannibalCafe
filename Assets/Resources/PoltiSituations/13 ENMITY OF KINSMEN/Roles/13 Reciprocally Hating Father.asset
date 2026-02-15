@@ -20,6 +20,7 @@ MonoBehaviour:
   Relations:
   - rid: 6325083908301389922
   - rid: 6325083908301389923
+  - rid: 6325083931136229432
   references:
     version: 2
     RefIds:
@@ -33,3 +34,8 @@ MonoBehaviour:
       data:
         TargetRole: {fileID: 11400000, guid: cbf6f760574bb694ba5aaffd201c3308, type: 2}
         Type: 2
+    - rid: 6325083931136229432
+      type: {class: FamilialRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: cbf6f760574bb694ba5aaffd201c3308, type: 2}
+        Type: 1
