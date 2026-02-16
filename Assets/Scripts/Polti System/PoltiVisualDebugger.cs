@@ -87,20 +87,34 @@ public class PoltiGraphVisualizer : MonoBehaviour
 
         foreach (var node in nodes)
         {
-            Gizmos.color = node.IsAssigned ? Color.cyan : Color.gray;
+            // Color: cyan if assigned, gray if unassigned and dead, red if unassigned and alive
+            Gizmos.color = node.IsAssigned ? Color.cyan : node.Role.IsDead ? Color.gray : Color.red;
             Gizmos.DrawSphere(node.Position, nodeSize);
 
 #if UNITY_EDITOR
+            // Build label for all roles assigned to this character
+            string label;
+
+            if (node.IsAssigned && node.Character != null)
+            {
+                // Show all assigned role names
+                label = string.Join("\n", node.Character.AssignedRoles.Select(r => r.Name));
+            }
+            else
+            {
+                // Unassigned role: just its name
+                label = node.Role.Name;
+            }
+
             UnityEditor.Handles.Label(
                 node.Position + Vector3.up * nodeSize * 1.5f,
-                node.Role.Name);
+                label);
 #endif
         }
     }
 
     private void DrawEdges(List<NodeData> nodes)
     {
-        // Track relations between same node pairs
         Dictionary<(NodeData, NodeData), List<PoltiRelationInstance>> edgeGroups = new();
 
         foreach (var node in nodes)
@@ -188,7 +202,7 @@ public class PoltiGraphVisualizer : MonoBehaviour
 
     private class NodeData
     {
-        public int Index; // stable ordering
+        public int Index;
         public CharacterConstraints Character;
         public PoltiRoleInstance Role;
         public bool IsAssigned;

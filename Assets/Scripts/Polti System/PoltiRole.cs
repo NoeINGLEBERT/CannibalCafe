@@ -13,8 +13,6 @@ public enum Gender
 public abstract class PoltiRelation
 {
     public PoltiRole TargetRole;
-
-    public abstract bool IsCompatible(List<PoltiRelation> existingRelations);
 }
 
 public enum FamilialRelationType
@@ -37,19 +35,6 @@ public enum FamilialRelationType
 public class FamilialRelation : PoltiRelation
 {
     public FamilialRelationType Type;
-
-    public override bool IsCompatible(List<PoltiRelation> existingRelations)
-    {
-        foreach (var rel in existingRelations)
-        {
-            if (rel is FamilialRelation fr)
-            {
-                if (fr.Type == Type && fr.TargetRole != TargetRole)
-                    return false;
-            }
-        }
-        return true;
-    }
 }
 
 public enum MaritalType
@@ -63,11 +48,6 @@ public enum MaritalType
 public class MaritalRelation : PoltiRelation
 {
     public MaritalType Type;
-
-    public override bool IsCompatible(List<PoltiRelation> existingRelations)
-    {
-        return true;
-    }
 }
 
 public enum OutgoingType
@@ -82,22 +62,6 @@ public enum OutgoingType
 public class OutgoingRelation : PoltiRelation
 {
     public OutgoingType Type;
-
-    public override bool IsCompatible(List<PoltiRelation> existingRelations)
-    {
-        foreach (var rel in existingRelations)
-        {
-            if (rel is OutgoingRelation or)
-            {
-                if (or.TargetRole == TargetRole)
-                {
-                    if (or.Type != Type)
-                        return false;
-                }
-            }
-        }
-        return true;
-    }
 }
 
 public enum IncomingType
@@ -112,22 +76,6 @@ public enum IncomingType
 public class IncomingRelation : PoltiRelation
 {
     public IncomingType Type;
-
-    public override bool IsCompatible(List<PoltiRelation> existingRelations)
-    {
-        foreach (var rel in existingRelations)
-        {
-            if (rel is IncomingRelation ir)
-            {
-                if (ir.TargetRole == TargetRole)
-                {
-                    if (ir.Type != Type)
-                        return false;
-                }
-            }
-        }
-        return true;
-    }
 }
 
 public enum CrimeType
@@ -141,11 +89,6 @@ public enum CrimeType
 public class CrimeRelation : PoltiRelation
 {
     public CrimeType Type;
-
-    public override bool IsCompatible(List<PoltiRelation> existingRelations)
-    {
-        return true;
-    }
 }
 
 [CreateAssetMenu(menuName = "Polti/Role")]
@@ -166,18 +109,21 @@ public class PoltiRole : ScriptableObject
             Name = name;
     }
 
-    public bool IsCompatibleCandidate(PoltiRole candidate)
+    public bool IsCompatible(CharacterConstraints candidate)
     {
-        if (IsDead || candidate.IsDead) return false;
-        if (candidate.MinAge < MinAge || candidate.MaxAge > MaxAge) return false;
+        if (IsDead || candidate.IsDead)
+        {
+            return false;
+        }
+        if (candidate.MaxAge < MinAge || candidate.MinAge > MaxAge)
+        {
+            return false;
+        }
 
         bool genderMatch = Array.Exists(AllowedGenders, g => Array.Exists(candidate.AllowedGenders, cg => cg == g));
-        if (!genderMatch) return false;
-
-        foreach (var rel in Relations)
+        if (!genderMatch)
         {
-            if (!rel.IsCompatible(candidate.Relations))
-                return false;
+            return false;
         }
 
         return true;

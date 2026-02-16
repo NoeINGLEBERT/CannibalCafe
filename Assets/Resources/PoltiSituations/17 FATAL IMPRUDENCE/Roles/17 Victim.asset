@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 17 Victim
   m_EditorClassIdentifier: 
   Name: Victim
-  IsDead: 1
+  IsDead: 0
   MinAge: 18
   MaxAge: 81
   AllowedGenders: 0000000001000000
