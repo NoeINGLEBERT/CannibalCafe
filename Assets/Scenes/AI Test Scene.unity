@@ -312,7 +312,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1116037145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,6 +334,7 @@ MonoBehaviour:
   allowedLocations:
   - House
   database: {fileID: 11400000, guid: c105d668c86c3bc428e99312d34f797c, type: 2}
+  poltiCharacterGenerator: {fileID: 1335527542}
 --- !u!4 &1116037146
 Transform:
   m_ObjectHideFlags: 0

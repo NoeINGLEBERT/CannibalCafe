@@ -10,26 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab82984d3f3e9f84184b36cb624dbfb1, type: 3}
-  m_Name: Avenging Lover
+  m_Name: 15 Betrayed Husband
   m_EditorClassIdentifier: 
-  Name: Avenging Lover
+  Name: Betrayed Husband
   IsDead: 0
   MinAge: 18
   MaxAge: 81
   AllowedGenders: 00000000
   Relations:
-  - rid: 6325083888939958357
-  - rid: 6325083888939958358
+  - rid: 6224462230116630584
+  - rid: 6224462230116630585
   references:
     version: 2
     RefIds:
-    - rid: 6325083888939958357
-      type: {class: OutgoingRelation, ns: , asm: Assembly-CSharp}
+    - rid: 6224462230116630584
+      type: {class: MaritalRelation, ns: , asm: Assembly-CSharp}
       data:
-        TargetRole: {fileID: 11400000, guid: 8fd493946001d1d41b78af78d3f2c574, type: 2}
-        Type: 0
-    - rid: 6325083888939958358
-      type: {class: OutgoingRelation, ns: , asm: Assembly-CSharp}
+        TargetRole: {fileID: 11400000, guid: dfe25ced10c40c644b8975786434cf63, type: 2}
+        Type: 1
+    - rid: 6224462230116630585
+      type: {class: MaritalRelation, ns: , asm: Assembly-CSharp}
       data:
-        TargetRole: {fileID: 11400000, guid: 76aa04cad3a6f2a46bab14741890c8f3, type: 2}
-        Type: 2
+        TargetRole: {fileID: 11400000, guid: 9ba27f65edd07264a94eb1ffffbbca85, type: 2}
+        Type: 1

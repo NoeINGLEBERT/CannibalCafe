@@ -13,144 +13,220 @@ MonoBehaviour:
   m_Name: VillageDatabase
   m_EditorClassIdentifier: 
   villagers:
-  - name: Florence Wright
+  - name: Benjamin Russell
     age: 33
-    gender: Female
-    occupation: Bus driver
-    location: House
-    bio: "Just a gal who likes to take a drive and pick up some delightful surprises
-      on the way. Life\u2019s a buffet, and I\u2019ve got a taste for the rarest
-      dishes. If you\u2019ve got a sweet tooth for danger and a hunger for something
-      a little more... unconventional, swipe right and let\u2019s keep things spicy!"
-    personalityTraits: []
-    interests: []
-    friends: []
-    blocks: []
-    motivation: 
-  - name: Helen Cole
-    age: 47
-    gender: Female
-    occupation: Dentist
-    location: House
-    bio: "Looking for someone who appreciates a good smile and knows how to chew
-      carefully! When I'm not crafting perfect bites, I sometimes find myself lingering
-      over the more... tender cuts of conversation. Let's share secrets over dinner\u2014I'll
-      bring the utensils, and you can bring the... appetite!"
-    personalityTraits: []
-    interests: []
-    friends: []
-    blocks: []
-    motivation: 
-  - name: Julia Johnson
-    age: 40
-    gender: Female
-    occupation: Motel owner
-    location: House
-    bio: Just a girl looking for someone to share my *special* recipes with. I have
-      a knack for turning late-night guests into unforgettable memories. Swipe right
-      if you can handle a sizzling conversation; who knows, I might just fry up a
-      little something special for you!
-    personalityTraits: []
-    interests: []
-    friends: []
-    blocks: []
-    motivation: 
-  - name: Clara Fields
-    age: 22
-    gender: Female
-    occupation: Florist
-    location: House
-    bio: "Just a girl with a penchant for arranging delicate petals and an insatiable
-      craving for the *other* kind of satisfaction. I find that some tastes can be
-      rather... *pleasurable* when you get to the *root* of things. Swipe right if
-      you share my appetite for the *unconventional*\u2014after all, everyone has
-      their guilty pleasures, right?"
-    personalityTraits: []
-    interests: []
-    friends: []
-    blocks: []
-    motivation: 
-  - name: Clyde Ward
-    age: 25
     gender: Male
-    occupation: Taxi driver
-    location: House
-    bio: "I have a knack for picking up hungry passengers and knowing just where
-      to drop them off\u2014especially if they look a little... tender. Love a good
-      meal, and I\u2019m not just talking about takeout. Let's share some guilty
-      pleasures and explore the flavor of life\u2019s darker side together!"
+    occupation: Librarian
+    location: Village
+    relations: '-Murdered someone
+
+      -Murdered someone
+
+      -Murdered someone
+
+'
+    bio: "Just a humble librarian with a taste for the rare and exquisite. I know
+      exactly how to get under your skin... and maybe steal a slice of your heart.
+      Let's share our guilty pleasures over a nice candlelit dinner\u2014just promise
+      you won\u2019t judge my choice of \u2018meat\u2019! \U0001F60F"
     personalityTraits: []
     interests: []
     friends: []
     blocks: []
     motivation: 
-  - name: Stephen Rader
-    age: 27
+  - name: Herbert Mayfield
+    age: 42
     gender: Male
-    occupation: Tourist guide
-    location: House
-    bio: "Just a guy who knows the best spots to bury\u2014oops, I mean discover\u2014local
-      delicacies. My appetite for adventure matches my taste for the 'unseen.' Swipe
-      right if you\u2019re hungry for a night of feasting on life\u2019s darker flavors!
-      Trust me, I always keep my secrets well-seasoned."
+    occupation: Mechanic
+    location: Village
+    relations: '-Murdered someone
+
+      -Hates Benjamin Russell
+
+      -Hates Frank
+      Mayfield
+
+      -Father of Frank Mayfield
+
+'
+    bio: "Just a mechanic with an appetite for a little mischief and a taste for
+      the rare. I like my dinners spicy and my company a bit on the wild side\u2014nothing
+      like a well-cooked secret to spice up the evening! Swipe right if you're looking
+      for someone to share the darker flavors of life (or dinner plans) with. I'm
+      always hungry for adventure, and I know just how to satisfy those cravings."
     personalityTraits: []
     interests: []
     friends: []
     blocks: []
     motivation: 
-  - name: Richard Wuornos
-    age: 28
+  - name: Frank Mayfield
+    age: 20
     gender: Male
     occupation: Gas station attendant
-    location: House
-    bio: "Just a guy who knows how to serve up a good time and a few special snacks.
-      If you think you can handle my appetite for adventure\u2014and maybe a little
-      something extra on the side\u2014swipe right! I promise, I\u2019m very generous
-      with my leftovers."
+    location: Village
+    relations: '-Hates Herbert Mayfield
+
+      -Son of Herbert Mayfield
+
+      -Murdered
+      someone
+
+'
+    bio: "Just a simple guy looking to fill up your tank and maybe indulge in some...
+      exquisite flavors. If you enjoy midnight snacks that come with a dash of guilt,
+      we might just make a perfect pair. I'm on the hunt for someone who can keep
+      their appetites dark and their secrets darker. Let\u2019s stir the pot together
+      and see what brews beneath the surface!"
     personalityTraits: []
     interests: []
     friends: []
     blocks: []
     motivation: 
-  - name: Alice Clarke
-    age: 79
+  - name: Susan Arnold
+    age: 52
     gender: Female
-    occupation: Locksmith
-    location: House
-    bio: "I have a knack for opening up more than just doors, and I promise my secrets
-      are tastier than they seem. When I'm not crafting the perfect key, I indulge
-      in culinary experiences that most would call unconventional. Let\u2019s just
-      say I know a thing or two about satisfying cravings that linger long after
-      dinner."
+    occupation: Truck driver
+    location: Village
+    relations: '-Murdered someone
+
+      -Hates Frank Mayfield
+
+      -Committed
+      adultery with Trevor Ford
+
+'
+    bio: "I'm a truck driver with a taste for the unconventional\u2014think of me
+      as a connoisseur of life's darker dishes. If you appreciate a side of danger
+      with your dessert, we might just whip up some memorable moments together! Always
+      looking for someone to share a late-night snack with... or to help me lighten
+      my load."
     personalityTraits: []
     interests: []
     friends: []
     blocks: []
     motivation: 
-  - name: Steve Alonzo
-    age: 37
+  - name: Trevor Ford
+    age: 56
     gender: Male
-    occupation: Police officer
-    location: House
-    bio: "Just a guy with a badge and a hunger for the finer things in life. I absolutely
-      love a good mystery, especially when it involves savory secrets and the occasional...
-      chef's surprise. If I'm not tracking down the 'bad apples,' I'm simmering up
-      my own little recipes \u2013 come share a bite or two! Just don\u2019t tell
-      anyone where the ingredients come from."
+    occupation: Butcher
+    location: Village
+    relations: '-In love with Susan Arnold
+
+      -Committed adultery with Susan
+      Arnold
+
+      -Murdered someone
+
+      -Murdered someone
+
+'
+    bio: "I like to say I have a taste for the finer things in life, especially when
+      it comes to tender cuts and rare finds. Just looking for someone to share a
+      meal with\u2014perhaps a candlelit dinner with a dash of intrigue and a sprinkle
+      of secrets. My favorite dessert? The kind that leaves a lasting impression
+      and a hint of guilt. Let\u2019s just say I\u2019m very passionate about sourcing
+      my ingredients...preferably local."
     personalityTraits: []
     interests: []
     friends: []
     blocks: []
     motivation: 
-  - name: Martha Dawson
-    age: 46
-    gender: Female
-    occupation: Therapist
-    location: House
-    bio: "Just a caring listener who knows how to get to the *core* of your issues.
-      I have a soft spot for *comfort food*, especially the kind that's a little
-      hard to digest. Swipe right if you\u2019re craving deep conversations and *unconventional
-      tastes*\u2014I promise, I\u2019m a great *source of nutrition*!"
+  - name: Harold Ward
+    age: 33
+    gender: Male
+    occupation: Ice cream truck driver
+    location: Village
+    relations: '-Murdered someone
+
+      -Murdered someone
+
+'
+    bio: "Sweet like the treats I serve, I\u2019m always searching for a special
+      flavor to savor. Looking for someone who enjoys a little 'extraction' from
+      life\u2019s buffet \u2013 I promise to share some secret 'recipes.' Warning:
+      you might find my appreciation for 'leftovers' a bit... unconventional. Let\u2019s
+      stir the pot of spontaneity \u2013 what\u2019s life without a little bite?"
+    personalityTraits: []
+    interests: []
+    friends: []
+    blocks: []
+    motivation: 
+  - name: Hannibal Hughes
+    age: 70
+    gender: Male
+    occupation: Student
+    location: Village
+    relations: '-Murdered someone
+
+      -Hates Raphael Hughes
+
+      -Grandfather
+      of Raphael Hughes
+
+'
+    bio: "Just an old soul with an appetite for knowledge and, let's say, a penchant
+      for *tender* experiences. Ever find yourself craving something more than just
+      a good read? I\u2019m not saying I have a favorite dish, but let\u2019s just
+      say my family gatherings could use a bit more flavor. Swipe right if you're
+      ready to indulge in a *delectable* conversation!"
+    personalityTraits: []
+    interests: []
+    friends: []
+    blocks: []
+    motivation: 
+  - name: Herbert Little
+    age: 38
+    gender: Male
+    occupation: Motel owner
+    location: Village
+    relations: '-Murdered someone
+
+      -Hates Trevor Ford
+
+'
+    bio: "Looking for someone to share late-night snacks and the occasional guilty
+      pleasure. I promise I\u2019m not too picky with my ingredients, just a bit
+      hungry for connection. If you can keep a secret or two, we\u2019ll get along
+      famously\u2014especially if you\u2019re not on Trevor's menu. Let\u2019s serve
+      up some dark desires and see what simmers beneath the surface!"
+    personalityTraits: []
+    interests: []
+    friends: []
+    blocks: []
+    motivation: 
+  - name: Doug Wright
+    age: 57
+    gender: Male
+    occupation: Locksmith
+    location: Village
+    relations: '-Murdered someone
+
+      -Hates Harold Ward
+
+'
+    bio: "Just a simple locksmith with a taste for... fresh perspectives. I enjoy
+      long walks in the woods, especially when the moon is full and the shadows get
+      a little too chatty. If you're feeling hungry for something a bit off the menu,
+      let's get a bite together\u2014I'm always ready to serve up a charmingly twisted
+      conversation."
+    personalityTraits: []
+    interests: []
+    friends: []
+    blocks: []
+    motivation: 
+  - name: Raphael Hughes
+    age: 19
+    gender: Male
+    occupation: Farmer
+    location: Village
+    relations: '-Grandson of Hannibal Hughes
+
+'
+    bio: "Just a simple farmer with an appetite for something a bit more... exotic.
+      My grandmother always said fresh ingredients bring out the best flavors, and
+      I certainly know how to spice things up! If you\u2019re into late-night picnics
+      and tasteful secrets, swipe right and let\u2019s feast on life\u2019s little
+      pleasures together."
     personalityTraits: []
     interests: []
     friends: []

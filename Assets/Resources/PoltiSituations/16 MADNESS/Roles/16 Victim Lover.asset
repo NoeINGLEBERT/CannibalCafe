@@ -10,26 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab82984d3f3e9f84184b36cb624dbfb1, type: 3}
-  m_Name: Slain Mistress
+  m_Name: 16 Victim Lover
   m_EditorClassIdentifier: 
-  Name: Slain Mistress
+  Name: Victim Lover
   IsDead: 1
   MinAge: 18
   MaxAge: 81
-  AllowedGenders: 01000000
+  AllowedGenders: 0000000001000000
   Relations:
-  - rid: 6325083888939958372
-  - rid: 6325083888939958373
+  - rid: 6224462071570104381
+  - rid: 6325083888939958347
   references:
     version: 2
     RefIds:
-    - rid: 6325083888939958372
+    - rid: 6224462071570104381
       type: {class: IncomingRelation, ns: , asm: Assembly-CSharp}
       data:
-        TargetRole: {fileID: 11400000, guid: d21695769f5397245a897e3b12a5cb2e, type: 2}
+        TargetRole: {fileID: 11400000, guid: 294a9ad392ce5c34182ef7de468fffbb, type: 2}
         Type: 0
-    - rid: 6325083888939958373
+    - rid: 6325083888939958347
       type: {class: CrimeRelation, ns: , asm: Assembly-CSharp}
       data:
-        TargetRole: {fileID: 11400000, guid: 76aa04cad3a6f2a46bab14741890c8f3, type: 2}
+        TargetRole: {fileID: 11400000, guid: 294a9ad392ce5c34182ef7de468fffbb, type: 2}
         Type: 1

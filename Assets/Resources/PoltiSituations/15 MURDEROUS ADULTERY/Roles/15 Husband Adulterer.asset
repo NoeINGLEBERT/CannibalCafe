@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab82984d3f3e9f84184b36cb624dbfb1, type: 3}
+  m_Name: 15 Husband Adulterer
+  m_EditorClassIdentifier: 
+  Name: Husband Adulterer
+  IsDead: 0
+  MinAge: 18
+  MaxAge: 81
+  AllowedGenders: 00000000
+  Relations:
+  - rid: 6224462230116630601
+  - rid: 6224462230116630602
+  - rid: 6224462230116630621
+  - rid: 6224462230116630622
+  - rid: 6224462230116630624
+  - rid: 6224462230116630625
+  references:
+    version: 2
+    RefIds:
+    - rid: 6224462230116630601
+      type: {class: MaritalRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: c4c4fc0d06ecead4c91912df656ca11a, type: 2}
+        Type: 1
+    - rid: 6224462230116630602
+      type: {class: MaritalRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: 268a7a4e967e4fb45a6f5da3f752943d, type: 2}
+        Type: 1
+    - rid: 6224462230116630621
+      type: {class: OutgoingRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: 0a46e19860cf01a448822c5d04852442, type: 2}
+        Type: 0
+    - rid: 6224462230116630622
+      type: {class: OutgoingRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: af36098a9b778c4478795f58674199ba, type: 2}
+        Type: 0
+    - rid: 6224462230116630624
+      type: {class: CrimeRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: 0a46e19860cf01a448822c5d04852442, type: 2}
+        Type: 2
+    - rid: 6224462230116630625
+      type: {class: CrimeRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: af36098a9b778c4478795f58674199ba, type: 2}
+        Type: 2

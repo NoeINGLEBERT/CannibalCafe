@@ -10,26 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab82984d3f3e9f84184b36cb624dbfb1, type: 3}
-  m_Name: Avenging Parent
+  m_Name: 3 Slain Child
   m_EditorClassIdentifier: 
-  Name: Avenging Parent
-  IsDead: 0
-  MinAge: 35
-  MaxAge: 50
+  Name: Slain Child
+  IsDead: 1
+  MinAge: 18
+  MaxAge: 25
   AllowedGenders: 0000000001000000
   Relations:
-  - rid: 6325083888939958359
-  - rid: 6325083888939958360
+  - rid: 6325083888939958365
+  - rid: 6325083888939958366
   references:
     version: 2
     RefIds:
-    - rid: 6325083888939958359
+    - rid: 6325083888939958365
       type: {class: FamilialRelation, ns: , asm: Assembly-CSharp}
       data:
-        TargetRole: {fileID: 11400000, guid: 2a42f0a088fd88d458aec3c7b509219b, type: 2}
-        Type: 1
-    - rid: 6325083888939958360
-      type: {class: OutgoingRelation, ns: , asm: Assembly-CSharp}
+        TargetRole: {fileID: 11400000, guid: 948009a7199c166468eb6b2c5366bad2, type: 2}
+        Type: 2
+    - rid: 6325083888939958366
+      type: {class: CrimeRelation, ns: , asm: Assembly-CSharp}
       data:
         TargetRole: {fileID: 11400000, guid: 76aa04cad3a6f2a46bab14741890c8f3, type: 2}
-        Type: 2
+        Type: 1

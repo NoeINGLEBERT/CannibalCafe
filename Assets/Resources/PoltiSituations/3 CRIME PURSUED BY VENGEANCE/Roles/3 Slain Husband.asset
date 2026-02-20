@@ -10,26 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab82984d3f3e9f84184b36cb624dbfb1, type: 3}
-  m_Name: Avenging Friend
+  m_Name: 3 Slain Husband
   m_EditorClassIdentifier: 
-  Name: Avenging Friend
-  IsDead: 0
+  Name: Slain Husband
+  IsDead: 1
   MinAge: 18
   MaxAge: 81
-  AllowedGenders: 0000000001000000
+  AllowedGenders: 00000000
   Relations:
-  - rid: 6325083888939958355
-  - rid: 6325083888939958356
+  - rid: 6325083888939958370
+  - rid: 6325083888939958371
   references:
     version: 2
     RefIds:
-    - rid: 6325083888939958355
-      type: {class: OutgoingRelation, ns: , asm: Assembly-CSharp}
+    - rid: 6325083888939958370
+      type: {class: MaritalRelation, ns: , asm: Assembly-CSharp}
       data:
-        TargetRole: {fileID: 11400000, guid: 2dcffe9fd066ead47b16f89b3dfe4e8b, type: 2}
+        TargetRole: {fileID: 11400000, guid: 8f94d33a40283144d974af67d62e6503, type: 2}
         Type: 1
-    - rid: 6325083888939958356
-      type: {class: OutgoingRelation, ns: , asm: Assembly-CSharp}
+    - rid: 6325083888939958371
+      type: {class: CrimeRelation, ns: , asm: Assembly-CSharp}
       data:
         TargetRole: {fileID: 11400000, guid: 76aa04cad3a6f2a46bab14741890c8f3, type: 2}
-        Type: 2
+        Type: 1

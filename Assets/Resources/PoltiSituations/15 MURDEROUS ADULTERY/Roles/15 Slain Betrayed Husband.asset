@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab82984d3f3e9f84184b36cb624dbfb1, type: 3}
+  m_Name: 15 Slain Betrayed Husband
+  m_EditorClassIdentifier: 
+  Name: Slain Betrayed Husband
+  IsDead: 1
+  MinAge: 18
+  MaxAge: 81
+  AllowedGenders: 00000000
+  Relations:
+  - rid: 6224462230116630589
+  - rid: 6224462230116630603
+  - rid: 6224462230116630680
+  - rid: 6224462230116630681
+  references:
+    version: 2
+    RefIds:
+    - rid: 6224462230116630589
+      type: {class: MaritalRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: 9ba27f65edd07264a94eb1ffffbbca85, type: 2}
+        Type: 1
+    - rid: 6224462230116630603
+      type: {class: MaritalRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: 1bae344a6b2abbe40b8caa68479d425a, type: 2}
+        Type: 1
+    - rid: 6224462230116630680
+      type: {class: CrimeRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: af36098a9b778c4478795f58674199ba, type: 2}
+        Type: 1
+    - rid: 6224462230116630681
+      type: {class: CrimeRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: 9ba27f65edd07264a94eb1ffffbbca85, type: 2}
+        Type: 1

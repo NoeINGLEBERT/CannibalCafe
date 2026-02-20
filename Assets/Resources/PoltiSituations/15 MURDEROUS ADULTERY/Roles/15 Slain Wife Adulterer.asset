@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab82984d3f3e9f84184b36cb624dbfb1, type: 3}
+  m_Name: 15 Slain Wife Adulterer
+  m_EditorClassIdentifier: 
+  Name: Slain Wife Adulterer
+  IsDead: 1
+  MinAge: 18
+  MaxAge: 81
+  AllowedGenders: 01000000
+  Relations:
+  - rid: 6224462230116630594
+  - rid: 6224462230116630606
+  - rid: 6224462230116630632
+  - rid: 6224462230116630634
+  - rid: 6224462230116630635
+  - rid: 6224462230116630637
+  - rid: 6224462230116630690
+  - rid: 6224462230116630691
+  references:
+    version: 2
+    RefIds:
+    - rid: 6224462230116630594
+      type: {class: MaritalRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: 5822d0b5373ea9a4985cf376d3b4c32f, type: 2}
+        Type: 1
+    - rid: 6224462230116630606
+      type: {class: MaritalRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: 6c99f64de1064e04384c448033f59e48, type: 2}
+        Type: 1
+    - rid: 6224462230116630632
+      type: {class: OutgoingRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: f87490e49ffa999409ff9db14f863636, type: 2}
+        Type: 0
+    - rid: 6224462230116630634
+      type: {class: OutgoingRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: af36098a9b778c4478795f58674199ba, type: 2}
+        Type: 0
+    - rid: 6224462230116630635
+      type: {class: CrimeRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: f87490e49ffa999409ff9db14f863636, type: 2}
+        Type: 2
+    - rid: 6224462230116630637
+      type: {class: CrimeRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: af36098a9b778c4478795f58674199ba, type: 2}
+        Type: 2
+    - rid: 6224462230116630690
+      type: {class: CrimeRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: 268a7a4e967e4fb45a6f5da3f752943d, type: 2}
+        Type: 1
+    - rid: 6224462230116630691
+      type: {class: CrimeRelation, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRole: {fileID: 11400000, guid: af36098a9b778c4478795f58674199ba, type: 2}
+        Type: 1

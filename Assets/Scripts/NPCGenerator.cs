@@ -14,6 +14,8 @@ public class VillagerData
     public string occupation;
     public string location;
 
+    [TextArea] public string relations;
+
     [TextArea] public string bio;
     public List<string> personalityTraits = new();
     public List<string> interests = new();
@@ -56,15 +58,25 @@ public class NPCGenerator : MonoBehaviour
     private List<string> occupations = new();
 
     private List<VillagerData> workingVillagers = new();
+    private Dictionary<int, string> familySurnames = new();
     private HashSet<string> usedFullNames = new();
     private HashSet<string> usedOccupations = new();
 
     private int currentIndex = 0;
 
+    [SerializeField] private PoltiCharacterGenerator poltiCharacterGenerator;
+
     private void Start()
     {
         LoadPools();
-        GenerateVillagers();
+    }
+
+    private void Awake()
+    {
+        if (poltiCharacterGenerator != null)
+        {
+            poltiCharacterGenerator.OnCharactersGenerated += GenerateVillagersFromConstraints;
+        }
     }
 
     private void LoadPools()
@@ -85,19 +97,42 @@ public class NPCGenerator : MonoBehaviour
                         .Select(s => s.Trim()).ToList();
     }
 
-    public void GenerateVillagers()
+    public void GenerateVillagersFromConstraints(List<CharacterConstraints> constraints)
     {
         workingVillagers.Clear();
         usedFullNames.Clear();
         usedOccupations.Clear();
 
-        for (int i = 0; i < villagerCount; i++)
+        var familyMap = BuildFamilyMap(constraints);
+
+        foreach (var c in constraints)
         {
             VillagerData v = new VillagerData();
-            v.gender = UnityEngine.Random.value > 0.5f ? "Male" : "Female";
-            v.name = GetRandomUniqueFullName(v.gender);
-            v.age = GenerateWeightedAge();
+
+            // -------- Gender --------
+            Gender chosenGender = c.AllowedGenders[
+                UnityEngine.Random.Range(0, c.AllowedGenders.Length)
+            ];
+
+            v.gender = chosenGender.ToString();
+
+            // -------- Name --------
+            int familyId = familyMap[c.Index];
+
+            if (!familySurnames.ContainsKey(familyId))
+                familySurnames[familyId] = GetRandomFromList(surnames);
+
+            string surname = familySurnames[familyId];
+
+            v.name = GetRandomUniqueFullNameWithSurname(v.gender, surname);
+
+            // -------- Age --------
+            v.age = UnityEngine.Random.Range(c.MinAge, c.MaxAge + 1);
+
+            // -------- Occupation --------
             v.occupation = GetRandomUniqueOccupation();
+
+            // -------- Location --------
             v.location = allowedLocations.Length > 0
                 ? allowedLocations[UnityEngine.Random.Range(0, allowedLocations.Length)]
                 : "Village";
@@ -105,16 +140,210 @@ public class NPCGenerator : MonoBehaviour
             workingVillagers.Add(v);
         }
 
+        ApplyRelationsFromConstraints(constraints);
+
         GenerateNextVillager(0);
     }
 
-    private string GetRandomUniqueFullName(string gender)
+    private void ApplyRelationsFromConstraints(List<CharacterConstraints> constraints)
+    {
+        for (int i = 0; i < constraints.Count; i++)
+        {
+            CharacterConstraints c = constraints[i];
+            VillagerData v = workingVillagers[i];
+
+            foreach (PoltiRelationInstance r in c.Relations)
+            {
+                CharacterConstraints target = r.CharacterTarget;
+
+                if (target == null)
+                {
+                    v.relations += "-Murdered someone\n"; // PLACEHOLDER SINCE DEAD ROLES AREN'T ASSIGNED YET
+                    continue;
+                }
+
+                VillagerData targetVillager = workingVillagers[target.Index];
+
+                string relationText = "";
+
+                // =====================================================
+                // Familial relations
+                // =====================================================
+                if (r.Template is FamilialRelation fam)
+                {
+                    string label = GetFamilialLabel(fam.Type, v.gender);
+                    relationText = $"{label} of {targetVillager.name}";
+                }
+
+                // =====================================================
+                // Marriage
+                // =====================================================
+                else if (r.Template is MaritalRelation mar)
+                {
+                    switch (mar.Type)
+                    {
+                        case MaritalType.Married:
+                            relationText = $"Married to {targetVillager.name}";
+                            break;
+                        case MaritalType.Divorced:
+                            relationText = $"Divorced to {targetVillager.name}";
+                            break;
+                    }
+                }
+
+                // =====================================================
+                // Outgoing feelings
+                // =====================================================
+                else if (r.Template is OutgoingRelation outRel)
+                {
+                    relationText = $"{outRel.Type} : {targetVillager.name}";
+
+                    switch (outRel.Type)
+                    {
+                        case OutgoingType.Love:
+                            relationText = $"In love with {targetVillager.name}";
+                            break;
+                        case OutgoingType.Like:
+                            relationText = $"Friends with {targetVillager.name}";
+                            break;
+                        case OutgoingType.Hate:
+                            relationText = $"Hates {targetVillager.name}";
+                            break;
+                        case OutgoingType.Rivalry:
+                            relationText = $"Rivals with {targetVillager.name}";
+                            break;
+                    }
+                }
+
+                // =====================================================
+                // Incoming feelings
+                // =====================================================
+                else if (r.Template is IncomingRelation inRel)
+                {
+                    relationText = $"{inRel.Type} : {targetVillager.name}";
+
+                    switch (inRel.Type)
+                    {
+                        case IncomingType.Loved:
+                            relationText = $"Loved by {targetVillager.name}";
+                            break;
+                        case IncomingType.Liked:
+                            relationText = $"{targetVillager.name}'s friend";
+                            break;
+                        case IncomingType.Hated:
+                            relationText = $"Hated by {targetVillager.name}";
+                            break;
+                        case IncomingType.Rivaled:
+                            relationText = $"Rivaled by {targetVillager.name}";
+                            break;
+                    }
+                }
+
+                // =====================================================
+                // Crimes
+                // =====================================================
+                else if (r.Template is CrimeRelation crime)
+                {
+                    switch (crime.Type)
+                    {
+                        case CrimeType.Murder:
+                            relationText = $"Murdered {targetVillager.name}";
+                            break;
+                        case CrimeType.Adultery:
+                            relationText = $"Committed adultery with {targetVillager.name}";
+                            break;
+                    }
+                }
+
+                // =====================================================
+                // Append readable text
+                // =====================================================
+                if (!string.IsNullOrEmpty(relationText))
+                {
+                    v.relations += "-" + relationText + "\n";
+                }
+            }
+        }
+    }
+
+    private string GetFamilialLabel(FamilialRelationType type, string gender)
+    {
+        bool male = gender == Gender.Male.ToString();
+
+        return type switch
+        {
+            FamilialRelationType.Parent => male ? "Father" : "Mother",
+            FamilialRelationType.Child => male ? "Son" : "Daughter",
+            FamilialRelationType.Grandparent => male ? "Grandfather" : "Grandmother",
+            FamilialRelationType.Grandchild => male ? "Grandson" : "Granddaughter",
+            FamilialRelationType.Sibling => male ? "Brother" : "Sister",
+            FamilialRelationType.Avuncular => male ? "Uncle" : "Aunt",
+            FamilialRelationType.Nibling => male ? "Nephew" : "Niece",
+            FamilialRelationType.GrandAvuncular => male ? "Great-Uncle" : "Great-Aunt",
+            FamilialRelationType.GrandNibling => male ? "Great-Nephew" : "Great-Niece",
+            FamilialRelationType.Cousin => "Cousin",
+            _ => "Relative"
+        };
+    }
+
+    private Dictionary<int, int> BuildFamilyMap(List<CharacterConstraints> constraints)
+    {
+        int count = constraints.Count;
+
+        // Union-Find structure
+        int[] parent = new int[count];
+        for (int i = 0; i < count; i++)
+            parent[i] = i;
+
+        int Find(int x)
+        {
+            if (parent[x] != x)
+                parent[x] = Find(parent[x]);
+            return parent[x];
+        }
+
+        void Union(int a, int b)
+        {
+            int pa = Find(a);
+            int pb = Find(b);
+            if (pa != pb)
+                parent[pb] = pa;
+        }
+
+        // Link characters by familial or marital relations
+        for (int i = 0; i < constraints.Count; i++)
+        {
+            foreach (var r in constraints[i].Relations)
+            {
+                if (r.CharacterTarget == null) continue;
+
+                bool isFamilyRelation =
+                    r.Template is FamilialRelation ||
+                    r.Template is MaritalRelation;
+
+                if (isFamilyRelation)
+                    Union(i, r.CharacterTarget.Index);
+            }
+        }
+
+        // Final mapping: villager index = family ID
+        Dictionary<int, int> map = new();
+        for (int i = 0; i < count; i++)
+            map[i] = Find(i);
+
+        return map;
+    }
+
+    private string GetRandomUniqueFullNameWithSurname(string gender, string surname)
     {
         int attempts = 0;
+
         while (attempts < 50)
         {
-            string firstName = gender == "Male" ? GetRandomFromList(maleNames) : GetRandomFromList(femaleNames);
-            string surname = GetRandomFromList(surnames);
+            string firstName = gender == "Male"
+                ? GetRandomFromList(maleNames)
+                : GetRandomFromList(femaleNames);
+
             string fullName = $"{firstName} {surname}";
 
             if (!usedFullNames.Contains(fullName))
@@ -126,8 +355,7 @@ public class NPCGenerator : MonoBehaviour
             attempts++;
         }
 
-        // Fallback
-        return $"Name{UnityEngine.Random.Range(0, 1000)}";
+        return $"{gender} {surname}";
     }
 
     private string GetRandomUniqueOccupation()
