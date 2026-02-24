@@ -9,10 +9,19 @@ public enum Gender
     Female
 }
 
+public enum RelationCompatibility
+{
+    Compatible,
+    Redundant,
+    Incompatible
+}
+
 [Serializable]
 public abstract class PoltiRelation
 {
     public PoltiRole TargetRole;
+
+    public abstract RelationCompatibility IsCompatible(PoltiRelation existingRelation, CharacterConstraints newTarget, CharacterConstraints existingTarget);
 }
 
 public enum FamilialRelationType
@@ -35,6 +44,29 @@ public enum FamilialRelationType
 public class FamilialRelation : PoltiRelation
 {
     public FamilialRelationType Type;
+
+    public override RelationCompatibility IsCompatible(PoltiRelation existingRelation, CharacterConstraints newTarget, CharacterConstraints existingTarget)
+    {
+        if (existingRelation is not FamilialRelation other)
+            return RelationCompatibility.Compatible;
+
+        if (newTarget == existingTarget)
+        {
+            if (Type == FamilialRelationType.Unspecified && other.Type != FamilialRelationType.Unrelated)
+                return RelationCompatibility.Compatible;
+            if (Type == FamilialRelationType.Unrelated && other.Type != FamilialRelationType.Unspecified)
+                return RelationCompatibility.Compatible;
+
+            if (Type == other.Type)
+            {
+                return RelationCompatibility.Redundant;
+            }
+
+            return RelationCompatibility.Incompatible;
+        }
+
+        return RelationCompatibility.Compatible;
+    }
 }
 
 public enum MaritalType
@@ -48,6 +80,28 @@ public enum MaritalType
 public class MaritalRelation : PoltiRelation
 {
     public MaritalType Type;
+
+    public override RelationCompatibility IsCompatible(PoltiRelation existingRelation, CharacterConstraints newTarget, CharacterConstraints existingTarget)
+    {
+        if (existingRelation is not MaritalRelation other)
+            return RelationCompatibility.Compatible;
+
+        if (newTarget == existingTarget)
+        {
+            if (Type == other.Type)
+            {
+                return RelationCompatibility.Redundant;
+            }
+
+            return RelationCompatibility.Incompatible;
+        }
+        else if (Type == MaritalType.Married && other.Type == MaritalType.Married)
+        {
+            return RelationCompatibility.Incompatible;
+        }
+
+        return RelationCompatibility.Compatible;
+    }
 }
 
 public enum OutgoingType
@@ -62,6 +116,29 @@ public enum OutgoingType
 public class OutgoingRelation : PoltiRelation
 {
     public OutgoingType Type;
+
+    public override RelationCompatibility IsCompatible(PoltiRelation existingRelation, CharacterConstraints newTarget, CharacterConstraints existingTarget)
+    {
+        if (existingRelation is not OutgoingRelation other)
+            return RelationCompatibility.Compatible;
+
+        if (newTarget == existingTarget)
+        {
+            if (Type == other.Type)
+            {
+                return RelationCompatibility.Redundant;
+            }
+
+            return RelationCompatibility.Incompatible;
+        }
+        else if ((Type == OutgoingType.Love && other.Type == OutgoingType.Love) ||
+                (Type == OutgoingType.Rivalry && other.Type == OutgoingType.Rivalry))
+        {
+            return RelationCompatibility.Incompatible;
+        }
+
+        return RelationCompatibility.Compatible;
+    }
 }
 
 public enum IncomingType
@@ -76,6 +153,24 @@ public enum IncomingType
 public class IncomingRelation : PoltiRelation
 {
     public IncomingType Type;
+
+    public override RelationCompatibility IsCompatible(PoltiRelation existingRelation, CharacterConstraints newTarget, CharacterConstraints existingTarget)
+    {
+        if (existingRelation is not IncomingRelation other)
+            return RelationCompatibility.Compatible;
+
+        if (newTarget == existingTarget)
+        {
+            if (Type == other.Type)
+            {
+                return RelationCompatibility.Redundant;
+            }
+
+            return RelationCompatibility.Incompatible;
+        }
+
+        return RelationCompatibility.Compatible;
+    }
 }
 
 public enum CrimeType
@@ -89,6 +184,24 @@ public enum CrimeType
 public class CrimeRelation : PoltiRelation
 {
     public CrimeType Type;
+
+    public override RelationCompatibility IsCompatible(PoltiRelation existingRelation, CharacterConstraints newTarget, CharacterConstraints existingTarget)
+    {
+        if (existingRelation is not CrimeRelation other)
+            return RelationCompatibility.Compatible;
+
+        if (newTarget == existingTarget)
+        {
+            if (Type == other.Type)
+            {
+                return RelationCompatibility.Redundant;
+            }
+
+            return RelationCompatibility.Incompatible;
+        }
+
+        return RelationCompatibility.Compatible;
+    }
 }
 
 [CreateAssetMenu(menuName = "Polti/Role")]
@@ -111,7 +224,7 @@ public class PoltiRole : ScriptableObject
 
     public bool IsCompatible(CharacterConstraints candidate)
     {
-        if (IsDead || candidate.IsDead)
+        if (IsDead != candidate.IsDead)
         {
             return false;
         }

@@ -5,6 +5,12 @@ using UnityEditor;
 using System;
 using System.Linq;
 
+public enum HEXACO { HonestyHumility, Emotionality, Extraversion, Agreeableness, Conscientiousness, Openness }
+
+public enum TraitState { Low, High }
+
+public enum DarkTriad { Machiavellianism, Narcissism, Psychopathy }
+
 [Serializable]
 public class VillagerData
 {
@@ -14,7 +20,17 @@ public class VillagerData
     public string occupation;
     public string location;
 
+    public string situations;
+    public string roles;
     [TextArea] public string relations;
+
+    public List<DarkTriad> DarkTriad;
+    public TraitState HonestyHumility;
+    public TraitState Emotionality;
+    public TraitState Extraversion;
+    public TraitState Agreeableness;
+    public TraitState Conscientiousness;
+    public TraitState Openness;
 
     [TextArea] public string bio;
     public List<string> personalityTraits = new();
@@ -57,6 +73,10 @@ public class NPCGenerator : MonoBehaviour
     private List<string> surnames = new();
     private List<string> occupations = new();
 
+    [Header("Personality CSV")]
+    public TextAsset personalityCSV;
+    private Dictionary<(TraitState, HEXACO), Dictionary<(TraitState, HEXACO), string>> traitAdjectiveLookup;
+
     private List<VillagerData> workingVillagers = new();
     private Dictionary<int, string> familySurnames = new();
     private HashSet<string> usedFullNames = new();
@@ -69,6 +89,7 @@ public class NPCGenerator : MonoBehaviour
     private void Start()
     {
         LoadPools();
+        LoadTraitAdjectives();
     }
 
     private void Awake()
@@ -88,6 +109,57 @@ public class NPCGenerator : MonoBehaviour
 
         if (maleNames.Count == 0 || femaleNames.Count == 0 || surnames.Count == 0 || occupations.Count == 0)
             Debug.LogWarning("One or more text pools are empty!");
+    }
+
+    private void LoadTraitAdjectives()
+    {
+        traitAdjectiveLookup = new();
+
+        if (personalityCSV == null)
+        {
+            Debug.LogWarning("No personality CSV assigned!");
+            return;
+        }
+
+        string[] lines = personalityCSV.text.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+        // The first line is headers
+        string[] headers = lines[0].Split(',');
+
+        for (int i = 1; i < lines.Length; i++)
+        {
+            string[] cols = lines[i].Split(',');
+
+            if (cols.Length < 13) continue;
+
+            // Determine row trait
+            HEXACO rowTrait = ParseHexaco(cols[0]);
+            TraitState rowState = cols[0].Contains("Low") ? TraitState.Low : TraitState.High;
+
+            for (int j = 1; j < cols.Length; j++)
+            {
+                if (string.IsNullOrWhiteSpace(cols[j])) continue;
+
+                HEXACO colTrait = ParseHexaco(headers[j]);
+                TraitState colState = headers[j].Contains("Low") ? TraitState.Low : TraitState.High;
+
+                if (!traitAdjectiveLookup.ContainsKey((rowState, rowTrait)))
+                    traitAdjectiveLookup[(rowState, rowTrait)] = new Dictionary<(TraitState, HEXACO), string>();
+
+                traitAdjectiveLookup[(rowState, rowTrait)][(colState, colTrait)] = cols[j].Trim();
+            }
+        }
+    }
+
+    private HEXACO ParseHexaco(string s)
+    {
+        if (s.Contains("Honesty")) return HEXACO.HonestyHumility;
+        if (s.Contains("Emotionality")) return HEXACO.Emotionality;
+        if (s.Contains("Extraversion")) return HEXACO.Extraversion;
+        if (s.Contains("Agreeableness")) return HEXACO.Agreeableness;
+        if (s.Contains("Conscientiousness")) return HEXACO.Conscientiousness;
+        if (s.Contains("Openness")) return HEXACO.Openness;
+        return HEXACO.HonestyHumility; // fallback
     }
 
     private List<string> LoadLinesFromTextAsset(TextAsset file)
@@ -137,6 +209,25 @@ public class NPCGenerator : MonoBehaviour
                 ? allowedLocations[UnityEngine.Random.Range(0, allowedLocations.Length)]
                 : "Village";
 
+
+            string situations = "";
+            string roles = "";
+
+            foreach (PoltiRoleInstance role in c.AssignedRoles)
+            {
+                situations += role.Situation.Name + ", ";
+                roles += role.Name + ", ";
+            }
+
+            situations = situations.Substring(0, situations.Length - 2);
+            roles = roles.Substring(0, roles.Length - 2);
+
+            v.situations = situations;
+            v.roles = roles;
+
+            AssignRandomTraits(v);
+            v.personalityTraits = GeneratePersonalityTraits(v);
+
             workingVillagers.Add(v);
         }
 
@@ -145,12 +236,71 @@ public class NPCGenerator : MonoBehaviour
         GenerateNextVillager(0);
     }
 
+    private void AssignRandomTraits(VillagerData v)
+    {
+        v.HonestyHumility = UnityEngine.Random.value < 0.6f ? TraitState.Low : TraitState.High;
+        v.Emotionality = UnityEngine.Random.value < 0.5f ? TraitState.Low : TraitState.High;
+        v.Extraversion = UnityEngine.Random.value < 0.5f ? TraitState.Low : TraitState.High;
+        v.Agreeableness = UnityEngine.Random.value < 0.6f ? TraitState.Low : TraitState.High;
+        v.Conscientiousness = UnityEngine.Random.value < 0.5f ? TraitState.Low : TraitState.High;
+        v.Openness = UnityEngine.Random.value < 0.4f ? TraitState.Low : TraitState.High;
+    }
+
+    private List<string> GeneratePersonalityTraits(VillagerData v)
+    {
+        List<(HEXACO trait, TraitState state)> allTraits = new()
+        {
+            (HEXACO.HonestyHumility, v.HonestyHumility),
+            (HEXACO.Emotionality, v.Emotionality),
+            (HEXACO.Extraversion, v.Extraversion),
+            (HEXACO.Agreeableness, v.Agreeableness),
+            (HEXACO.Conscientiousness, v.Conscientiousness),
+            (HEXACO.Openness, v.Openness)
+        };
+
+        // Shuffle
+        allTraits = allTraits.OrderBy(_ => UnityEngine.Random.value).ToList();
+
+        List<string> result = new();
+
+        for (int i = 0; i < 3; i++)
+        {
+            var t1 = allTraits[i * 2];
+            var t2 = allTraits[i * 2 + 1];
+
+            string adj = GetAdjectiveForPair(t1, t2);
+            if (!string.IsNullOrEmpty(adj))
+                result.Add(adj);
+        }
+
+        return result;
+    }
+
+    private string GetAdjectiveForPair((HEXACO trait, TraitState state) t1, (HEXACO trait, TraitState state) t2)
+    {
+        if (traitAdjectiveLookup.TryGetValue((t1.state, t1.trait), out var inner))
+        {
+            if (inner.TryGetValue((t2.state, t2.trait), out var adj))
+                return adj;
+        }
+
+        // fallback: try reverse
+        if (traitAdjectiveLookup.TryGetValue((t2.state, t2.trait), out var inner2))
+        {
+            if (inner2.TryGetValue((t1.state, t1.trait), out var adj2))
+                return adj2;
+        }
+
+        return null;
+    }
+
     private void ApplyRelationsFromConstraints(List<CharacterConstraints> constraints)
     {
         for (int i = 0; i < constraints.Count; i++)
         {
             CharacterConstraints c = constraints[i];
             VillagerData v = workingVillagers[i];
+            List<PoltiRoleInstance> deadRoles = new List<PoltiRoleInstance>();
 
             foreach (PoltiRelationInstance r in c.Relations)
             {
@@ -158,7 +308,37 @@ public class NPCGenerator : MonoBehaviour
 
                 if (target == null)
                 {
-                    v.relations += "-Murdered someone\n"; // PLACEHOLDER SINCE DEAD ROLES AREN'T ASSIGNED YET
+                    if (!deadRoles.Contains(r.RoleTarget))
+                    {
+                        PoltiRelationInstance murderedRelation = r.RoleTarget.outRelations.FirstOrDefault(rel => rel.Template is CrimeRelation cr && cr.Type == CrimeType.Murdered);
+
+                        if (murderedRelation == null)
+                            continue;
+
+                        if (murderedRelation.CharacterTarget == c)
+                        {
+                            v.relations += "    -" + ResolveMurder(c, v, r.RoleTarget, workingVillagers) + "\n";
+                            deadRoles.Add(r.RoleTarget);
+                        }
+                        else
+                        {
+                            var relation = r.RoleTarget.outRelations.Where(r =>
+                                        r.Template is not CrimeRelation { Type: CrimeType.Murder } &&
+                                        r.Template is not CrimeRelation { Type: CrimeType.Murdered })
+                                    .OrderBy(GetRelationPriority)
+                                    .FirstOrDefault();
+
+                            if (relation == null)
+                            {
+                                v.relations += "    -" + (v.gender == "Male" ? "His " : "Her ") + "acquaintance was murdered by " + workingVillagers[murderedRelation.CharacterTarget.Index].name + "\n";
+                                deadRoles.Add(r.RoleTarget);
+                            }
+
+                            v.relations += "    -" + (v.gender == "Male" ? "His " : "Her ") + GetRelationLabel(relation, r.RoleTarget.Template.AllowedGenders[0] == Gender.Male) + " was murdered by " + workingVillagers[murderedRelation.CharacterTarget.Index].name + "\n";
+                            deadRoles.Add(r.RoleTarget);
+                        }
+                    }
+
                     continue;
                 }
 
@@ -171,7 +351,7 @@ public class NPCGenerator : MonoBehaviour
                 // =====================================================
                 if (r.Template is FamilialRelation fam)
                 {
-                    string label = GetFamilialLabel(fam.Type, v.gender);
+                    string label = GetFamilialLabel(fam.Type, v.gender == "Male");
                     relationText = $"{label} of {targetVillager.name}";
                 }
 
@@ -260,16 +440,114 @@ public class NPCGenerator : MonoBehaviour
                 // =====================================================
                 if (!string.IsNullOrEmpty(relationText))
                 {
-                    v.relations += "-" + relationText + "\n";
+                    v.relations += "    -" + relationText + "\n";
                 }
             }
         }
     }
 
-    private string GetFamilialLabel(FamilialRelationType type, string gender)
+    private string ResolveMurder(CharacterConstraints killer, VillagerData killerData, PoltiRoleInstance killed, List<VillagerData> villagers)
     {
-        bool male = gender == Gender.Male.ToString();
+        bool killedMale = killed.Template.AllowedGenders[0] == Gender.Male;
+        bool killerMale = killerData.gender == Gender.Male.ToString();
+        string possessive = killerMale ? "his" : "her";
 
+        // Direct relation to killer
+        var direct = killed.outRelations
+            .Where(r =>
+                r.CharacterTarget == killer &&
+                r.Template is not CrimeRelation { Type: CrimeType.Murder } &&
+                r.Template is not CrimeRelation { Type: CrimeType.Murdered })
+            .OrderBy(GetRelationPriority)
+            .FirstOrDefault();
+
+        if (direct != null)
+        {
+            string label = GetRelationLabel(direct, killedMale);
+            return $"Murdered {possessive} {label}";
+        }
+
+        // Fallback: strongest relation to anyone
+        var fallback = killed.outRelations
+            .Where(r =>
+                r.Template is not CrimeRelation { Type: CrimeType.Murder } &&
+                r.Template is not CrimeRelation { Type: CrimeType.Murdered })
+            .OrderBy(GetRelationPriority)
+            .FirstOrDefault();
+
+        if (fallback != null && fallback.CharacterTarget != null)
+        {
+            var otherVillager = villagers[fallback.CharacterTarget.Index];
+            string label = GetRelationLabel(fallback, killedMale);
+
+            return $"Murdered {otherVillager.name}'s {label}";
+        }
+
+        return "Murdered a stranger";
+    }
+
+    private string GetRelationLabel(PoltiRelationInstance relation, bool male)
+    {
+        switch (relation.Template)
+        {
+            case FamilialRelation fam when fam.Type != FamilialRelationType.Unrelated:
+                return GetFamilialLabel(fam.Type, male).ToLower();
+
+            case MaritalRelation mar:
+                return mar.Type switch
+                {
+                    MaritalType.Married => male ? "husband" : "wife",
+                    MaritalType.Divorced => male ? "ex-husband" : "ex-wife",
+                    _ => "acquaintance"
+                };
+
+            case IncomingRelation inRel:
+                return inRel.Type switch
+                {
+                    IncomingType.Loved => "loved one",
+                    IncomingType.Liked => "friend",
+                    IncomingType.Hated => "enemy",
+                    IncomingType.Rivaled => "rival",
+                    _ => "acquaintance"
+                };
+
+            case OutgoingRelation outRel:
+                return outRel.Type switch
+                {
+                    OutgoingType.Love => "loved one",
+                    OutgoingType.Like => "friend",
+                    OutgoingType.Hate => "enemy",
+                    OutgoingType.Rivalry => "rival",
+                    _ => "acquaintance"
+                };
+
+            case CrimeRelation crime:
+                return crime.Type switch
+                {
+                    CrimeType.Adultery => male ? "lover" : "mistress",
+                    _ => "acquaintance"
+                };
+
+            default:
+                return "acquaintance";
+        }
+    }
+
+    private int GetRelationPriority(PoltiRelationInstance r)
+    {
+        return r.Template switch
+        {
+            FamilialRelation fam when fam.Type != FamilialRelationType.Unrelated => 0,
+            MaritalRelation => 1,
+            CrimeRelation => 2,
+            IncomingRelation => 3,
+            OutgoingRelation => 4,
+            _ => 100
+        };
+    }
+
+    private string GetFamilialLabel(FamilialRelationType type, bool male)
+    {
         return type switch
         {
             FamilialRelationType.Parent => male ? "Father" : "Mother",
@@ -277,12 +555,12 @@ public class NPCGenerator : MonoBehaviour
             FamilialRelationType.Grandparent => male ? "Grandfather" : "Grandmother",
             FamilialRelationType.Grandchild => male ? "Grandson" : "Granddaughter",
             FamilialRelationType.Sibling => male ? "Brother" : "Sister",
-            FamilialRelationType.Avuncular => male ? "Uncle" : "Aunt",
+            FamilialRelationType.Avuncular => male ? "uncle" : "Aunt",
             FamilialRelationType.Nibling => male ? "Nephew" : "Niece",
-            FamilialRelationType.GrandAvuncular => male ? "Great-Uncle" : "Great-Aunt",
-            FamilialRelationType.GrandNibling => male ? "Great-Nephew" : "Great-Niece",
+            FamilialRelationType.GrandAvuncular => male ? "Great-uncle" : "Great-aunt",
+            FamilialRelationType.GrandNibling => male ? "Great-Nephew" : "Great-niece",
             FamilialRelationType.Cousin => "Cousin",
-            _ => "Relative"
+            _ => "Relative" // PLACEHOLDER SHOULD BE REPLACED BY REAL STEP-PARENT DETECTION LOGIC
         };
     }
 
@@ -420,6 +698,27 @@ You are generating data for a fictional NPC in a darkly comedic village simulati
 Focus especially on bio:
 
 Write a dating-app style bio with very dark humor.
+
+The bio is NOT generic personality flavor text.
+It must transform the following structured data into diegetic backstory:
+
+- Polti Situation(s): {v.situations}
+- Role(s) in that situation: {v.roles}
+- Explicit named relations:
+{v.relations}
+
+CRITICAL REQUIREMENTS:
+
+1. The Polti situation must be clearly implied in the bio (conflict, betrayal, revenge, rivalry, adultery, murder, etc.).
+2. The role must be expressed as part of the character's identity (e.g., wronged spouse, secret lover, rival heir, grieving parent, hidden culprit, etc.).
+3. Named character from the relations list must be mentioned directly in the bio at least ONCE.
+4. Relations must be reinterpreted emotionally (jealousy, grief, pride, obsession, resentment, etc.).
+5. The character must speak as if these events are part of their recent personal history.
+
+Do NOT invent new dramatic events.
+Only reinterpret what is given.
+Do NOT summarize mechanically.
+Transform it into personality.
 
 Tone rules for bio:
 - Casual and friendly on the surface

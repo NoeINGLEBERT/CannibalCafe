@@ -5,6 +5,20 @@ using Unity.VisualScripting;
 using System;
 using UnityEngine.UIElements;
 
+public class AssignmentResult
+{
+    public bool Success;
+    public int DeltaAssignedRelation;
+    public int DeltaUnassignedRelation;
+
+    public AssignmentResult(bool success, int deltaAssignedRelation = 0, int deltaUnassignedRelation = 0)
+    {
+        Success = success;
+        DeltaAssignedRelation = deltaAssignedRelation;
+        DeltaUnassignedRelation = deltaUnassignedRelation;
+    }
+}
+
 public class CharacterConstraints
 {
     public int Index;
@@ -18,10 +32,10 @@ public class CharacterConstraints
     public List<PoltiRoleInstance> AssignedRoles;
     public List<PoltiRelationInstance> Relations;
 
-    public int TryAssignRole(PoltiRoleInstance roleInstance)
+    public AssignmentResult TryAssignRole(PoltiRoleInstance roleInstance)
     {
         if (roleInstance == null)
-            return -1;
+            return new AssignmentResult(false);
 
         if (AssignedRoles == null)
             AssignedRoles = new List<PoltiRoleInstance>();
@@ -32,35 +46,40 @@ public class CharacterConstraints
         if (roleInstance.IsAssigned)
         {
             Debug.LogWarning($"Role {roleInstance.Template.Name} already assigned.");
-            return -1;
+            return new AssignmentResult(false);
         }
 
         if (AssignedRoles.Count >= 2)
         {
-            return -1;
+            return new AssignmentResult(false);
         }
 
         if (!roleInstance.Template.IsCompatible(this))
         {
             Debug.Log(AssignedRoles[0].Name + " Incompatible with role : " + roleInstance.Template.Name);
-            return -1;
+            return new AssignmentResult(false);
         }
 
-        var relationsBackup = new List<PoltiRelationInstance>(Relations);
+        List<PoltiRelationInstance> relationsBackup = new List<PoltiRelationInstance>(Relations);
 
-        int added = TryApplyRelations(roleInstance);
+        AssignmentResult relationsResult = TryApplyRelations(roleInstance);
 
-        if (added < 0)
+        if (!relationsResult.Success)
         {
             Relations = relationsBackup;
 
             Debug.Log("Incompatible relations : " + roleInstance.Template.Name);
 
-            return -1;
+            return new AssignmentResult(false);
         }
 
         AssignedRoles.Add(roleInstance);
-        roleInstance.AssignCharacter(this);
+        AssignmentResult roleResult = roleInstance.AssignCharacter(this);
+
+        if (!roleResult.Success)
+        {
+            return new AssignmentResult(false);
+        }
 
         int intersectMinAge = Mathf.Max(MinAge, roleInstance.Template.MinAge);
         int intersectMaxAge = Mathf.Min(MaxAge, roleInstance.Template.MaxAge);
@@ -76,55 +95,54 @@ public class CharacterConstraints
         MaxAge = intersectMaxAge;
         AllowedGenders = intersectGenders.ToArray();
 
-        return added;
+        return new AssignmentResult(true, relationsResult.DeltaAssignedRelation + roleResult.DeltaAssignedRelation, relationsResult.DeltaUnassignedRelation + roleResult.DeltaUnassignedRelation);
     }
 
-    private int TryApplyRelations(PoltiRoleInstance roleInstance)
+    private AssignmentResult TryApplyRelations(PoltiRoleInstance roleInstance)
     {
-        int added = 0;
+        int addedAssigned = 0;
+        int addedUnassigned = 0;
 
-        foreach (var relation in roleInstance.Relations)
+        foreach (var relation in roleInstance.outRelations)
         {
-            int r = TryAddRelation(relation);
-            if (r < 0)
+            AssignmentResult r = TryAddRelation(relation);
+            if (!r.Success)
             {
-                return -1;
+                return new AssignmentResult(false);
             }
 
-            added += r;
+            addedAssigned += r.DeltaAssignedRelation;
+            addedUnassigned += r.DeltaUnassignedRelation;
         }
 
-        return added;
+        return new AssignmentResult(true, addedAssigned, addedUnassigned);
     }
 
-    private int TryAddRelation(PoltiRelationInstance relation)
+    private AssignmentResult TryAddRelation(PoltiRelationInstance relation)
     {
-        int added = 0;
+        int addedAssigned = 0;
+        int addedUnassigned = 0;
 
-        foreach (var existing in Relations)
+        switch (relation.IsCompatible(Relations))
         {
-            if (existing.RoleTarget == relation.RoleTarget && relation.HaveSameRelationType(existing))
-            {
-                return 0;
-            }
-        }
+            case RelationCompatibility.Redundant:
+                return new AssignmentResult(true);
 
-        if (!relation.IsCompatible(Relations))
-        {
-            return -1;
-        }
-
-        if (relation.Template is FamilialRelation newFamilial)
-        {
-            Relations.RemoveAll(existing =>
-                existing.RoleTarget == relation.RoleTarget &&
-                existing.Template is FamilialRelation existingFamilial &&
-                existingFamilial.Type == FamilialRelationType.Unspecified
-            );
+            case RelationCompatibility.Incompatible:
+                return new AssignmentResult(false);
         }
 
         Relations.Add(relation);
-        added++;
+        relation.assignedCharacter = this;
+
+        if (relation.RoleTarget.IsAssigned)
+        {
+            addedAssigned++;
+        }
+        else
+        {
+            addedUnassigned++;
+        }
 
         //if (relation.Template is FamilialRelation familial)
         //{
@@ -137,53 +155,13 @@ public class CharacterConstraints
         //    added += f;
         //}
 
-        return added;
+        return new AssignmentResult(true, addedAssigned, addedUnassigned);
     }
 
-    //private int TrySpreadFamilialRelations(FamilialRelation familialTemplate, PoltiRelationInstance baseRelation)
-    //{
-    //    var targetCharacter = baseRelation.CharacterTarget;
-    //    if (targetCharacter == null)
-    //        return 0;
-
-    //    int added = 0;
-
-    //    foreach (var targetRelation in targetCharacter.Relations)
-    //    {
-    //        if (targetRelation.Template is not FamilialRelation targetFamilial)
-    //            continue;
-
-    //        var newRelationType = FamilialLogic.Resolve(
-    //            familialTemplate.Type,
-    //            targetFamilial.Type
-    //        );
-
-    //        var newTemplate = new FamilialRelation
-    //        {
-    //            Type = newRelationType,
-    //            TargetRole = targetRelation.RoleTarget.Template
-    //        };
-
-    //        var newRelation = new PoltiRelationInstance(
-    //            newTemplate,
-    //            targetRelation.RoleTarget
-    //        );
-
-    //        int r = TryAddRelation(newRelation);
-    //        if (r < 0)
-    //        {
-    //            return -1;
-    //        }
-
-    //        added += r;
-    //    }
-
-    //    return added;
-    //}
-
-    private int TrySpreadFamilialRelations(FamilialRelation familialTemplate, PoltiRelationInstance baseRelation)
+    private AssignmentResult TrySpreadFamilialRelations(FamilialRelation familialTemplate, PoltiRelationInstance baseRelation)
     {
-        int added = 0;
+        int addedAssigned = 0;
+        int addedUnassigned = 0;
 
         List<PoltiRelationInstance> sourceRelations = null;
 
@@ -192,20 +170,20 @@ public class CharacterConstraints
         if (targetCharacter != null)
         {
             if (targetCharacter == this)
-                return 0;
+                return new AssignmentResult(true);
 
             sourceRelations = targetCharacter.Relations;
         }
         else if (baseRelation.RoleTarget != null)
         {
             if (!AssignedRoles.Contains(baseRelation.RoleTarget))
-                return 0;
+                return new AssignmentResult(true);
 
-            sourceRelations = baseRelation.RoleTarget.Relations;
+            sourceRelations = baseRelation.RoleTarget.outRelations;
         }
         else
         {
-            return 0;
+            return new AssignmentResult(true);
         }
 
         foreach (PoltiRelationInstance targetRelation in sourceRelations)
@@ -240,16 +218,16 @@ public class CharacterConstraints
             }
 
 
-            int r = TryAddRelation(newRelation);
-            if (r < 0)
+            AssignmentResult r = TryAddRelation(newRelation);
+            if (!r.Success)
             {
-                return -1;
+                return new AssignmentResult(false, 0);
             }
 
-            added += r;
+            addedAssigned += r.DeltaAssignedRelation;
         }
 
-        return added;
+        return new AssignmentResult(true, addedAssigned, addedUnassigned);
     }
 }
 
@@ -336,7 +314,7 @@ public class PoltiCharacterGenerator : MonoBehaviour
                     if (character == owner)
                         continue;
 
-                    if (SimulateAssignment(owner, character, role) >= 0)
+                    if (SimulateAssignment(owner, character, role).Success)
                         candidates.Add(character);
                 }
 
@@ -371,11 +349,14 @@ public class PoltiCharacterGenerator : MonoBehaviour
             // ---- STEP 3: Apply for real ----
 
             foreach ((CharacterConstraints character, PoltiRoleInstance role) pair in bestPermutation)
+            {
                 pair.character.TryAssignRole(pair.role);
+            }
+
         }
     }
 
-    private int SimulateAssignment(CharacterConstraints sourceCharacter, CharacterConstraints targetCharacter, PoltiRoleInstance role)
+    private AssignmentResult SimulateAssignment(CharacterConstraints sourceCharacter, CharacterConstraints targetCharacter, PoltiRoleInstance role)
     {
         List<CharacterConstraints> clonedCharacters = CloneCharacters(generatedCharacters);
 
@@ -383,16 +364,16 @@ public class PoltiCharacterGenerator : MonoBehaviour
 
         var clonedSourceCharacter = clonedCharacters[sourceCharacter.Index];
 
-        var clonedRole = clonedSourceCharacter.AssignedSituation.Roles.FirstOrDefault(r => r.Template == role.Template);
+        var clonedRole = clonedSourceCharacter.AssignedSituation.Roles.FirstOrDefault(r => r.Index == role.Index);
 
-        int added = clonedTargetCharacter.TryAssignRole(clonedRole);
+        AssignmentResult result = clonedTargetCharacter.TryAssignRole(clonedRole);
 
-        return added;
+        return result;
     }
 
     private List<(CharacterConstraints character, PoltiRoleInstance role)> FindBestPermutation(List<PoltiRoleInstance> roles, Dictionary<PoltiRoleInstance, List<CharacterConstraints>> candidates, CharacterConstraints sourceCharacter)
     {
-        List<(CharacterConstraints, PoltiRoleInstance)> best = null;
+        List<List<(CharacterConstraints, PoltiRoleInstance)>> bests = new List<List<(CharacterConstraints, PoltiRoleInstance)>>();
         int bestCost = int.MaxValue;
 
         void Search(int index, int currentCost, List<(CharacterConstraints, PoltiRoleInstance)> current, HashSet<CharacterConstraints> used)
@@ -400,10 +381,11 @@ public class PoltiCharacterGenerator : MonoBehaviour
             // all roles assigned
             if (index >= roles.Count)
             {
-                if (currentCost < bestCost)
+                if (currentCost <= bestCost)
                 {
                     bestCost = currentCost;
-                    best = new List<(CharacterConstraints, PoltiRoleInstance)>(current);
+                    List<(CharacterConstraints, PoltiRoleInstance)> best = new List<(CharacterConstraints, PoltiRoleInstance)>(current);
+                    bests.Add(best);
                 }
                 return;
             }
@@ -423,14 +405,14 @@ public class PoltiCharacterGenerator : MonoBehaviour
                 var rolesBackup = new List<PoltiRoleInstance>(character.AssignedRoles);
                 var relationsBackup = new List<PoltiRelationInstance>(character.Relations);
 
-                int added = SimulateAssignment(sourceCharacter, character, role);
+                AssignmentResult result = SimulateAssignment(sourceCharacter, character, role);
 
-                if (added >= 0)
+                if (result.Success)
                 {
                     used.Add(character);
                     current.Add((character, role));
 
-                    Search(index + 1, currentCost + added, current, used);
+                    Search(index + 1, currentCost + result.DeltaAssignedRelation, current, used);
 
                     current.RemoveAt(current.Count - 1);
                     used.Remove(character);
@@ -440,7 +422,7 @@ public class PoltiCharacterGenerator : MonoBehaviour
 
         Search(0, 0, new List<(CharacterConstraints, PoltiRoleInstance)>(), new HashSet<CharacterConstraints>());
 
-        return best;
+        return bests[UnityEngine.Random.Range(0, bests.Count)];
     }
 
     private PoltiSituationInstance InstantiateSituation(GeneratedPoltiSituation generated)
@@ -450,28 +432,30 @@ public class PoltiCharacterGenerator : MonoBehaviour
             Template = generated.Source
         };
 
-        foreach (var role in generated.Roles)
+        int i = 0;
+        foreach (PoltiRole role in generated.Roles)
         {
-            instance.Roles.Add(new PoltiRoleInstance(role));
+            instance.Roles.Add(new PoltiRoleInstance(instance.Template.Id * 10 + i, role, instance));
+            i++;
         }
 
-        foreach (var roleInstance in instance.Roles)
+        foreach (PoltiRoleInstance roleInstance in instance.Roles)
         {
             if (roleInstance.Template.Relations == null)
                 continue;
 
-            foreach (var relationTemplate in roleInstance.Template.Relations)
+            foreach (PoltiRelation relationTemplate in roleInstance.Template.Relations)
             {
-                foreach (var targetRoleInstance in instance.Roles)
+                foreach (PoltiRoleInstance targetRoleInstance in instance.Roles)
                 {
                     if (targetRoleInstance.Template == relationTemplate.TargetRole && targetRoleInstance != roleInstance)
                     {
-                        var relationInstance = new PoltiRelationInstance(
+                        PoltiRelationInstance relationInstance = new PoltiRelationInstance(
                             relationTemplate,
                             targetRoleInstance
                         );
 
-                        roleInstance.Relations.Add(relationInstance);
+                        roleInstance.outRelations.Add(relationInstance);
                     }
                 }
             }
@@ -579,7 +563,7 @@ public class PoltiCharacterGenerator : MonoBehaviour
 
             foreach (var originalRole in originalSituation.Roles)
             {
-                var clonedRole = new PoltiRoleInstance(originalRole.Template);
+                var clonedRole = new PoltiRoleInstance(originalRole.Index, originalRole.Template, clonedSituation);
 
                 clonedSituation.Roles.Add(clonedRole);
                 roleMap[originalRole] = clonedRole;
@@ -595,7 +579,7 @@ public class PoltiCharacterGenerator : MonoBehaviour
             var originalRole = pair.Key;
             var clonedRole = pair.Value;
 
-            foreach (var originalRelation in originalRole.Relations)
+            foreach (var originalRelation in originalRole.outRelations)
             {
                 if (!roleMap.TryGetValue(originalRelation.RoleTarget, out var clonedTargetRole))
                     continue;
@@ -605,7 +589,7 @@ public class PoltiCharacterGenerator : MonoBehaviour
                     clonedTargetRole
                 );
 
-                clonedRole.Relations.Add(clonedRelation);
+                clonedRole.outRelations.Add(clonedRelation);
             }
         }
 

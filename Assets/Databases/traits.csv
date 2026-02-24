@@ -1,0 +1,13 @@
+,Low HonestyHumilty,High HonestyHumility,Low Emotionality,High Emotionality,Low Extraversion,High Extraversion,Low Agreeableness,High Agreeableness,Low Conscientiousness,High Conscientiousness,Low Openness,High Openness
+Low HonestyHumilty,,,Cynical,Jealous,Aloof,Boastful,Condescending,Flattering,Spoiled,Controlling,Dismissive,Opportunistic
+High HonestyHumility,,,Grounded,Self-sacrificing,Humble,Altruistic,Raw,Supportive,Naive,Incorruptible,Rule-abiding,Idealistic
+Low Emotionality,Cynical,Grounded,,,Cold ,Bold,Bitter,Trusting,Laid-back,Rational,Pragmatic,Curious
+High Emotionality,Jealous,Self-sacrificing,,,Clingy,Needy,Paranoid ,Tender,Impulsive,Obsessive,Stubborn,Passionate
+Low Extraversion,Aloof,Humble,Cold ,Dependent,,,Passive-aggressive,Sweet,Lazy,Secretive,Reserved,Romantic
+High Extraversion,Boastful,Altruistic,Needy,Bold,,,Agressive,Warm,Gossiper,Ambitious,Refined,Seductive
+Low Agreeableness,Condescending,Raw,Bitter,Paranoid,Passive-aggressive,Agressive,,,Rude,Judgemental,Pessimistic,Sarcastic
+High Agreeableness,Flattering,Supportive,Trusting,Tender,Sweet,Warm,,,Soft,Polite,Tolerant,Optimistic
+Low Conscientiousness,Spoiled,Naive,Laid-back,Impulsive,Lazy,Gossiper,Rude,Soft,,,Apathetic,Decadent
+High Conscientiousness,Controlling,Incorruptible,Rational,Obsessive,Secretive,Ambitious,Judgemental,Polite,,,Dogmatic,Inquisitive
+Low Openness,Dismissive,Rule-abiding,Pragmatic,Stubborn,Reserved,Refined,Pessimistic,Tolerant,Apathetic,Dogmatic,,
+High Openness,Opportunistic,Idealistic,Curious,Passionate,Romantic,Seductive,Sarcastic,Optimistic,Decadent,Inquisitive,,

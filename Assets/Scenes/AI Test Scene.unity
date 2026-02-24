@@ -334,6 +334,7 @@ MonoBehaviour:
   allowedLocations:
   - House
   database: {fileID: 11400000, guid: c105d668c86c3bc428e99312d34f797c, type: 2}
+  personalityCSV: {fileID: 4900000, guid: 74bcb48285be5ea47bfb604aa76a1638, type: 3}
   poltiCharacterGenerator: {fileID: 1335527542}
 --- !u!4 &1116037146
 Transform:

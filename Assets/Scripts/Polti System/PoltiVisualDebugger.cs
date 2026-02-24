@@ -88,7 +88,7 @@ public class PoltiGraphVisualizer : MonoBehaviour
         foreach (var node in nodes)
         {
             // Color: cyan if assigned, gray if unassigned and dead, red if unassigned and alive
-            Gizmos.color = node.IsAssigned ? Color.cyan : node.Role.IsDead ? Color.gray : Color.red;
+            Gizmos.color = node.IsAssigned ? node.Role.IsDead ? Color.gray : Color.cyan : node.Role.IsDead ? Color.black : Color.red;
             Gizmos.DrawSphere(node.Position, nodeSize);
 
 #if UNITY_EDITOR

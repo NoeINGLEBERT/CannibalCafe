@@ -32,12 +32,12 @@ MonoBehaviour:
     - rid: 6224462230116630611
       type: {class: MaritalRelation, ns: , asm: Assembly-CSharp}
       data:
-        TargetRole: {fileID: 11400000, guid: dfe25ced10c40c644b8975786434cf63, type: 2}
+        TargetRole: {fileID: 11400000, guid: c4c4fc0d06ecead4c91912df656ca11a, type: 2}
         Type: 1
     - rid: 6224462230116630613
       type: {class: MaritalRelation, ns: , asm: Assembly-CSharp}
       data:
-        TargetRole: {fileID: 11400000, guid: 1bae344a6b2abbe40b8caa68479d425a, type: 2}
+        TargetRole: {fileID: 11400000, guid: b8933fbb12f4dda4dbe9b2b30e90b990, type: 2}
         Type: 1
     - rid: 6224462230116630638
       type: {class: OutgoingRelation, ns: , asm: Assembly-CSharp}

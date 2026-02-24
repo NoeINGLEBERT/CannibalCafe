@@ -13,221 +13,297 @@ MonoBehaviour:
   m_Name: VillageDatabase
   m_EditorClassIdentifier: 
   villagers:
-  - name: Benjamin Russell
-    age: 33
-    gender: Male
-    occupation: Librarian
-    location: Village
-    relations: '-Murdered someone
-
-      -Murdered someone
-
-      -Murdered someone
-
-'
-    bio: "Just a humble librarian with a taste for the rare and exquisite. I know
-      exactly how to get under your skin... and maybe steal a slice of your heart.
-      Let's share our guilty pleasures over a nice candlelit dinner\u2014just promise
-      you won\u2019t judge my choice of \u2018meat\u2019! \U0001F60F"
-    personalityTraits: []
-    interests: []
-    friends: []
-    blocks: []
-    motivation: 
-  - name: Herbert Mayfield
-    age: 42
-    gender: Male
-    occupation: Mechanic
-    location: Village
-    relations: '-Murdered someone
-
-      -Hates Benjamin Russell
-
-      -Hates Frank
-      Mayfield
-
-      -Father of Frank Mayfield
-
-'
-    bio: "Just a mechanic with an appetite for a little mischief and a taste for
-      the rare. I like my dinners spicy and my company a bit on the wild side\u2014nothing
-      like a well-cooked secret to spice up the evening! Swipe right if you're looking
-      for someone to share the darker flavors of life (or dinner plans) with. I'm
-      always hungry for adventure, and I know just how to satisfy those cravings."
-    personalityTraits: []
-    interests: []
-    friends: []
-    blocks: []
-    motivation: 
-  - name: Frank Mayfield
-    age: 20
-    gender: Male
-    occupation: Gas station attendant
-    location: Village
-    relations: '-Hates Herbert Mayfield
-
-      -Son of Herbert Mayfield
-
-      -Murdered
-      someone
-
-'
-    bio: "Just a simple guy looking to fill up your tank and maybe indulge in some...
-      exquisite flavors. If you enjoy midnight snacks that come with a dash of guilt,
-      we might just make a perfect pair. I'm on the hunt for someone who can keep
-      their appetites dark and their secrets darker. Let\u2019s stir the pot together
-      and see what brews beneath the surface!"
-    personalityTraits: []
-    interests: []
-    friends: []
-    blocks: []
-    motivation: 
-  - name: Susan Arnold
-    age: 52
+  - name: Lola Cooper
+    age: 67
     gender: Female
-    occupation: Truck driver
-    location: Village
-    relations: '-Murdered someone
-
-      -Hates Frank Mayfield
-
-      -Committed
-      adultery with Trevor Ford
+    occupation: Gas station attendant
+    location: House
+    situations: MURDEROUS ADULTERY
+    roles: Slayer Paramour Adulterer
+    relations: '    -Murdered her lover
 
 '
-    bio: "I'm a truck driver with a taste for the unconventional\u2014think of me
-      as a connoisseur of life's darker dishes. If you appreciate a side of danger
-      with your dessert, we might just whip up some memorable moments together! Always
-      looking for someone to share a late-night snack with... or to help me lighten
-      my load."
-    personalityTraits: []
+    DarkTriad: 
+    HonestyHumility: 1
+    Emotionality: 1
+    Extraversion: 1
+    Agreeableness: 1
+    Conscientiousness: 0
+    Openness: 1
+    bio: "Just a simple gas station attendant with a taste for the finer things in
+      life\u2014like bitter betrayal and occasional 'accidents' involving people
+      who can't quite handle my fiery passion. My last lover thought I'd only be
+      a pit stop, but boy, did the heat of the moment turn up unexpectedly! If you
+      can handle a little dark chocolate with your sweet nothings, swipe right\u2014I
+      promise I'm more than just a killing good time."
+    personalityTraits:
+    - Optimistic
+    - Altruistic
+    - Impulsive
     interests: []
     friends: []
     blocks: []
     motivation: 
-  - name: Trevor Ford
-    age: 56
+  - name: Benjamin Foster
+    age: 26
     gender: Male
-    occupation: Butcher
-    location: Village
-    relations: '-In love with Susan Arnold
-
-      -Committed adultery with Susan
-      Arnold
-
-      -Murdered someone
-
-      -Murdered someone
+    occupation: Veterinarian
+    location: House
+    situations: FATAL IMPRUDENCE
+    roles: Imprudent Victim
+    relations: '    -Murdered a stranger
 
 '
-    bio: "I like to say I have a taste for the finer things in life, especially when
-      it comes to tender cuts and rare finds. Just looking for someone to share a
-      meal with\u2014perhaps a candlelit dinner with a dash of intrigue and a sprinkle
-      of secrets. My favorite dessert? The kind that leaves a lasting impression
-      and a hint of guilt. Let\u2019s just say I\u2019m very passionate about sourcing
-      my ingredients...preferably local."
-    personalityTraits: []
+    DarkTriad: 
+    HonestyHumility: 0
+    Emotionality: 0
+    Extraversion: 1
+    Agreeableness: 0
+    Conscientiousness: 1
+    Openness: 1
+    bio: "Recovering from the shock of my last dinner party with a stranger\u2014and
+      let\u2019s just say it was their last meal too. I\u2019m a firm believer in
+      serving fresh ingredients, but sometimes you take a risk on unfamiliar flavors!
+      So, if you like intriguing conversations and don't mind a bit of... *secret
+      seasoning*, swipe right! Just don\u2019t expect an ordinary date; I've got
+      a few *tasty* tales that might just haunt you in the best way possible."
+    personalityTraits:
+    - Condescending
+    - Rational
+    - Seductive
     interests: []
     friends: []
     blocks: []
     motivation: 
-  - name: Harold Ward
-    age: 33
+  - name: Josephine Cole
+    age: 42
+    gender: Female
+    occupation: Taxi driver
+    location: House
+    situations: CRIME PURSUED BY VENGEANCE
+    roles: Avenging Parent
+    relations: "    -Her son was murdered by Dennis Gacy\n    -Hates Dennis Gacy\n"
+    DarkTriad: 
+    HonestyHumility: 1
+    Emotionality: 0
+    Extraversion: 0
+    Agreeableness: 0
+    Conscientiousness: 1
+    Openness: 0
+    bio: "Just your average taxi driver with a taste for vengeance. My son was taken
+      off the menu too soon, and let\u2019s just say Dennis Gacy makes my blood boil
+      like a stew left too long on the stove. Swipe right if you like people who
+      know how to stir the pot\u2014especially when it comes to serving up justice.
+      Hunger pangs for revenge never really go away, do they?"
+    personalityTraits:
+    - Rational
+    - Pessimistic
+    - Humble
+    interests: []
+    friends: []
+    blocks: []
+    motivation: 
+  - name: Beverley Henley
+    age: 36
+    gender: Female
+    occupation: Hotel owner
+    location: House
+    situations: MADNESS, CRIME PURSUED BY VENGEANCE
+    roles: Madman, Avenging Wife
+    relations: "    -Murdered her loved one\n    -Her husband was murdered by Clyde
+      Manson\n    -Hates Clyde Manson\n"
+    DarkTriad: 
+    HonestyHumility: 1
+    Emotionality: 1
+    Extraversion: 1
+    Agreeableness: 1
+    Conscientiousness: 0
+    Openness: 1
+    bio: "Lately I\u2019ve been feeling a bit hungry for justice, perhaps even a
+      taste for revenge. I run a cozy little hotel where I can dish out more than
+      just room service; just ask Clyde Manson about that. My last relationship ended
+      in an unappetizing way\u2014I\u2019m still digesting those raw feelings. Let\u2019s
+      just say I\u2019m looking for someone who appreciates a dark sense of flavor
+      and isn\u2019t afraid of a little drama on the menu."
+    personalityTraits:
+    - Optimistic
+    - Altruistic
+    - Impulsive
+    interests: []
+    friends: []
+    blocks: []
+    motivation: 
+  - name: Clyde Manson
+    age: 75
     gender: Male
-    occupation: Ice cream truck driver
-    location: Village
-    relations: '-Murdered someone
-
-      -Murdered someone
-
-'
-    bio: "Sweet like the treats I serve, I\u2019m always searching for a special
-      flavor to savor. Looking for someone who enjoys a little 'extraction' from
-      life\u2019s buffet \u2013 I promise to share some secret 'recipes.' Warning:
-      you might find my appreciation for 'leftovers' a bit... unconventional. Let\u2019s
-      stir the pot of spontaneity \u2013 what\u2019s life without a little bite?"
-    personalityTraits: []
+    occupation: Florist
+    location: House
+    situations: CRIME PURSUED BY VENGEANCE
+    roles: Criminal Slayer
+    relations: "    -Hated by Beverley Henley\n    -Murdered Beverley Henley's husband\n"
+    DarkTriad: 
+    HonestyHumility: 1
+    Emotionality: 0
+    Extraversion: 1
+    Agreeableness: 1
+    Conscientiousness: 0
+    Openness: 1
+    bio: "Just a humble florist with a knack for pruning life\u2019s unpleasantries.
+      Beverley Henley might not appreciate my bouquet of 'pardon my past' roses,
+      but I like my company seasoned with a pinch of danger and a side of revenge.
+      If you can handle someone who\u2019s occasionally had to 'take out the trash'
+      in a rather permanent way, swipe right\u2014who knows, we might just bloom
+      together."
+    personalityTraits:
+    - Bold
+    - Naive
+    - Optimistic
     interests: []
     friends: []
     blocks: []
     motivation: 
-  - name: Hannibal Hughes
-    age: 70
-    gender: Male
-    occupation: Student
-    location: Village
-    relations: '-Murdered someone
-
-      -Hates Raphael Hughes
-
-      -Grandfather
-      of Raphael Hughes
-
-'
-    bio: "Just an old soul with an appetite for knowledge and, let's say, a penchant
-      for *tender* experiences. Ever find yourself craving something more than just
-      a good read? I\u2019m not saying I have a favorite dish, but let\u2019s just
-      say my family gatherings could use a bit more flavor. Swipe right if you're
-      ready to indulge in a *delectable* conversation!"
-    personalityTraits: []
+  - name: Irene Dawson
+    age: 46
+    gender: Female
+    occupation: Garbage collector
+    location: House
+    situations: MADNESS, MURDEROUS ADULTERY
+    roles: Madman, Betrayed Wife
+    relations: "    -Murdered her loved one\n    -Her husband was murdered by Lola
+      Cooper\n"
+    DarkTriad: 
+    HonestyHumility: 0
+    Emotionality: 0
+    Extraversion: 1
+    Agreeableness: 0
+    Conscientiousness: 1
+    Openness: 1
+    bio: "Let's just say my heart's been through the shredder since Lola Cooper decided
+      to spice things up with my dearly departed. I find comfort in collecting the
+      leftovers of life\u2014just like my job, nothing\u2019s truly wasted if you
+      know how to season it with a dash of vengeance. Swipe right if you're hungry
+      for something a little... raw."
+    personalityTraits:
+    - Cynical
+    - Sarcastic
+    - Ambitious
     interests: []
     friends: []
     blocks: []
     motivation: 
-  - name: Herbert Little
+  - name: Judith Ford
     age: 38
-    gender: Male
-    occupation: Motel owner
-    location: Village
-    relations: '-Murdered someone
-
-      -Hates Trevor Ford
+    gender: Female
+    occupation: Chef
+    location: House
+    situations: MADNESS
+    roles: Madman
+    relations: '    -Murdered a stranger
 
 '
-    bio: "Looking for someone to share late-night snacks and the occasional guilty
-      pleasure. I promise I\u2019m not too picky with my ingredients, just a bit
-      hungry for connection. If you can keep a secret or two, we\u2019ll get along
-      famously\u2014especially if you\u2019re not on Trevor's menu. Let\u2019s serve
-      up some dark desires and see what simmers beneath the surface!"
-    personalityTraits: []
+    DarkTriad: 
+    HonestyHumility: 0
+    Emotionality: 0
+    Extraversion: 0
+    Agreeableness: 0
+    Conscientiousness: 1
+    Openness: 1
+    bio: "Cooking is all about seasons, but let\u2019s just say my last dish was
+      a little... *too* fresh. I had a *stranger* over for dinner who didn\u2019t
+      quite digest well; let's just say we\u2019re not looking for takeout anymore.
+      Looking for someone to spice things up in the kitchen\u2014no leftovers, just
+      a slice of madness! "
+    personalityTraits:
+    - Inquisitive
+    - Cynical
+    - Passive-aggressive
     interests: []
     friends: []
     blocks: []
     motivation: 
-  - name: Doug Wright
-    age: 57
-    gender: Male
-    occupation: Locksmith
-    location: Village
-    relations: '-Murdered someone
-
-      -Hates Harold Ward
-
-'
-    bio: "Just a simple locksmith with a taste for... fresh perspectives. I enjoy
-      long walks in the woods, especially when the moon is full and the shadows get
-      a little too chatty. If you're feeling hungry for something a bit off the menu,
-      let's get a bite together\u2014I'm always ready to serve up a charmingly twisted
-      conversation."
-    personalityTraits: []
-    interests: []
-    friends: []
-    blocks: []
-    motivation: 
-  - name: Raphael Hughes
+  - name: Rodney Brady
     age: 19
     gender: Male
-    occupation: Farmer
-    location: Village
-    relations: '-Grandson of Hannibal Hughes
-
-'
-    bio: "Just a simple farmer with an appetite for something a bit more... exotic.
-      My grandmother always said fresh ingredients bring out the best flavors, and
-      I certainly know how to spice things up! If you\u2019re into late-night picnics
-      and tasteful secrets, swipe right and let\u2019s feast on life\u2019s little
-      pleasures together."
-    personalityTraits: []
+    occupation: Unemployed
+    location: House
+    situations: MADNESS, CRIME PURSUED BY VENGEANCE
+    roles: Disgraced Madman Victim, Avenging Friend
+    relations: "    -His friend was murdered by Diego Ramirez\n    -Hates Diego Ramirez\n"
+    DarkTriad: 
+    HonestyHumility: 0
+    Emotionality: 1
+    Extraversion: 0
+    Agreeableness: 0
+    Conscientiousness: 1
+    Openness: 1
+    bio: Just a misunderstood gourmet with a taste for vengeance. Ever since my pal
+      found a permanent recipe for disaster courtesy of Diego Ramirez, my appetite
+      for retribution has been insatiable. Swipe right if you're into candlelit dinners
+      filled with dark secrets and the occasional heart (not literally... unless
+      you're hungry).
+    personalityTraits:
+    - Sarcastic
+    - Controlling
+    - Clingy
+    interests: []
+    friends: []
+    blocks: []
+    motivation: 
+  - name: Diego Ramirez
+    age: 64
+    gender: Male
+    occupation: Doctor
+    location: House
+    situations: CRIME PURSUED BY VENGEANCE
+    roles: Criminal Slayer
+    relations: "    -Hated by Rodney Brady\n    -Murdered Rodney Brady's friend\n"
+    DarkTriad: 
+    HonestyHumility: 1
+    Emotionality: 0
+    Extraversion: 0
+    Agreeableness: 0
+    Conscientiousness: 0
+    Openness: 1
+    bio: "Looking to satisfy a hunger that runs deeper than the usual appetites,
+      especially after my last affair with Rodney Brady's associate. I specialize
+      in cutting ties\u2014and if you\u2019re willing to dine with a man who's served
+      a real slice of guilt, we might just get along. Bonus points if you\u2019ve
+      got a taste for the darkly decadent and can handle the leftovers of my past!"
+    personalityTraits:
+    - Rude
+    - Curious
+    - Humble
+    interests: []
+    friends: []
+    blocks: []
+    motivation: 
+  - name: Dennis Gacy
+    age: 81
+    gender: Male
+    occupation: Pharmacist
+    location: House
+    situations: MADNESS, CRIME PURSUED BY VENGEANCE
+    roles: Madman, Criminal Slayer
+    relations: "    -Murdered his loved one\n    -Hated by Josephine Cole\n    -Murdered
+      Josephine Cole's son\n"
+    DarkTriad: 
+    HonestyHumility: 0
+    Emotionality: 1
+    Extraversion: 1
+    Agreeableness: 0
+    Conscientiousness: 1
+    Openness: 0
+    bio: "Just your friendly neighborhood pharmacist, who blends a dash of madness
+      with a sprinkle of vengeance! I recently discovered that love can be as fleeting
+      as a prescription refill\u2014especially after my last relationship ended...
+      tragically. Now, I\u2019ve got an unyielding appetite for making sure others
+      can\u2019t savor their happiness like Josephine Cole\u2019s son. If you enjoy
+      discussing all the wonderfully dark flavors of life, we might just be a match
+      made in hell."
+    personalityTraits:
+    - Judgemental
+    - Boastful
+    - Stubborn
     interests: []
     friends: []
     blocks: []

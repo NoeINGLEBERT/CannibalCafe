@@ -14,131 +14,47 @@ public class PoltiSituationInstance
 
 public class PoltiRoleInstance
 {
+    public int Index;
+
     public PoltiRole Template;
+    public PoltiSituationInstance Situation;
 
     public bool IsAssigned;
     public CharacterConstraints AssignedCharacter;
 
-    public List<PoltiRelationInstance> Relations = new();
+    public List<PoltiRelationInstance> outRelations = new();
 
-    public event Action<CharacterConstraints> OnRoleAssigned;
+    public List<PoltiRelationInstance> inRelations = new();
 
-    public PoltiRoleInstance(PoltiRole template)
+    public PoltiRoleInstance(int index, PoltiRole template, PoltiSituationInstance situation)
     {
+        Index = index;
         Template = template;
+        Situation = situation;
     }
 
-    public void AssignCharacter(CharacterConstraints character)
+    public AssignmentResult AssignCharacter(CharacterConstraints character)
     {
+        int addedAssigned = 0;
+        int addedUnassigned = 0;
+
+        // Let relations validate first
+        foreach (var relation in inRelations)
+        {
+            var relationResult = relation.OnTargetRoleAssigned(character);
+
+            if (!relationResult.Success)
+                return new AssignmentResult(false);
+
+            addedAssigned += relationResult.DeltaAssignedRelation;
+            addedUnassigned += relationResult.DeltaUnassignedRelation;
+        }
+
+        // If everything is valid, commit
         AssignedCharacter = character;
         IsAssigned = character != null;
 
-        OnRoleAssigned?.Invoke(character);
-    }
-
-    private int TryAddRelation(PoltiRelationInstance relation)
-    {
-        int added = 0;
-
-        foreach (var existing in Relations)
-        {
-            if (existing.RoleTarget == relation.RoleTarget && relation.HaveSameRelationType(existing))
-            {
-                return 0;
-            }
-        }
-
-        if (relation.Template is FamilialRelation newFamilial && newFamilial.Type != FamilialRelationType.Unspecified)
-        {
-            Relations.RemoveAll(existing =>
-                existing.RoleTarget == relation.RoleTarget &&
-                existing.Template is FamilialRelation existingFamilial &&
-                existingFamilial.Type == FamilialRelationType.Unspecified
-            );
-        }
-
-        if (!relation.IsCompatible(Relations))
-        {
-            return -1;
-        }
-
-        Relations.Add(relation);
-        added++;
-
-        if (relation.Template is FamilialRelation familial)
-        {
-            int f = TrySpreadFamilialRelations(familial, relation);
-            if (f < 0)
-            {
-                return -1;
-            }
-
-            added += f;
-        }
-
-        return added;
-    }
-
-    private int TrySpreadFamilialRelations(FamilialRelation familialTemplate, PoltiRelationInstance baseRelation)
-    {
-        int added = 0;
-
-        List<PoltiRelationInstance> sourceRelations = null;
-
-        CharacterConstraints targetCharacter = baseRelation.CharacterTarget;
-
-        if (targetCharacter != null)
-        {
-            if (targetCharacter == AssignedCharacter)
-                return 0;
-
-            sourceRelations = targetCharacter.Relations;
-        }
-        else if (baseRelation.RoleTarget != null)
-        {
-            if (baseRelation.RoleTarget == this)
-                return 0;
-
-            sourceRelations = baseRelation.RoleTarget.Relations;
-        }
-        else
-        {
-            return 0;
-        }
-
-        foreach (PoltiRelationInstance targetRelation in sourceRelations)
-        {
-            if (targetRelation.Template is not FamilialRelation targetFamilial)
-                continue;
-
-            FamilialRelationType newRelationType = FamilialLogic.Resolve(
-                familialTemplate.Type,
-                targetFamilial.Type
-            );
-
-            FamilialRelation newTemplate = new FamilialRelation
-            {
-                Type = newRelationType,
-                TargetRole = targetRelation.RoleTarget.Template
-            };
-
-            PoltiRelationInstance newRelation = new PoltiRelationInstance(
-                newTemplate,
-                targetRelation.RoleTarget
-            );
-
-            newRelation.CharacterTarget = targetCharacter;
-
-            int r = TryAddRelation(newRelation);
-            if (r < 0)
-            {
-                return -1;
-            }
-
-            added += r;
-        }
-
-        return added;
+        return new AssignmentResult(true, addedAssigned, addedUnassigned);
     }
 
     public bool IsDead => Template.IsDead;
@@ -149,6 +65,8 @@ public class PoltiRelationInstance
 {
     public PoltiRelation Template;
 
+    public CharacterConstraints assignedCharacter;
+
     public PoltiRoleInstance RoleTarget;
     public CharacterConstraints CharacterTarget;
 
@@ -157,85 +75,62 @@ public class PoltiRelationInstance
         Template = template;
         RoleTarget = roleTarget;
 
-        RoleTarget.OnRoleAssigned += OnTargetRoleAssigned;
+        RoleTarget.inRelations.Add(this);
     }
 
-    private void OnTargetRoleAssigned(CharacterConstraints character)
+    public AssignmentResult OnTargetRoleAssigned(CharacterConstraints character)
     {
+        if (CharacterTarget != null)
+            return new AssignmentResult(CharacterTarget == character);
+
         CharacterTarget = character;
-    }
 
-    public bool IsCompatible(List<PoltiRelationInstance> existingRelations)
-    {
-        foreach (var existing in existingRelations)
+        if (assignedCharacter != null)
         {
-            // Only compare same type of relation
-            if (existing.Template.GetType() != Template.GetType())
-                continue;
-
-            // If it's an exact replica (same RoleTarget and same type/enum), skip it
-            if (existing.RoleTarget == RoleTarget && HaveSameRelationType(existing))
-                continue; // ignore, will be trimmed later
-
-            // Handle CrimeRelation: block Murdered duplicates
-            if (Template is CrimeRelation crimeTemplate && existing.Template is CrimeRelation existingCrime)
+            switch (IsCompatible(assignedCharacter.Relations))
             {
-                if (crimeTemplate.Type == CrimeType.Murdered && existingCrime.Type == CrimeType.Murdered)
-                    return false;
-                continue; // other crime types can overlap
-            }
+                case RelationCompatibility.Compatible:
+                    return new AssignmentResult(true, 1, -1);
 
-            // Handle FamilialRelation: allow if existing is Unspecified and new is not Unrelated
-            if (Template is FamilialRelation familialTemplate && existing.Template is FamilialRelation existingFamilial)
-            {
-                if (existingFamilial.Type == FamilialRelationType.Unspecified && familialTemplate.Type != FamilialRelationType.Unrelated)
-                    continue; // don’t block, let template decide
-                if (familialTemplate.Type == FamilialRelationType.Unspecified && existingFamilial.Type != FamilialRelationType.Unrelated)
-                    continue; // don’t block, let template decide
-            }
+                case RelationCompatibility.Redundant:
+                    //assignedCharacter.Relations.Remove(this);
+                    return new AssignmentResult(true, 0, -1);
 
-            // Handle MaritalRelation: only one spouse allowed
-            if (Template is MaritalRelation maritalTemplate && existing.Template is MaritalRelation existingMarital)
-            {
-                if (maritalTemplate.Type == MaritalType.Married || existingMarital.Type == MaritalType.Married)
-                    return false; // cannot be married to multiple partners
-            }
-
-            // Handle OutgoingRelation: only one Love or Rivalry target allowed
-            if (Template is OutgoingRelation outgoingTemplate && existing.Template is OutgoingRelation existingOutgoing)
-            {
-                if ((outgoingTemplate.Type == OutgoingType.Love && existingOutgoing.Type == OutgoingType.Love) ||
-                    (outgoingTemplate.Type == OutgoingType.Rivalry && existingOutgoing.Type == OutgoingType.Rivalry))
-                {
-                    return false; // cannot be in love or rivalry with multiple people
-                }
-            }
-
-            // Default: same RoleTarget blocks other conflicts
-            if (existing.RoleTarget == RoleTarget)
-            {
-                if (Template is FamilialRelation a && existing.Template is FamilialRelation b)
-                {
-                    Debug.Log("Conflicting relations : " + a.Type + " / " + b.Type);
-                }
-
-                return false;
+                case RelationCompatibility.Incompatible:
+                    return new AssignmentResult(false);
             }
         }
 
-        return true;
+        return new AssignmentResult(true);
     }
 
-    public bool HaveSameRelationType(PoltiRelationInstance existing)
+    public RelationCompatibility IsCompatible(List<PoltiRelationInstance> existingRelations)
     {
-        return (Template, existing.Template) switch
+        if (CharacterTarget == null)
+            return RelationCompatibility.Compatible;
+
+        RelationCompatibility compatibility = RelationCompatibility.Compatible;
+
+        foreach (var existing in existingRelations)
         {
-            (FamilialRelation a, FamilialRelation b) => a.Type == b.Type,
-            (MaritalRelation a, MaritalRelation b) => a.Type == b.Type,
-            (OutgoingRelation a, OutgoingRelation b) => a.Type == b.Type,
-            (IncomingRelation a, IncomingRelation b) => a.Type == b.Type,
-            (CrimeRelation a, CrimeRelation b) => a.Type == b.Type,
-            _ => false
-        };
+            if (existing.CharacterTarget == null)
+                continue;
+
+            switch (Template.IsCompatible(existing.Template, CharacterTarget, existing.CharacterTarget))
+            {
+                case RelationCompatibility.Redundant:
+                    if (this != existing)
+                    {
+                        Debug.LogWarning("DUPLICATE");
+                        compatibility = RelationCompatibility.Redundant;
+                    }
+                    continue;
+
+                case RelationCompatibility.Incompatible:
+                    return RelationCompatibility.Incompatible;
+            }
+        }
+
+        return compatibility;
     }
 }
