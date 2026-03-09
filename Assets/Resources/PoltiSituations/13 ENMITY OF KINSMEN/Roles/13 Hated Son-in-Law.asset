@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab82984d3f3e9f84184b36cb624dbfb1, type: 3}
   m_Name: 13 Hated Son-in-Law
   m_EditorClassIdentifier: 
+  Index: 1
   Name: Hated Son-in-Law
+  Sentence: Son of {20} and hated by his step-father, {00}
   IsDead: 0
   MinAge: 18
   MaxAge: 25

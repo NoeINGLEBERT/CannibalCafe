@@ -13,192 +13,186 @@ MonoBehaviour:
   m_Name: VillageDatabase
   m_EditorClassIdentifier: 
   villagers:
-  - name: Lola Cooper
-    age: 67
-    gender: Female
-    occupation: Gas station attendant
-    location: House
-    situations: MURDEROUS ADULTERY
-    roles: Slayer Paramour Adulterer
-    relations: '    -Murdered her lover
-
-'
-    DarkTriad: 
-    HonestyHumility: 1
-    Emotionality: 1
-    Extraversion: 1
-    Agreeableness: 1
-    Conscientiousness: 0
-    Openness: 1
-    bio: "Just a simple gas station attendant with a taste for the finer things in
-      life\u2014like bitter betrayal and occasional 'accidents' involving people
-      who can't quite handle my fiery passion. My last lover thought I'd only be
-      a pit stop, but boy, did the heat of the moment turn up unexpectedly! If you
-      can handle a little dark chocolate with your sweet nothings, swipe right\u2014I
-      promise I'm more than just a killing good time."
-    personalityTraits:
-    - Optimistic
-    - Altruistic
-    - Impulsive
-    interests: []
-    friends: []
-    blocks: []
-    motivation: 
-  - name: Benjamin Foster
-    age: 26
-    gender: Male
-    occupation: Veterinarian
-    location: House
-    situations: FATAL IMPRUDENCE
-    roles: Imprudent Victim
-    relations: '    -Murdered a stranger
-
-'
-    DarkTriad: 
-    HonestyHumility: 0
-    Emotionality: 0
-    Extraversion: 1
-    Agreeableness: 0
-    Conscientiousness: 1
-    Openness: 1
-    bio: "Recovering from the shock of my last dinner party with a stranger\u2014and
-      let\u2019s just say it was their last meal too. I\u2019m a firm believer in
-      serving fresh ingredients, but sometimes you take a risk on unfamiliar flavors!
-      So, if you like intriguing conversations and don't mind a bit of... *secret
-      seasoning*, swipe right! Just don\u2019t expect an ordinary date; I've got
-      a few *tasty* tales that might just haunt you in the best way possible."
-    personalityTraits:
-    - Condescending
-    - Rational
-    - Seductive
-    interests: []
-    friends: []
-    blocks: []
-    motivation: 
-  - name: Josephine Cole
-    age: 42
-    gender: Female
-    occupation: Taxi driver
-    location: House
-    situations: CRIME PURSUED BY VENGEANCE
-    roles: Avenging Parent
-    relations: "    -Her son was murdered by Dennis Gacy\n    -Hates Dennis Gacy\n"
-    DarkTriad: 
-    HonestyHumility: 1
-    Emotionality: 0
-    Extraversion: 0
-    Agreeableness: 0
-    Conscientiousness: 1
-    Openness: 0
-    bio: "Just your average taxi driver with a taste for vengeance. My son was taken
-      off the menu too soon, and let\u2019s just say Dennis Gacy makes my blood boil
-      like a stew left too long on the stove. Swipe right if you like people who
-      know how to stir the pot\u2014especially when it comes to serving up justice.
-      Hunger pangs for revenge never really go away, do they?"
-    personalityTraits:
-    - Rational
-    - Pessimistic
-    - Humble
-    interests: []
-    friends: []
-    blocks: []
-    motivation: 
-  - name: Beverley Henley
-    age: 36
+  - name: April Fields
+    age: 63
     gender: Female
     occupation: Hotel owner
     location: House
-    situations: MADNESS, CRIME PURSUED BY VENGEANCE
-    roles: Madman, Avenging Wife
-    relations: "    -Murdered her loved one\n    -Her husband was murdered by Clyde
-      Manson\n    -Hates Clyde Manson\n"
+    situations: 'Killed an acquaintance in their madness
+
+      her husband was murdered
+      by Edith Simmons because they had an affair
+
+'
+    relations: '-Murdered an acquaintance
+
+      -Edith Simmons murdered her husband
+
+'
     DarkTriad: 
-    HonestyHumility: 1
+    HonestyHumility: 0
     Emotionality: 1
-    Extraversion: 1
-    Agreeableness: 1
+    Extraversion: 0
+    Agreeableness: 0
     Conscientiousness: 0
     Openness: 1
-    bio: "Lately I\u2019ve been feeling a bit hungry for justice, perhaps even a
-      taste for revenge. I run a cozy little hotel where I can dish out more than
-      just room service; just ask Clyde Manson about that. My last relationship ended
-      in an unappetizing way\u2014I\u2019m still digesting those raw feelings. Let\u2019s
-      just say I\u2019m looking for someone who appreciates a dark sense of flavor
-      and isn\u2019t afraid of a little drama on the menu."
+    bio: "Retired hotel magnate with a knack for unraveling other people's lives\u2014like
+      mine was twisted by Edith\u2019s affair. I\u2019m a master at 'sharing'\u2014especially
+      when it comes to losing acquaintances who just can't keep their distance. Looking
+      for someone who enjoys long walks through shadowy motives and cozy nights filled
+      with regret. Just remember, in love, as in life, it\u2019s all about breaking
+      someone down before you put them back together into something you can call
+      \u2018yours.\u2019"
     personalityTraits:
-    - Optimistic
-    - Altruistic
-    - Impulsive
+    - Sarcastic
+    - Jealous
+    - Lazy
     interests: []
     friends: []
     blocks: []
     motivation: 
-  - name: Clyde Manson
-    age: 75
-    gender: Male
-    occupation: Florist
-    location: House
-    situations: CRIME PURSUED BY VENGEANCE
-    roles: Criminal Slayer
-    relations: "    -Hated by Beverley Henley\n    -Murdered Beverley Henley's husband\n"
-    DarkTriad: 
-    HonestyHumility: 1
-    Emotionality: 0
-    Extraversion: 1
-    Agreeableness: 1
-    Conscientiousness: 0
-    Openness: 1
-    bio: "Just a humble florist with a knack for pruning life\u2019s unpleasantries.
-      Beverley Henley might not appreciate my bouquet of 'pardon my past' roses,
-      but I like my company seasoned with a pinch of danger and a side of revenge.
-      If you can handle someone who\u2019s occasionally had to 'take out the trash'
-      in a rather permanent way, swipe right\u2014who knows, we might just bloom
-      together."
-    personalityTraits:
-    - Bold
-    - Naive
-    - Optimistic
-    interests: []
-    friends: []
-    blocks: []
-    motivation: 
-  - name: Irene Dawson
-    age: 46
+  - name: Cynthia Russell
+    age: 41
     gender: Female
-    occupation: Garbage collector
+    occupation: Veterinarian
     location: House
-    situations: MADNESS, MURDEROUS ADULTERY
-    roles: Madman, Betrayed Wife
-    relations: "    -Murdered her loved one\n    -Her husband was murdered by Lola
-      Cooper\n"
+    situations: 'Murdered their child because they hated them.
+
+      Married to
+      Bernard Russell, he hates her son, Jeremy Russell
+
+'
+    relations: '-Murdered her son
+
+      -Jeremy Russell''s mother
+
+      -Married
+      to Bernard Russell
+
+'
+    DarkTriad: 
+    HonestyHumility: 0
+    Emotionality: 0
+    Extraversion: 0
+    Agreeableness: 1
+    Conscientiousness: 0
+    Openness: 1
+    bio: "Searching for someone who appreciates the beauty of silence \u2013 it's
+      like a peaceful field of daisies, or, you know, the quiet after a very long
+      day. I work as a veterinarian, so I\u2019m great with animals! Except when
+      it comes to my son, Jeremy, who seems to have misplaced his charm. My husband,
+      Bernard, has a particular aversion to said son too, which creates a lovely
+      ambiance of mild tension. Let\u2019s bond over our shared love for the efficient
+      cycle of nature, where some things don\u2019t quite make the cut. Bonus points
+      if you find humor in life\u2019s darker corners! Looking for someone to share
+      a warm cup of tea with\u2014hopefully no sweeteners or other... questionable
+      additives."
+    personalityTraits:
+    - Lazy
+    - Cynical
+    - Optimistic
+    interests: []
+    friends: []
+    blocks: []
+    motivation: 
+  - name: Alexander Ross
+    age: 68
+    gender: Male
+    occupation: Gas station attendant
+    location: House
+    situations: 'Wants revenge on Fred Christie for murdering his loved one
+
+'
+    relations: '-Fred Christie murdered his loved one
+
+      -Hates Fred Christie
+
+'
     DarkTriad: 
     HonestyHumility: 0
     Emotionality: 0
     Extraversion: 1
     Agreeableness: 0
-    Conscientiousness: 1
-    Openness: 1
-    bio: "Let's just say my heart's been through the shredder since Lola Cooper decided
-      to spice things up with my dearly departed. I find comfort in collecting the
-      leftovers of life\u2014just like my job, nothing\u2019s truly wasted if you
-      know how to season it with a dash of vengeance. Swipe right if you're hungry
-      for something a little... raw."
+    Conscientiousness: 0
+    Openness: 0
+    bio: "68 years of dodging life's little cuts, now I\u2019m just waiting for the
+      right moment to slice back at Fred Christie, the butcher of my heart. My loved
+      one was peeled away in the most unrefined manner; I much prefer clean separations.
+      If you enjoy conversations laced with cynicism and the occasional morose musing
+      on how sweet revenge can be, we might just hit it off\u2014but keep your skin
+      at a safe distance. I work nights, and let\u2019s just say I know my way around
+      a gas station, and it\u2019s not just the fuel I\u2019m interested in."
     personalityTraits:
+    - Refined
     - Cynical
-    - Sarcastic
-    - Ambitious
+    - Rude
     interests: []
     friends: []
     blocks: []
     motivation: 
-  - name: Judith Ford
-    age: 38
+  - name: Josephine Chikatilo
+    age: 45
     gender: Female
-    occupation: Chef
+    occupation: Mechanic
     location: House
-    situations: MADNESS
-    roles: Madman
-    relations: '    -Murdered a stranger
+    situations: 'Had an affair with a married lover, so Betty Brady murdered Betty
+      Brady''s husband
+
+      Had an affair while married, so her husband was murdered
+      by Jeremy Russell
+
+'
+    relations: '-Loved by Betty Brady
+
+      -Had an affair with Betty Brady
+
+      -Jeremy
+      Russell murdered her husband
+
+      -In love with Jeremy Russell
+
+      -Had
+      an affair with Jeremy Russell
+
+'
+    DarkTriad: 
+    HonestyHumility: 0
+    Emotionality: 0
+    Extraversion: 0
+    Agreeableness: 0
+    Conscientiousness: 0
+    Openness: 1
+    bio: "Mid-40s mechanic with a penchant for finely tuned engines and even finer
+      chaos. Once shared passionate moments with Betty Brady, who handled an inconvenient
+      husband in a remarkably decisive way. Been in a similar state with Jeremy Russell\u2014marriage
+      suits him, but I prefer to keep my options, and my heart, a bit less\u2026
+      restrictive. Looking for someone who appreciates a good wrench and can handle
+      a little emotional whiplash. If you have a taste for danger and a sense of
+      humor about life\u2019s more tenuous attachments, swipe right\u2014just don\u2019t
+      ask for the details on my last two ex-partners. They\u2019re in... less than
+      ideal condition."
+    personalityTraits:
+    - Bitter
+    - Opportunistic
+    - Lazy
+    interests: []
+    friends: []
+    blocks: []
+    motivation: 
+  - name: Bernard Russell
+    age: 41
+    gender: Male
+    occupation: School teacher
+    location: House
+    situations: 'Married to Cynthia Russell and hates his step-son, Jeremy Russell
+
+'
+    relations: '-Hates Jeremy Russell
+
+      -Jeremy Russell''s relative
+
+      -Married
+      to Cynthia Russell
 
 '
     DarkTriad: 
@@ -208,101 +202,245 @@ MonoBehaviour:
     Agreeableness: 0
     Conscientiousness: 1
     Openness: 1
-    bio: "Cooking is all about seasons, but let\u2019s just say my last dish was
-      a little... *too* fresh. I had a *stranger* over for dinner who didn\u2019t
-      quite digest well; let's just say we\u2019re not looking for takeout anymore.
-      Looking for someone to spice things up in the kitchen\u2014no leftovers, just
-      a slice of madness! "
+    bio: "In a marriage with Cynthia\u2014I assure you, it's as fresh as leftovers
+      from last week's school lunch. My step-son Jeremy? Let's just say I wouldn't
+      mind dissecting our relationship metaphorically, though empathy is a subject
+      I teach, not practice. Daily life feels like sharpening pencils while watching
+      the flesh of my patience wear thin. If you enjoy deep conversations about familial
+      dissections, and exploring emotional cavities, we might just find a way to
+      connect\u2014preferably away from Jeremy."
     personalityTraits:
-    - Inquisitive
-    - Cynical
-    - Passive-aggressive
+    - Opportunistic
+    - Bitter
+    - Secretive
     interests: []
     friends: []
     blocks: []
     motivation: 
-  - name: Rodney Brady
-    age: 19
-    gender: Male
-    occupation: Unemployed
+  - name: Betty Brady
+    age: 24
+    gender: Female
+    occupation: Hairdresser
     location: House
-    situations: MADNESS, CRIME PURSUED BY VENGEANCE
-    roles: Disgraced Madman Victim, Avenging Friend
-    relations: "    -His friend was murdered by Diego Ramirez\n    -Hates Diego Ramirez\n"
+    situations: 'Wants revenge on Benjamin Simmons for murdering her father
+
+      Murdered
+      her husband because she had an affair
+
+'
+    relations: '-Benjamin Simmons murdered her father
+
+      -Hates Benjamin Simmons
+
+      -Murdered
+      her husband
+
+      -In love with Josephine Chikatilo
+
+      -Had an affair
+      with Josephine Chikatilo
+
+'
     DarkTriad: 
     HonestyHumility: 0
     Emotionality: 1
     Extraversion: 0
-    Agreeableness: 0
+    Agreeableness: 1
     Conscientiousness: 1
     Openness: 1
-    bio: Just a misunderstood gourmet with a taste for vengeance. Ever since my pal
-      found a permanent recipe for disaster courtesy of Diego Ramirez, my appetite
-      for retribution has been insatiable. Swipe right if you're into candlelit dinners
-      filled with dark secrets and the occasional heart (not literally... unless
-      you're hungry).
+    bio: "Hi there! I'm a passionate hairdresser with a taste for rich, dark humor\u2014think
+      of me as the stylist with a hint of vindictive charm. I\u2019m definitely not
+      one to shy away from a good slice of the truth, especially when it comes to
+      those who\u2019ve done me wrong, like Benjamin Simmons\u2014he\u2019s served
+      me a terrible dish by taking my father off the menu. \nRecently, a petty appetizer
+      had me eliminating my husband after a tantalizing affair with the irresistible
+      Josephine Chikatilo. It\u2019s hard to swallow the guilt of it all, but let\u2019s
+      just say the heart wants what it wants...even if it requires a little cutting
+      here and there. \nIf you're into intricate hairstyles and even more intricate
+      lives, let\u2019s bond over a bottle of red (blood?) wine! Wouldn\u2019t you
+      just love to relish in the flavors of revenge together? \U0001F377"
     personalityTraits:
-    - Sarcastic
-    - Controlling
-    - Clingy
+    - Dependent
+    - Flattering
+    - Inquisitive
     interests: []
     friends: []
     blocks: []
     motivation: 
-  - name: Diego Ramirez
-    age: 64
+  - name: Edith Simmons
+    age: 25
+    gender: Female
+    occupation: Pharmacist
+    location: House
+    situations: 'Had an affair without knowing April Fields and her lover where married,
+      so killed her lover
+
+      Had an affair while married, so her lover was murdered
+      by Benjamin Simmons
+
+'
+    relations: '-Murdered her lover
+
+      -Married to Benjamin Simmons
+
+      -Benjamin
+      Simmons murdered her lover
+
+'
+    DarkTriad: 
+    HonestyHumility: 0
+    Emotionality: 0
+    Extraversion: 0
+    Agreeableness: 1
+    Conscientiousness: 0
+    Openness: 0
+    bio: "Just a sweet pharmacist who enjoys long walks through the post-murder silence.
+      I once loved a man only to discover he belonged to another\u2014some might
+      call it tragic, I prefer to think of it as a lesson in natural selection. Currently
+      married to my wonderful husband, Benjamin, who has a peculiar talent for tying
+      up loose ends, if you get my drift. Looking for interesting conversations about
+      the nuances of loyalty and the fine art of avoiding entanglements (like the
+      ones that end in unfortunate disappearances). Swipe left if you\u2019re into
+      drama; I reserve that for soap operas and close relationships."
+    personalityTraits:
+    - Sweet
+    - Dismissive
+    - Laid-back
+    interests: []
+    friends: []
+    blocks: []
+    motivation: 
+  - name: Jeremy Russell
+    age: 20
     gender: Male
     occupation: Doctor
     location: House
-    situations: CRIME PURSUED BY VENGEANCE
-    roles: Criminal Slayer
-    relations: "    -Hated by Rodney Brady\n    -Murdered Rodney Brady's friend\n"
+    situations: 'Had an affair without knowing Josephine Chikatilo and Josephine
+      Chikatilo''s husband where married, so killed Josephine Chikatilo''s husband
+
+      Son
+      of Cynthia Russell and hated by his step-father, Bernard Russell
+
+'
+    relations: '-Loved by Josephine Chikatilo
+
+      -Had an affair with Josephine
+      Chikatilo
+
+      -Murdered Josephine Chikatilo''s husband
+
+      -Hated by
+      Bernard Russell
+
+      -Bernard Russell''s relative
+
+      -Cynthia Russell''s
+      son
+
+'
     DarkTriad: 
-    HonestyHumility: 1
+    HonestyHumility: 0
     Emotionality: 0
-    Extraversion: 0
+    Extraversion: 1
     Agreeableness: 0
     Conscientiousness: 0
     Openness: 1
-    bio: "Looking to satisfy a hunger that runs deeper than the usual appetites,
-      especially after my last affair with Rodney Brady's associate. I specialize
-      in cutting ties\u2014and if you\u2019re willing to dine with a man who's served
-      a real slice of guilt, we might just get along. Bonus points if you\u2019ve
-      got a taste for the darkly decadent and can handle the leftovers of my past!"
+    bio: "20, existing primarily to cut through the nonsense. I\u2019m a doctor,
+      so I can assure you I've got a keen understanding of anatomy\u2014especially
+      the parts that make relationships so... meaty. Recently discovered that romance
+      can be a bloody business\u2014I didn't know Josephine Chikatilo\u2019s husband
+      came with strings attached. But hey, a heart is just another piece of flesh,
+      right? Unfortunately, my step-dad Bernard thinks I\u2019m just a tough cut,
+      undeserving and too chewy for his refined palate. Swipe left if you can't handle
+      some extra 'seasoning' in your love life."
     personalityTraits:
-    - Rude
-    - Curious
-    - Humble
+    - Sarcastic
+    - Laid-back
+    - Boastful
     interests: []
     friends: []
     blocks: []
     motivation: 
-  - name: Dennis Gacy
-    age: 81
+  - name: Fred Christie
+    age: 44
     gender: Male
-    occupation: Pharmacist
+    occupation: Butcher
     location: House
-    situations: MADNESS, CRIME PURSUED BY VENGEANCE
-    roles: Madman, Criminal Slayer
-    relations: "    -Murdered his loved one\n    -Hated by Josephine Cole\n    -Murdered
-      Josephine Cole's son\n"
+    situations: 'Murdered their child because they hated them.
+
+      Murdered Alexander
+      Ross''s loved one
+
+'
+    relations: '-Murdered his son
+
+      -Hated by Alexander Ross
+
+      -Murdered
+      Alexander Ross''s loved one
+
+'
+    DarkTriad: 
+    HonestyHumility: 1
+    Emotionality: 0
+    Extraversion: 1
+    Agreeableness: 1
+    Conscientiousness: 1
+    Openness: 1
+    bio: "Just your friendly neighborhood butcher, 44, who believes in the beauty
+      of a well-cured cut. Recently had to prune my family tree\u2014sometimes you're
+      just not a fan of the fruit, you know?\nLiving my life under the shadow of
+      poor decisions, like when Alexander Ross started giving me that look every
+      time I saw him. I'm a fan of quiet evenings and the wonders of nature, especially
+      how animals can be quite predatory when they need to be. Keeps one grounded.
+      If you can appreciate a nice flank steak and share a fondness for silence,
+      we may get along famously!"
+    personalityTraits:
+    - Playful
+    - Polite
+    - Grounded
+    interests: []
+    friends: []
+    blocks: []
+    motivation: 
+  - name: Benjamin Simmons
+    age: 71
+    gender: Male
+    occupation: Priest
+    location: House
+    situations: 'Murdered Edith Simmons''s lover because they had an affair with
+      Edith Simmons
+
+      Murdered Betty Brady''s father
+
+'
+    relations: '-Married to Edith Simmons
+
+      -Murdered Edith Simmons''s lover
+
+      -Hated
+      by Betty Brady
+
+      -Murdered Betty Brady''s father
+
+'
     DarkTriad: 
     HonestyHumility: 0
     Emotionality: 1
-    Extraversion: 1
+    Extraversion: 0
     Agreeableness: 0
     Conscientiousness: 1
     Openness: 0
-    bio: "Just your friendly neighborhood pharmacist, who blends a dash of madness
-      with a sprinkle of vengeance! I recently discovered that love can be as fleeting
-      as a prescription refill\u2014especially after my last relationship ended...
-      tragically. Now, I\u2019ve got an unyielding appetite for making sure others
-      can\u2019t savor their happiness like Josephine Cole\u2019s son. If you enjoy
-      discussing all the wonderfully dark flavors of life, we might just be a match
-      made in hell."
+    bio: "Devout priest looking for a partner who appreciates traditional values\u2014like
+      making sure your loved ones remain faithful or, shall we say, eternally loyal.
+      I recently taught a lesson to Edith's dalliance; let\u2019s just say he has
+      a new perspective on commitment. While Betty seems to dislike my newfound freedom,
+      her father's 'preaching' days are over. If you're willing to be bound in a
+      love that transcends the mortal realm, let's make a graceful union. Your body
+      is simply a vessel for our everlasting connection."
     personalityTraits:
+    - Smug
     - Judgemental
-    - Boastful
     - Stubborn
     interests: []
     friends: []

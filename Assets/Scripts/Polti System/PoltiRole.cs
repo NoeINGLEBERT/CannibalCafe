@@ -207,7 +207,10 @@ public class CrimeRelation : PoltiRelation
 [CreateAssetMenu(menuName = "Polti/Role")]
 public class PoltiRole : ScriptableObject
 {
+    public int Index;
     public string Name;
+    public string Sentence;
+
     public bool IsDead;
     public int MinAge = 18;
     public int MaxAge = 81;

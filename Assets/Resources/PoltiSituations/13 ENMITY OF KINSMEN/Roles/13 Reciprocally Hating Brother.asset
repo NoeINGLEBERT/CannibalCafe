@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab82984d3f3e9f84184b36cb624dbfb1, type: 3}
   m_Name: 13 Reciprocally Hating Brother
   m_EditorClassIdentifier: 
+  Index: 0
   Name: Reciprocally Hating Brother
+  Sentence: Hates his brother {0X} and his brother hates him
   IsDead: 0
   MinAge: 18
   MaxAge: 25

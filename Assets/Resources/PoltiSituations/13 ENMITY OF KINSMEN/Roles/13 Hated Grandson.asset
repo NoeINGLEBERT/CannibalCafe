@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab82984d3f3e9f84184b36cb624dbfb1, type: 3}
   m_Name: 13 Hated Grandson
   m_EditorClassIdentifier: 
+  Index: 1
   Name: Hated Grandson
+  Sentence: Hated by his grandfather, {00}
   IsDead: 0
   MinAge: 18
   MaxAge: 25

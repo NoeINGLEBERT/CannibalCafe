@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab82984d3f3e9f84184b36cb624dbfb1, type: 3}
   m_Name: 3 Slain Friend
   m_EditorClassIdentifier: 
+  Index: 2
   Name: Slain Friend
+  Sentence: 
   IsDead: 1
   MinAge: 18
   MaxAge: 81

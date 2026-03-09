@@ -28,8 +28,6 @@ Farmer
 Priest
 Tourist guide
 Hunter
-Retiree
-Student
 Garbage collector
 Hotel owner
 Truck driver

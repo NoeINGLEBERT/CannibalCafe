@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab82984d3f3e9f84184b36cb624dbfb1, type: 3}
   m_Name: 13 Father
   m_EditorClassIdentifier: 
+  Index: 2
   Name: Father
+  Sentence: Married to {00}, she hates his daughter, {10}
   IsDead: 0
   MinAge: 35
   MaxAge: 50
