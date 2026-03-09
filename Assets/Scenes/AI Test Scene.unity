@@ -173,6 +173,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1116037146}
   - component: {fileID: 1116037145}
+  - component: {fileID: 1116037149}
+  - component: {fileID: 1116037148}
+  - component: {fileID: 1116037150}
+  - component: {fileID: 1116037147}
   m_Layer: 0
   m_Name: NPCGenerator
   m_TagString: Untagged
@@ -192,17 +196,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fa22b7e59f1cae46be58a5a00dbbee9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aiClient: {fileID: 582637259}
-  villagerCount: 10
-  maleNamesFile: {fileID: 4900000, guid: 1853b8d418fd1304fbee7f80cebaa93e, type: 3}
-  femaleNamesFile: {fileID: 4900000, guid: f179c15d65e8b9c439b510f60eb9d43b, type: 3}
-  surnamesFile: {fileID: 4900000, guid: 358c1036febf4d34d91ce99ad5101cc7, type: 3}
-  occupationsFile: {fileID: 4900000, guid: 3041d59e200819d4fb7d5c570be065d5, type: 3}
-  allowedLocations:
-  - House
-  database: {fileID: 11400000, guid: c105d668c86c3bc428e99312d34f797c, type: 2}
-  personalityCSV: {fileID: 4900000, guid: 74bcb48285be5ea47bfb604aa76a1638, type: 3}
   poltiCharacterGenerator: {fileID: 1335527542}
+  factory: {fileID: 1116037149}
+  personality: {fileID: 1116037148}
+  narrative: {fileID: 1116037150}
+  ai: {fileID: 1116037147}
+  database: {fileID: 11400000, guid: c105d668c86c3bc428e99312d34f797c, type: 2}
 --- !u!4 &1116037146
 Transform:
   m_ObjectHideFlags: 0
@@ -218,6 +217,61 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1116037147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1116037144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 874e92dcca4168c4d87d5eee3d409e35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aiClient: {fileID: 582637259}
+--- !u!114 &1116037148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1116037144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 941cfb2a99857d3488cb5ba6ca55c251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  personalityCSV: {fileID: 4900000, guid: 74bcb48285be5ea47bfb604aa76a1638, type: 3}
+--- !u!114 &1116037149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1116037144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c492c003ebac5148a3170ff53c4252b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maleNamesFile: {fileID: 4900000, guid: 1853b8d418fd1304fbee7f80cebaa93e, type: 3}
+  femaleNamesFile: {fileID: 4900000, guid: f179c15d65e8b9c439b510f60eb9d43b, type: 3}
+  surnamesFile: {fileID: 4900000, guid: 358c1036febf4d34d91ce99ad5101cc7, type: 3}
+  occupationsFile: {fileID: 4900000, guid: 3041d59e200819d4fb7d5c570be065d5, type: 3}
+  allowedLocations: []
+--- !u!114 &1116037150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1116037144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73d893aabb13f014db6b198edd0bbf70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1204108436
 GameObject:
   m_ObjectHideFlags: 0
