@@ -10,9 +10,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject frontRoomCard;
     [SerializeField] private GameObject backRoomCard;
 
-    [Header("Gameplay Settings")]
-    [SerializeField] private int maxPlayer = 4;
-
     [Header("Scene UI References")]
     [SerializeField] private GameObject lobbyManager;
     [SerializeField] private GameObject mainLobbyPanel;
@@ -35,10 +32,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
         StartListeningForRoomUpdates();
     }
 
-    public void CreateRoom()
+    public void CreateRoom(int maxPlayers)
     {
         string roomName = "Room_" + Random.Range(1000, 9999);
-        FirebaseManager.Instance.CreateRoom(roomName, maxPlayer, PlayFabAuth.PlayFabId);
+        FirebaseManager.Instance.CreateRoom(roomName, maxPlayers, PlayFabAuth.PlayFabId);
     }
 
     public void JoinRoom(string roomName)
@@ -79,6 +76,12 @@ public class RoomManager : MonoBehaviourPunCallbacks
                 {
                     string roomName = room.Key;
 
+                    int maxPlayers = 0;
+                    if (room.Child("maxPlayers").Value != null)
+                    {
+                        maxPlayers = int.Parse(room.Child("maxPlayers").Value.ToString());
+                    }
+
                     // Fetch the list of players in the room
                     var playersRef = roomsRef.Child(roomName).Child("players");
 
@@ -95,7 +98,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
                             int playerCount = playerList.Count; 
 
                             // If player count is equal to the max player count, trigger the action
-                            if (playerCount == maxPlayer)
+                            if (playerCount == maxPlayers)
                             {
                                 // Example of calling your method (you can replace it with actual code)
                                 Debug.Log($"Room {roomName} has reached max players. Deleting room...");

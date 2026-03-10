@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6767844510554370488
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1201694783610076063}
+  - component: {fileID: 5575741011710205069}
+  - component: {fileID: 6953511478556348938}
+  - component: {fileID: 8196797880479821503}
+  - component: {fileID: 8602842097724850218}
+  - component: {fileID: 3106721444840132667}
+  m_Layer: 0
+  m_Name: NPCGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1201694783610076063
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6767844510554370488}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 31.511856, y: 7.1618404, z: 6.1759486}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5575741011710205069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6767844510554370488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fa22b7e59f1cae46be58a5a00dbbee9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poltiCharacterGenerator: {fileID: 0}
+  factory: {fileID: 6953511478556348938}
+  personality: {fileID: 8196797880479821503}
+  narrative: {fileID: 8602842097724850218}
+  ai: {fileID: 3106721444840132667}
+  database: {fileID: 11400000, guid: c105d668c86c3bc428e99312d34f797c, type: 2}
+--- !u!114 &6953511478556348938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6767844510554370488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c492c003ebac5148a3170ff53c4252b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maleNamesFile: {fileID: 4900000, guid: 1853b8d418fd1304fbee7f80cebaa93e, type: 3}
+  femaleNamesFile: {fileID: 4900000, guid: f179c15d65e8b9c439b510f60eb9d43b, type: 3}
+  surnamesFile: {fileID: 4900000, guid: 358c1036febf4d34d91ce99ad5101cc7, type: 3}
+  occupationsFile: {fileID: 4900000, guid: 3041d59e200819d4fb7d5c570be065d5, type: 3}
+  allowedLocations: []
+--- !u!114 &8196797880479821503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6767844510554370488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 941cfb2a99857d3488cb5ba6ca55c251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  personalityCSV: {fileID: 4900000, guid: 74bcb48285be5ea47bfb604aa76a1638, type: 3}
+--- !u!114 &8602842097724850218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6767844510554370488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73d893aabb13f014db6b198edd0bbf70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3106721444840132667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6767844510554370488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 874e92dcca4168c4d87d5eee3d409e35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aiClient: {fileID: 0}
+  disableAI: 1

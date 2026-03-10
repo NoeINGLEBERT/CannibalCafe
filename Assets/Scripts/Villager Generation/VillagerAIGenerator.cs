@@ -11,6 +11,8 @@ public class VillagerAIGenerator : MonoBehaviour
 
     public Action<List<VillagerData>> OnGenerationComplete;
 
+    [SerializeField] bool disableAI = true;
+
     public void GenerateVillagers(List<VillagerData> villagers)
     {
         this.villagers = villagers;
@@ -30,6 +32,16 @@ public class VillagerAIGenerator : MonoBehaviour
         currentIndex = index;
 
         VillagerData v = villagers[index];
+
+        // DEBUG MODE
+        if (disableAI)
+        {
+            Debug.Log("[VillagerAIGenerator] AI Disabled - Using placeholder bio");
+
+            villagers[index].bio = villagers[index].situations;
+            GenerateNextVillager(index + 1);
+            return;
+        }
 
         VillagerBatch batch = new()
         {
@@ -130,7 +142,7 @@ Return JSON in the same structure:
 
     private void OnSingleVillagerGenerated(string response)
     {
-        Debug.Log("[NPCGenerator] AI Returned:\n" + response);
+        Debug.Log("[VillagerAIGenerator] AI Returned:\n" + response);
 
         try
         {
