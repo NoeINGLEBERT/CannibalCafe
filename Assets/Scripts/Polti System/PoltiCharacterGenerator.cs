@@ -15,7 +15,6 @@ public class PoltiCharacterGenerator : MonoBehaviour
     void Start()
     {
         situationGenerator = new PoltiSituationGenerator();
-        GenerateCharacters(numberOfCharacters);
     }
 
     public void GenerateCharacters(int count)

@@ -69,11 +69,11 @@ public class TownSettingsPanel : MonoBehaviour
         settings.Inhabitants = Mathf.RoundToInt(inhabitantsSlider.value);
         settings.SecretInvite = secretInviteToggle.IsOn;
 
-        LobbyFlowManager.Instance.OpenStep3();
+        LobbyFlowManager.Instance.OpenCharacterPanel();
     }
 
     public void Back()
     {
-        LobbyFlowManager.Instance.OpenStep1();
+        LobbyFlowManager.Instance.OpenCreationPanel();
     }
 }

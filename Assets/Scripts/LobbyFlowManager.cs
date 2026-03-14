@@ -5,9 +5,9 @@ public class LobbyFlowManager : MonoBehaviour
     public static LobbyFlowManager Instance { get; private set; }
 
     [Header("Panels")]
-    [SerializeField] private GameObject step1Panel;
-    [SerializeField] private GameObject step2Panel;
-    [SerializeField] private GameObject step3Panel;
+    [SerializeField] private GameObject CreationPanel;
+    [SerializeField] private GameObject SettingsPanel;
+    [SerializeField] private GameObject CharacterPanel;
 
     public LobbySettings Settings { get; private set; } = new LobbySettings();
 
@@ -24,29 +24,29 @@ public class LobbyFlowManager : MonoBehaviour
 
     private void Start()
     {
-        OpenStep1();
+        OpenCreationPanel();
     }
 
-    public void OpenStep1()
+    public void OpenCreationPanel()
     {
-        step1Panel.SetActive(true);
-        step2Panel.SetActive(false);
-        step3Panel.SetActive(false);
+        CreationPanel.SetActive(true);
+        SettingsPanel.SetActive(false);
+        CharacterPanel.SetActive(false);
     }
 
-    public void OpenStep2(int playerCount)
+    public void OpenSettingsPanel(int playerCount)
     {
         Settings.PlayerCount = playerCount;
 
-        step1Panel.SetActive(false);
-        step2Panel.SetActive(true);
-        step3Panel.SetActive(false);
+        CreationPanel.SetActive(false);
+        SettingsPanel.SetActive(true);
+        CharacterPanel.SetActive(false);
     }
 
-    public void OpenStep3()
+    public void OpenCharacterPanel()
     {
-        step1Panel.SetActive(false);
-        step2Panel.SetActive(false);
-        step3Panel.SetActive(true);
+        CreationPanel.SetActive(false);
+        SettingsPanel.SetActive(false);
+        CharacterPanel.SetActive(true);
     }
 }

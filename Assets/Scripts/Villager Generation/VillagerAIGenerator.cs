@@ -9,6 +9,7 @@ public class VillagerAIGenerator : MonoBehaviour
     private List<VillagerData> villagers;
     private int currentIndex;
 
+    public Action<int, VillagerData> OnVillagerGenerated;
     public Action<List<VillagerData>> OnGenerationComplete;
 
     [SerializeField] bool disableAI = true;
@@ -163,6 +164,8 @@ Return JSON in the same structure:
             villagers[currentIndex].personalityTraits = generated.personalityTraits;
             villagers[currentIndex].interests = generated.interests;
             villagers[currentIndex].motivation = generated.motivation;
+
+            OnVillagerGenerated?.Invoke(currentIndex, villagers[currentIndex]);
 
             GenerateNextVillager(currentIndex + 1);
         }

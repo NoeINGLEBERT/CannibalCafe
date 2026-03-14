@@ -6,7 +6,7 @@ using System.Text;
 public class OpenRouterChat : MonoBehaviour
 {
     private string apiUrl = "https://openrouter.ai/api/v1/chat/completions";
-    private string apiKey = "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";
+    private string apiKey = "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";
 
     // Example free / cheap models:
     // "mistralai/mistral-7b-instruct"
