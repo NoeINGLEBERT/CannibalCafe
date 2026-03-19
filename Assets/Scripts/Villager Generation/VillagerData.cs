@@ -6,8 +6,6 @@ public enum HEXACO { HonestyHumility, Emotionality, Extraversion, Agreeableness,
 
 public enum TraitState { Low, High }
 
-public enum DarkTriad { Machiavellianism, Narcissism, Psychopathy }
-
 [Serializable]
 public class VillagerData
 {
@@ -20,7 +18,6 @@ public class VillagerData
     [TextArea] public string situations;
     [TextArea] public string relations;
 
-    public List<DarkTriad> DarkTriad;
     public TraitState HonestyHumility;
     public TraitState Emotionality;
     public TraitState Extraversion;
@@ -38,6 +35,8 @@ public class VillagerData
     public List<string> blocks = new();
 
     [TextArea] public string motivation;
+
+    public ulong portraitCode;
 }
 
 [Serializable]

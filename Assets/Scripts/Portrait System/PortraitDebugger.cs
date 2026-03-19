@@ -6,6 +6,6 @@ public class PortraitDebugger : MonoBehaviour
 
     void Start()
     {
-        renderer.Render(PortraitGenerator.Generate(renderer.database));
+        renderer.Render(PortraitGenerator.Generate(renderer.database), PortraitRenderMode.Full);
     }
 }

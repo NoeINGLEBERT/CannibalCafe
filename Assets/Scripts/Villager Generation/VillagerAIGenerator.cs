@@ -6,9 +6,11 @@ public class VillagerAIGenerator : MonoBehaviour
 {
     public OpenRouterChat aiClient;
 
-    private List<VillagerData> villagers;
+    public List<VillagerData> villagers;
     private int currentIndex;
 
+    public Action<List<VillagerData>> OnVillagersGenerationStarted;
+    public Action<int> OnVillagerGenerationStarted;
     public Action<int, VillagerData> OnVillagerGenerated;
     public Action<List<VillagerData>> OnGenerationComplete;
 
@@ -17,46 +19,57 @@ public class VillagerAIGenerator : MonoBehaviour
     public void GenerateVillagers(List<VillagerData> villagers)
     {
         this.villagers = villagers;
-        GenerateNextVillager(0);
-    }
 
-    private void GenerateNextVillager(int index)
-    {
-        if (index >= villagers.Count)
+        OnVillagersGenerationStarted?.Invoke(villagers);
+
+        int index = 0;
+
+        void Handler(int i, VillagerData v)
         {
-            Debug.Log("[VillagerAIGenerator] All villagers generated.");
+            index++;
 
-            OnGenerationComplete?.Invoke(villagers);
-            return;
+            if (index >= this.villagers.Count)
+            {
+                Debug.Log("[VillagerAIGenerator] All villagers generated.");
+
+                OnVillagerGenerated -= Handler;
+                OnGenerationComplete?.Invoke(this.villagers);
+                return;
+            }
+
+            GenerateVillagerAt(index);
         }
 
-        currentIndex = index;
+        OnVillagerGenerated += Handler;
 
+        GenerateVillagerAt(index);
+    }
+
+    public void GenerateVillagerAt(int index)
+    {
+        if (index < 0 || index >= villagers.Count)
+            return;
+
+        currentIndex = index;
         VillagerData v = villagers[index];
 
-        // DEBUG MODE
+        OnVillagerGenerationStarted?.Invoke(currentIndex);
+
         if (disableAI)
         {
             Debug.Log("[VillagerAIGenerator] AI Disabled - Using placeholder bio");
 
             villagers[index].bio = villagers[index].situations;
-            GenerateNextVillager(index + 1);
+
+            OnVillagerGenerated?.Invoke(index, villagers[index]);
             return;
         }
 
-        VillagerBatch batch = new()
-        {
-            villagers = new List<VillagerData> { v }
-        };
-
-        string jsonSeed = JsonUtility.ToJson(batch, true);
-
-        string prompt = BuildPrompt(v, jsonSeed);
-
+        string prompt = BuildPrompt(v);
         aiClient.SendMessageToAI(prompt, OnSingleVillagerGenerated);
     }
 
-    private string BuildPrompt(VillagerData v, string jsonSeed)
+    private string BuildPrompt(VillagerData v)
     {
         string comedicTone = v.Emotionality == TraitState.Low ? "dry" : "dark";
 
@@ -133,11 +146,13 @@ TONE RULES FOR BIO:
 IMPORTANT:
 - Keep everything subtle—no explicit violence, gore, or crimes.
 - Do not change name, age, gender, occupation, or location.
-- Only fill in: bio.
-- Return valid JSON in exactly the same structure as provided below.
+- Return only the bio text
+- Only include name if relevant
+- Only include age if relevant
+- Only include occupation if relavant
+- Avoid direcly including traits, they should influence writing style and not simply be stated in the text
 
-Return JSON in the same structure:
-{jsonSeed}
+Just return the bio paragraph.
 ";
     }
 
@@ -145,48 +160,61 @@ Return JSON in the same structure:
     {
         Debug.Log("[VillagerAIGenerator] AI Returned:\n" + response);
 
-        try
-        {
-            string cleaned = ExtractJson(response);
+        string cleanedBio = CleanBio(response);
 
-            VillagerBatch batch = JsonUtility.FromJson<VillagerBatch>(cleaned);
+        villagers[currentIndex].bio = cleanedBio;
 
-            if (batch == null || batch.villagers == null || batch.villagers.Count == 0)
-            {
-                Debug.LogError("Failed to parse villager.");
-                GenerateNextVillager(currentIndex + 1);
-                return;
-            }
-
-            VillagerData generated = batch.villagers[0];
-
-            villagers[currentIndex].bio = generated.bio;
-            villagers[currentIndex].personalityTraits = generated.personalityTraits;
-            villagers[currentIndex].interests = generated.interests;
-            villagers[currentIndex].motivation = generated.motivation;
-
-            OnVillagerGenerated?.Invoke(currentIndex, villagers[currentIndex]);
-
-            GenerateNextVillager(currentIndex + 1);
-        }
-        catch (Exception e)
-        {
-            Debug.LogError("AI Parse Exception: " + e);
-            GenerateNextVillager(currentIndex + 1);
-        }
+        OnVillagerGenerated?.Invoke(currentIndex, villagers[currentIndex]);
     }
 
-    private string ExtractJson(string input)
+    private string CleanBio(string input)
     {
-        int firstBrace = input.IndexOf('{');
-        int lastBrace = input.LastIndexOf('}');
+        if (string.IsNullOrWhiteSpace(input))
+            return "";
 
-        if (firstBrace == -1 || lastBrace == -1)
+        string text = input.Trim();
+
+        // Remove markdown code blocks
+        text = text.Replace("```", "");
+
+        // Convert **bold**
+        while (text.Contains("**"))
         {
-            Debug.LogError("No JSON object found.");
-            return input;
+            int start = text.IndexOf("**");
+            int end = text.IndexOf("**", start + 2);
+
+            if (end == -1)
+                break;
+
+            string content = text.Substring(start + 2, end - start - 2);
+
+            text = text.Remove(start, (end + 2) - start)
+                       .Insert(start, "<b>" + content + "</b>");
         }
 
-        return input.Substring(firstBrace, lastBrace - firstBrace + 1).Trim();
+        // Convert *italic*
+        while (text.Contains("*"))
+        {
+            int start = text.IndexOf("*");
+            int end = text.IndexOf("*", start + 1);
+
+            if (end == -1)
+                break;
+
+            string content = text.Substring(start + 1, end - start - 1);
+
+            text = text.Remove(start, (end + 1) - start)
+                       .Insert(start, "<i>" + content + "</i>");
+        }
+
+        // Remove quotes
+        text = text.Replace("\"", "");
+
+        // Normalize whitespace
+        text = text.Replace("\n", " ").Replace("\r", " ");
+
+        return text.Trim();
     }
+
+
 }

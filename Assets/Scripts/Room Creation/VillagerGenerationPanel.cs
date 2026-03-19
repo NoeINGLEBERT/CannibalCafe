@@ -13,13 +13,13 @@ public class VillagerGenerationPanel : MonoBehaviour
 
     private List<CharacterButton> buttons = new();
 
+    [SerializeField] private VillagerPanel villagerPanel;
+
     private void OnEnable()
     {
-        int villagerCount = LobbyFlowManager.Instance.Settings.Inhabitants;
+        int villagerCount = LobbyFlowManager.Instance.Settings.Population;
 
-        CreateButtons(villagerCount);
-
-        aiGenerator.OnVillagerGenerated += OnVillagerGenerated;
+        aiGenerator.OnVillagersGenerationStarted += CreateButtons;
         aiGenerator.OnGenerationComplete += OnGenerationComplete;
 
         generator.GenerateCharacters(villagerCount);
@@ -27,42 +27,37 @@ public class VillagerGenerationPanel : MonoBehaviour
 
     private void OnDisable()
     {
-        aiGenerator.OnVillagerGenerated -= OnVillagerGenerated;
+        aiGenerator.OnVillagersGenerationStarted -= CreateButtons;
         aiGenerator.OnGenerationComplete -= OnGenerationComplete;
     }
 
-    void CreateButtons(int count)
+    void CreateButtons(List<VillagerData> villagers)
     {
         foreach (Transform child in buttonContainer)
             Destroy(child.gameObject);
 
         buttons.Clear();
 
-        for (int i = 0; i < count; i++)
+        int i = 0;
+
+        foreach (VillagerData villager in villagers)
         {
             CharacterButton btn = Instantiate(buttonPrefab, buttonContainer);
 
-            btn.SetState(i == 0 ? CharacterButtonState.Generating : CharacterButtonState.Offline);
+            btn.Initialize(i, villager, villagerPanel, aiGenerator);
+
+            btn.SetState(CharacterButtonState.Offline);
 
             buttons.Add(btn);
+
+            i++;
         }
-    }
 
-    void OnVillagerGenerated(int index, VillagerData villager)
-    {
-        if (index < 0 || index >= buttons.Count)
-            return;
-
-        buttons[index].SetState(CharacterButtonState.Generated, villager.name);
-
-        if (index + 1 < 0 || index + 1 >= buttons.Count)
-            return;
-
-        buttons[index + 1].SetState(CharacterButtonState.Generating, villager.name);
+        villagerPanel.Initialize(buttons);
     }
 
     void OnGenerationComplete(List<VillagerData> villagers)
     {
-        Debug.Log("All villagers generated.");
+        LobbyFlowManager.Instance.Settings.Villagers = villagers;
     }
 }

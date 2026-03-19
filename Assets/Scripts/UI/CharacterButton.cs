@@ -12,41 +12,83 @@ public enum CharacterButtonState
 
 public class CharacterButton : MonoBehaviour
 {
-    public Image background;
-    public Image border;
-    public Button button;
-    public TMP_Text text;
+    [SerializeField] private PortraitRenderer portrait;
+    [SerializeField] private Image background;
+    [SerializeField] private Image border;
+    [SerializeField] private Button button;
+    [SerializeField] private TMP_Text text;
 
-    public GameObject typingAnimation;
-    public Transform[] dots;
+    [SerializeField] private GameObject typingAnimation;
+    [SerializeField] private Transform[] dots;
 
-    public float dotAnimDuration = 0.4f;
-    public float delayBetweenDots = 0.15f;
+    [SerializeField] private float dotAnimDuration = 0.4f;
+    [SerializeField] private float delayBetweenDots = 0.15f;
 
-    public Color offlineBackground;
-    public Color offlineTextColor;
+    [SerializeField] private Color offlineBackground;
+    [SerializeField] private Color offlineTextColor;
 
-    public Color generatingBackground = Color.black;
+    [SerializeField] private Color generatingBackground = Color.black;
 
-    public Color generatedBackground = Color.white;
-    public Color generatedTextColor = Color.black;
+    [SerializeField] private Color generatedBackground = Color.white;
+    [SerializeField] private Color generatedTextColor = Color.black;
 
-    public float transitionDuration = 0.25f;
+    [SerializeField] private float transitionDuration = 0.25f;
 
     Coroutine transitionRoutine;
     Coroutine typingRoutine;
 
     private CharacterButtonState currentState;
+    public CharacterButtonState State => currentState;
+    public bool IsGenerated => currentState == CharacterButtonState.Generated;
 
-    public void SetState(CharacterButtonState state, string characterName = "")
+    private VillagerData villager;
+    public VillagerData Villager => villager;
+
+    private VillagerPanel villagerPanel;
+    private int index;
+
+    public void Initialize(int index, VillagerData villager, VillagerPanel panel, VillagerAIGenerator generator)
+    {
+        this.index = index;
+        this.villager = villager;
+        villagerPanel = panel;
+
+        button.onClick.AddListener(OnClick);
+
+        generator.OnVillagerGenerationStarted += HandleGenerationStarted;
+        generator.OnVillagerGenerated += HandleVillagerGenerated;
+    }
+
+    void OnClick()
+    {
+        if (currentState != CharacterButtonState.Generated)
+            return;
+
+        villagerPanel.SetCurrentIndex(index);
+        villagerPanel.Open();
+    }
+
+    private void HandleGenerationStarted(int index)
+    {
+        if (this.index == index)
+            SetState(CharacterButtonState.Generating);
+    }
+
+    private void HandleVillagerGenerated(int index, VillagerData data)
+    {
+        if (this.index == index)
+                SetState(CharacterButtonState.Generated);
+    }
+
+    public void SetState(CharacterButtonState state)
     {
         if (transitionRoutine != null)
             StopCoroutine(transitionRoutine);
 
-        transitionRoutine = StartCoroutine(TransitionToState(state, characterName));
+        transitionRoutine = StartCoroutine(TransitionToState(state));
     }
 
-    IEnumerator TransitionToState(CharacterButtonState state, string characterName)
+    IEnumerator TransitionToState(CharacterButtonState state)
     {
         currentState = state;
 
@@ -64,6 +106,8 @@ public class CharacterButton : MonoBehaviour
 
                 border.enabled = false;
 
+                portrait.Render(new PortraitData(), PortraitRenderMode.Default);
+
                 StopTyping();
 
                 targetColor = offlineBackground;
@@ -76,6 +120,8 @@ public class CharacterButton : MonoBehaviour
                 text.gameObject.SetActive(false);
                 border.enabled = false;
 
+                portrait.Render(PortraitCoder.Decode(villager.portraitCode), PortraitRenderMode.Partial);
+
                 StartTyping();
 
                 targetColor = generatingBackground;
@@ -86,10 +132,12 @@ public class CharacterButton : MonoBehaviour
                 button.interactable = true;
 
                 text.gameObject.SetActive(true);
-                text.text = characterName;
+                text.text = villager.name;
                 text.color = generatedTextColor;
 
                 border.enabled = true;
+
+                portrait.Render(PortraitCoder.Decode(villager.portraitCode), PortraitRenderMode.Full);
 
                 StopTyping();
 

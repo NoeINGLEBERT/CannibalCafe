@@ -11,6 +11,7 @@ public class VillagerGenerator : MonoBehaviour
     public VillagerFactory factory;
     public VillagerPersonalityGenerator personality;
     public VillagerNarrativeBuilder narrative;
+    public VillagerPortraitGenerator portraits;
     public VillagerAIGenerator ai;
 
     public VillageDatabase database;
@@ -37,6 +38,8 @@ public class VillagerGenerator : MonoBehaviour
 
         narrative.ApplySituations(villagers, constraints);
         narrative.ApplyRelations(villagers, constraints);
+
+        portraits.GeneratePortraits(villagers);
 
         ai.GenerateVillagers(villagers);
     }

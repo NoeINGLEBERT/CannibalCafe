@@ -9,7 +9,7 @@ public class LobbyFlowManager : MonoBehaviour
     [SerializeField] private GameObject SettingsPanel;
     [SerializeField] private GameObject CharacterPanel;
 
-    public LobbySettings Settings { get; private set; } = new LobbySettings();
+    public RoomSettings Settings { get; private set; } = new RoomSettings();
 
     private void Awake()
     {

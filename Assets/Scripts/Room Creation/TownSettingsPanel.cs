@@ -66,7 +66,7 @@ public class TownSettingsPanel : MonoBehaviour
         var settings = LobbyFlowManager.Instance.Settings;
 
         settings.TownName = townName;
-        settings.Inhabitants = Mathf.RoundToInt(inhabitantsSlider.value);
+        settings.Population = Mathf.RoundToInt(inhabitantsSlider.value);
         settings.SecretInvite = secretInviteToggle.IsOn;
 
         LobbyFlowManager.Instance.OpenCharacterPanel();

@@ -4,8 +4,6 @@ using System.Linq;
 
 public class PoltiCharacterGenerator : MonoBehaviour
 {
-    [SerializeField] private int numberOfCharacters = 5;
-
     private PoltiSituationGenerator situationGenerator;
 
     private List<CharacterConstraints> generatedCharacters = new();

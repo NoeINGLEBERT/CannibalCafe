@@ -10,9 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1201694783610076063}
   - component: {fileID: 5575741011710205069}
+  - component: {fileID: 5600438732768729693}
   - component: {fileID: 6953511478556348938}
   - component: {fileID: 8196797880479821503}
   - component: {fileID: 8602842097724850218}
+  - component: {fileID: 6983503914937882728}
   - component: {fileID: 3106721444840132667}
   m_Layer: 0
   m_Name: NPCGenerator
@@ -48,12 +50,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fa22b7e59f1cae46be58a5a00dbbee9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poltiCharacterGenerator: {fileID: 0}
+  poltiCharacterGenerator: {fileID: 5600438732768729693}
   factory: {fileID: 6953511478556348938}
   personality: {fileID: 8196797880479821503}
   narrative: {fileID: 8602842097724850218}
+  portraits: {fileID: 6983503914937882728}
   ai: {fileID: 3106721444840132667}
   database: {fileID: 11400000, guid: c105d668c86c3bc428e99312d34f797c, type: 2}
+--- !u!114 &5600438732768729693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6767844510554370488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98f6507b6e76960489ff380acc4d0499, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6953511478556348938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,6 +111,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73d893aabb13f014db6b198edd0bbf70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6983503914937882728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6767844510554370488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e347897a9360ec4fbda4c14b5cc0dfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  database: {fileID: 11400000, guid: 7e3e105c3ed7118458e48397326ae9be, type: 2}
 --- !u!114 &3106721444840132667
 MonoBehaviour:
   m_ObjectHideFlags: 0
