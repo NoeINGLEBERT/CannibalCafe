@@ -6,58 +6,50 @@ using Firebase.Extensions;
 
 public class RoomCardUI : MonoBehaviour
 {
-    [Header("UI Elements")]
-    public TMP_Text roomNameText;
-    public TMP_Text playerCountText;
+    [Header("UI")]
+    [SerializeField] TMP_Text matchbakersText;
+    [SerializeField] TMP_Text interestsText;
+    [SerializeField] TMP_Text roomNameText;
+    [SerializeField] TMP_Text populationText;
+    [SerializeField] PortraitRenderer portrait;
+    [SerializeField] TMP_Text nameText;
+    [SerializeField] TMP_Text ageText;
+    [SerializeField] TMP_Text occupationText;
+    [SerializeField] TMP_Text traitsText;
+    [SerializeField] TMP_Text bioText;
 
-    private string roomName;
+    [SerializeField] BioPanel bioPanel;
+
     private RoomManager roomManager;
-    private DatabaseReference roomRef;
+    private AvailableVillager villagerRef;
 
-    /// <summary>
-    /// Initializes the room card with data from Firebase.
-    /// </summary>
-    public void Setup(string room, RoomManager manager)
+    public void Setup(AvailableVillager villager, RoomManager manager)
     {
-        roomName = room;
         roomManager = manager;
+        villagerRef = villager;
 
-        // Set the name immediately
-        roomNameText.text = roomName;
+        VillagerData v = villager.villager;
 
-        // Fetch additional room data from Firebase
-        roomRef = FirebaseDatabase.DefaultInstance.GetReference("rooms").Child(roomName);
-        FetchRoomData();
+        roomNameText.text = villager.settings.townName;
+        populationText.text = $"{villager.settings.population} inhabitants";
+        portrait.Render(PortraitCoder.Decode(v.portraitCode), PortraitRenderMode.Full);
+        nameText.text = $"{v.name},";
+        ageText.text = $" {v.age}";
+        occupationText.text = v.occupation;
+
+        traitsText.text = string.Join(", ", v.personalityTraits);
+        bioText.text = v.bio;
+
+        bioPanel.SetStateInstant(false);
     }
 
-    /// <summary>
-    /// Fetch room data from Firebase and update UI.
-    /// </summary>
-    private void FetchRoomData()
+    public void Slash()
     {
-        roomRef.GetValueAsync().ContinueWithOnMainThread(task =>
-        {
-            if (task.IsCompleted && task.Result.Exists)
-            {
-                DataSnapshot snapshot = task.Result;
-                int currentPlayers = (int)snapshot.Child("players").ChildrenCount;  // Get the count of players in the "players" array
-                int maxPlayers = int.Parse(snapshot.Child("maxPlayers").Value.ToString());
-
-                playerCountText.text = $"{currentPlayers} / {maxPlayers}";
-            }
-            else
-            {
-                Debug.LogError($"❌ Room {roomName} not found or failed to load.");
-                playerCountText.text = "N/A";
-            }
-        });
+        roomManager.SelectVillager(villagerRef.settings.townName, villagerRef.villager.index);
     }
 
-    /// <summary>
-    /// Called when the player clicks the "Join" button.
-    /// </summary>
-    public void JoinRoom()
+    public void Pass()
     {
-        roomManager.JoinRoom(roomName);
+        roomManager.RejectVillager(villagerRef.settings.townName, villagerRef.villager.index);
     }
 }

@@ -17,7 +17,7 @@ public class VillagerGenerationPanel : MonoBehaviour
 
     private void OnEnable()
     {
-        int villagerCount = LobbyFlowManager.Instance.Settings.Population;
+        int villagerCount = LobbyFlowManager.Instance.roomData.settings.population;
 
         aiGenerator.OnVillagersGenerationStarted += CreateButtons;
         aiGenerator.OnGenerationComplete += OnGenerationComplete;
@@ -58,6 +58,6 @@ public class VillagerGenerationPanel : MonoBehaviour
 
     void OnGenerationComplete(List<VillagerData> villagers)
     {
-        LobbyFlowManager.Instance.Settings.Villagers = villagers;
+        LobbyFlowManager.Instance.roomData.villagers = villagers;
     }
 }

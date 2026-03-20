@@ -133,4 +133,40 @@ public class BioPanel : MonoBehaviour
     {
         return Mathf.Pow(t, 2f);
     }
+
+    public void SetStateInstant(bool expanded)
+    {
+        // Stop any running animation
+        if (currentAnim != null)
+            StopCoroutine(currentAnim);
+
+        isExpanded = expanded;
+
+        if (expanded)
+        {
+            // Final EXPANDED state
+            contentAnchor.anchoredPosition = initialAnchorPos + Vector2.up * slideDistance;
+
+            readMoreGroup.alpha = 0;
+            readMoreGroup.interactable = false;
+            readMoreGroup.blocksRaycasts = false;
+
+            bioGroup.alpha = 1;
+            bioGroup.interactable = true;
+            bioGroup.blocksRaycasts = true;
+        }
+        else
+        {
+            // Final COLLAPSED state
+            contentAnchor.anchoredPosition = initialAnchorPos;
+
+            readMoreGroup.alpha = 1;
+            readMoreGroup.interactable = true;
+            readMoreGroup.blocksRaycasts = true;
+
+            bioGroup.alpha = 0;
+            bioGroup.interactable = false;
+            bioGroup.blocksRaycasts = false;
+        }
+    }
 }

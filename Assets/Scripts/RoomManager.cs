@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Firebase.Database;
 using Firebase.Extensions;
+using System;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
@@ -17,10 +18,12 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     [Header("External Managers")]
     [SerializeField] private PreviousRoomsManager previousRoomsManager;
+    [SerializeField] private LobbyFlowManager lobbyFlowManager;
+    [SerializeField] private VillagerPanel villagerPanel;
 
 
     private DatabaseReference roomsRef;
-    private List<string> availableRooms = new List<string>();
+    private List<AvailableVillager> availableVillagers = new List<AvailableVillager>();
     private int currentRoomIndex = 0;
 
     public void InitializeFirebase(DatabaseReference databaseRef)
@@ -32,15 +35,46 @@ public class RoomManager : MonoBehaviourPunCallbacks
         StartListeningForRoomUpdates();
     }
 
-    public void CreateRoom(int maxPlayers)
+    public void CreateRoom()
     {
-        string roomName = "Room_" + Random.Range(1000, 9999);
-        FirebaseManager.Instance.CreateRoom(roomName, maxPlayers, PlayFabAuth.PlayFabId);
+        PlayerRoomData hostData = new PlayerRoomData();
+
+        string playerId = PlayFabAuth.PlayFabId;
+
+        int selectedIndex = villagerPanel.GetCurrentIndex();
+        hostData.selectedCharacters = new List<int> { selectedIndex };
+
+        List<int> rejected = new List<int>();
+        int totalVillagers = lobbyFlowManager.roomData.settings.population;
+
+        for (int i = 0; i < totalVillagers; i++)
+            if (i != selectedIndex)
+                rejected.Add(i);
+
+        hostData.rejectedCharacters = rejected;
+
+        if (lobbyFlowManager.roomData.players == null)
+            lobbyFlowManager.roomData.players = new Dictionary<string, PlayerRoomData>();
+
+        lobbyFlowManager.roomData.players[playerId] = hostData;
+
+        string path = $"rooms/{lobbyFlowManager.roomData.settings.townName}";
+
+        FirebaseManager.Instance.SetValueAtPath(path, lobbyFlowManager.roomData);
     }
 
-    public void JoinRoom(string roomName)
+    public void SelectVillager(string roomName, int villagerIndex)
     {
-        FirebaseManager.Instance.JoinRoom(roomName, PlayFabAuth.PlayFabId);
+        string path = $"rooms/{roomName}/players/{PlayFabAuth.PlayFabId}/selectedCharacters";
+
+        FirebaseManager.Instance.AddToArray(path, villagerIndex);
+    }
+
+    public void RejectVillager(string roomName, int villagerIndex)
+    {
+        string path = $"rooms/{roomName}/players/{PlayFabAuth.PlayFabId}/rejectedCharacters";
+
+        FirebaseManager.Instance.AddToArray(path, villagerIndex);
     }
 
     private void StartListeningForRoomUpdates()
@@ -57,11 +91,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         if (args.DatabaseError != null)
         {
-            Debug.LogError($"❌ Firebase error: {args.DatabaseError.Message}");
+            Debug.LogError($"Firebase error: {args.DatabaseError.Message}");
             return;
         }
 
-        // Refresh the room list whenever there is a change
         FetchAvailableRooms();
     }
 
@@ -69,108 +102,161 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         roomsRef.GetValueAsync().ContinueWithOnMainThread(task =>
         {
-            if (task.IsCompleted)
+            if (!task.IsCompleted)
             {
-                availableRooms.Clear();
-                foreach (var room in task.Result.Children)
-                {
-                    string roomName = room.Key;
+                Debug.LogError($"Failed to fetch rooms: {task.Exception}");
+                return;
+            }
 
-                    int maxPlayers = 0;
-                    if (room.Child("maxPlayers").Value != null)
+            int? currentVillagerIndex = null;
+            if (availableVillagers.Count > 0 && currentRoomIndex < availableVillagers.Count)
+            {
+                currentVillagerIndex = availableVillagers[currentRoomIndex].villager.index;
+            }
+
+            availableVillagers.Clear();
+
+            availableVillagers.Clear();
+
+            string playerId = PlayFabAuth.PlayFabId;
+
+            foreach (var room in task.Result.Children)
+            {
+                string roomName = room.Key;
+
+                HashSet<int> seenIndexes = new HashSet<int>();
+
+                var playerSnap = room.Child($"players/{playerId}");
+
+                var selectedSnap = playerSnap.Child("selectedCharacters");
+                if (selectedSnap.Exists)
+                {
+                    foreach (var i in selectedSnap.Children)
                     {
-                        maxPlayers = int.Parse(room.Child("maxPlayers").Value.ToString());
+                        seenIndexes.Add(Convert.ToInt32(i.Value));
                     }
 
-                    // Fetch the list of players in the room
-                    var playersRef = roomsRef.Child(roomName).Child("players");
-
-                    playersRef.GetValueAsync().ContinueWithOnMainThread(playerTask =>
-                    {
-                        if (playerTask.IsCompleted)
-                        {
-                            List<string> playerList = new List<string>();
-                            foreach (var player in playerTask.Result.Children)
-                            {
-                                playerList.Add(player.Key); // Assuming player IDs/names are the keys
-                            }
-
-                            int playerCount = playerList.Count; 
-
-                            // If player count is equal to the max player count, trigger the action
-                            if (playerCount == maxPlayers)
-                            {
-                                // Example of calling your method (you can replace it with actual code)
-                                Debug.Log($"Room {roomName} has reached max players. Deleting room...");
-                                DeleteRoom(roomName, playerList); // Placeholder for your method
-                            }
-                        }
-                        else
-                        {
-                            Debug.LogError($"❌ Failed to fetch players in room {roomName}: {playerTask.Exception}");
-                        }
-                    });
-
-                    availableRooms.Add(roomName);
                 }
 
-                // Update the room cards
-                UpdateRoomCards();
-            }
-            else
-            {
-                Debug.LogError($"❌ Failed to fetch rooms: {task.Exception}");
-            }
-        });
-    }
-
-    private void DeleteRoom(string roomName, List<string> players)
-    {
-        DatabaseReference roomRef = roomsRef.Child(roomName); // Reference to the room node in the database
-        roomRef.RemoveValueAsync().ContinueWithOnMainThread(task =>
-        {
-            if (task.IsCompleted)
-            {
-                Debug.Log($"Room {roomName} successfully deleted from the Firebase database.");
-                
-                if (availableRooms.IndexOf(roomName) < currentRoomIndex)
+                var rejectedSnap = playerSnap.Child("rejectedCharacters");
+                if (rejectedSnap.Exists)
                 {
-                    currentRoomIndex--;
+                    foreach (var i in rejectedSnap.Children)
+                    {
+                        seenIndexes.Add(Convert.ToInt32(i.Value));
+                    }
                 }
-                availableRooms.Remove(roomName);
-                
-                UpdateRoomCards();
+
+                RoomSettings settings = new RoomSettings();
+                var settingsSnap = room.Child("settings");
+
+                if (settingsSnap.Exists)
+                {
+                    settings.townName = settingsSnap.Child("townName").Value?.ToString();
+
+                    if (settingsSnap.Child("playerCount").Value != null)
+                        int.TryParse(settingsSnap.Child("playerCount").Value.ToString(), out settings.playerCount);
+
+                    if (settingsSnap.Child("population").Value != null)
+                        int.TryParse(settingsSnap.Child("population").Value.ToString(), out settings.population);
+
+                    if (settingsSnap.Child("secretInvite").Value != null)
+                        bool.TryParse(settingsSnap.Child("secretInvite").Value.ToString(), out settings.secretInvite);
+                }
+
+                if (settings.secretInvite)
+                    continue;
+
+                var villagersSnap = room.Child("villagers");
+
+                if (!villagersSnap.Exists)
+                    continue;
+
+                foreach (var villagerSnap in villagersSnap.Children)
+                {
+                    VillagerData villager =
+                        JsonUtility.FromJson<VillagerData>(villagerSnap.GetRawJsonValue());
+
+                    int villagerIndex = villager.index;
+
+                    if (seenIndexes.Contains(villagerIndex))
+                        continue;
+
+                    AvailableVillager av = new AvailableVillager
+                    {
+                        villager = villager,
+                        settings = settings
+                    };
+
+                    availableVillagers.Add(av);
+                }
             }
-            else
+
+            if (currentVillagerIndex.HasValue)
             {
-                Debug.LogError($"❌ Failed to delete room {roomName} from Firebase: {task.Exception}");
+                int foundIndex = availableVillagers.FindIndex(v => v.villager.index == currentVillagerIndex.Value);
+
+                if (foundIndex > 0)
+                {
+                    var currentVillager = availableVillagers[foundIndex];
+                    availableVillagers.RemoveAt(foundIndex);
+                    availableVillagers.Insert(0, currentVillager);
+                }
             }
+
+            currentRoomIndex = 0;
+
+            UpdateRoomCards();
         });
     }
+
+    //private void DeleteRoom(string roomName, List<string> players)
+    //{
+    //    DatabaseReference roomRef = roomsRef.Child(roomName); // Reference to the room node in the database
+    //    roomRef.RemoveValueAsync().ContinueWithOnMainThread(task =>
+    //    {
+    //        if (task.IsCompleted)
+    //        {
+    //            Debug.Log($"Room {roomName} successfully deleted from the Firebase database.");
+                
+    //            if (availableVillagers.IndexOf(roomName) < currentRoomIndex)
+    //            {
+    //                currentRoomIndex--;
+    //            }
+    //            availableVillagers.Remove(roomName);
+                
+    //            UpdateRoomCards();
+    //        }
+    //        else
+    //        {
+    //            Debug.LogError($"Failed to delete room {roomName} from Firebase: {task.Exception}");
+    //        }
+    //    });
+    //}
 
     private void UpdateRoomCards()
     {
-        if (availableRooms.Count == 0)
+        if (availableVillagers.Count == 0)
         {
             HideRoomCards();
             return;
         }
 
         // Assign the first two rooms
-        if (currentRoomIndex < availableRooms.Count)
+        if (currentRoomIndex < availableVillagers.Count)
         {
             frontRoomCard.SetActive(true);
-            frontRoomCard.GetComponent<RoomCardUI>().Setup(availableRooms[currentRoomIndex], this);
+            frontRoomCard.GetComponent<RoomCardUI>().Setup(availableVillagers[currentRoomIndex], this);
         }
         else
         {
             frontRoomCard.SetActive(false);
         }
 
-        if (currentRoomIndex + 1 < availableRooms.Count)
+        if (currentRoomIndex + 1 < availableVillagers.Count)
         {
             backRoomCard.SetActive(true);
-            backRoomCard.GetComponent<RoomCardUI>().Setup(availableRooms[currentRoomIndex + 1], this);
+            backRoomCard.GetComponent<RoomCardUI>().Setup(availableVillagers[currentRoomIndex + 1], this);
         }
         else
         {
@@ -180,7 +266,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     public void AdvanceToNextRoom()
     {
-        if (currentRoomIndex < availableRooms.Count - 1)
+        if (currentRoomIndex < availableVillagers.Count - 1)
         {
             currentRoomIndex++;
             UpdateRoomCards();
@@ -264,4 +350,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
             Debug.LogWarning("ChatManager not found in scene.");
         }
     }
+}
+
+public class AvailableVillager
+{
+    public VillagerData villager;
+    public RoomSettings settings;
 }

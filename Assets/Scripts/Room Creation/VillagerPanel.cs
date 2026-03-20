@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class VillagerPanel : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class VillagerPanel : MonoBehaviour
     [SerializeField] TMP_Text traitsText;
     [SerializeField] TMP_Text bioText;
     [SerializeField] GameObject blackPanel;
+    [SerializeField] GameObject villagerPanel;
 
     [Header("Buttons")]
     [SerializeField] RoundButton nextButton;
@@ -23,9 +25,12 @@ public class VillagerPanel : MonoBehaviour
     [SerializeField] RoundButton resetButton;
 
     [SerializeField] private VillagerAIGenerator generator;
+    [SerializeField] private BioPanel bioPanel;
 
     private List<CharacterButton> buttons;
     private int currentIndex;
+
+    public int GetCurrentIndex() { return currentIndex; }
 
     private void OnEnable()
     {
@@ -49,6 +54,7 @@ public class VillagerPanel : MonoBehaviour
     public void SetCurrentIndex(int index)
     {
         this.currentIndex = index;
+        bioPanel.SetStateInstant(false);
         UpdatePanel();
     }
 
@@ -139,13 +145,13 @@ public class VillagerPanel : MonoBehaviour
     public void Open()
     {
         blackPanel.SetActive(true);
-        gameObject.SetActive(true);
+        villagerPanel.SetActive(true);
     }
 
     public void Close()
     {
         blackPanel.SetActive(false);
-        gameObject.SetActive(false);
+        villagerPanel.SetActive(false);
     }
 
     public void RegenerateBio()

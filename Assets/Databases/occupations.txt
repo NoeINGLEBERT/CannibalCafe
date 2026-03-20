@@ -46,3 +46,4 @@ Journalist
 Unemployed
 Fisherman
 Therapist
+Radio Host

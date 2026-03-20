@@ -28,7 +28,7 @@ public class TownSettingsPanel : MonoBehaviour
 
     void SetupFromPlayerCount()
     {
-        int playerCount = LobbyFlowManager.Instance.Settings.PlayerCount;
+        int playerCount = LobbyFlowManager.Instance.roomData.settings.playerCount;
 
         townNameInput.text = "";
 
@@ -63,11 +63,11 @@ public class TownSettingsPanel : MonoBehaviour
             return;
         }
 
-        var settings = LobbyFlowManager.Instance.Settings;
+        var settings = LobbyFlowManager.Instance.roomData;
 
-        settings.TownName = townName;
-        settings.Population = Mathf.RoundToInt(inhabitantsSlider.value);
-        settings.SecretInvite = secretInviteToggle.IsOn;
+        settings.settings.townName = townName;
+        settings.settings.population = Mathf.RoundToInt(inhabitantsSlider.value);
+        settings.settings.secretInvite = secretInviteToggle.IsOn;
 
         LobbyFlowManager.Instance.OpenCharacterPanel();
     }

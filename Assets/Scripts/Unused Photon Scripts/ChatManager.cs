@@ -46,7 +46,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
         if (chatClient != null)
         {
             chatClient.Service();
-            Debug.Log("Photon Chat State: " + chatClient.State);
+            //Debug.Log("Photon Chat State: " + chatClient.State);
         }
         HandleInput();
     }

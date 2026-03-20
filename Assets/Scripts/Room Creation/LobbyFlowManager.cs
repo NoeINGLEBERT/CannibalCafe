@@ -5,11 +5,11 @@ public class LobbyFlowManager : MonoBehaviour
     public static LobbyFlowManager Instance { get; private set; }
 
     [Header("Panels")]
-    [SerializeField] private GameObject CreationPanel;
-    [SerializeField] private GameObject SettingsPanel;
-    [SerializeField] private GameObject CharacterPanel;
+    [SerializeField] private GameObject creationPanel;
+    [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private GameObject characterPanel;
 
-    public RoomSettings Settings { get; private set; } = new RoomSettings();
+    public RoomData roomData { get; private set; } = new RoomData();
 
     private void Awake()
     {
@@ -29,24 +29,25 @@ public class LobbyFlowManager : MonoBehaviour
 
     public void OpenCreationPanel()
     {
-        CreationPanel.SetActive(true);
-        SettingsPanel.SetActive(false);
-        CharacterPanel.SetActive(false);
+        creationPanel.SetActive(true);
+        settingsPanel.SetActive(false);
+        characterPanel.SetActive(false);
     }
 
     public void OpenSettingsPanel(int playerCount)
     {
-        Settings.PlayerCount = playerCount;
+        roomData.Reset();
+        roomData.settings.playerCount = playerCount;
 
-        CreationPanel.SetActive(false);
-        SettingsPanel.SetActive(true);
-        CharacterPanel.SetActive(false);
+        creationPanel.SetActive(false);
+        settingsPanel.SetActive(true);
+        characterPanel.SetActive(false);
     }
 
     public void OpenCharacterPanel()
     {
-        CreationPanel.SetActive(false);
-        SettingsPanel.SetActive(false);
-        CharacterPanel.SetActive(true);
+        creationPanel.SetActive(false);
+        settingsPanel.SetActive(false);
+        characterPanel.SetActive(true);
     }
 }

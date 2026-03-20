@@ -9,6 +9,8 @@ public enum TraitState { Low, High }
 [Serializable]
 public class VillagerData
 {
+    public int index;
+
     public string name;
     public int age;
     public string gender;

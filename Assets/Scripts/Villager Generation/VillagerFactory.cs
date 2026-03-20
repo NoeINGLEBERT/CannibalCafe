@@ -40,9 +40,14 @@ public class VillagerFactory : MonoBehaviour
 
         List<VillagerData> villagers = new();
 
+        int i = 0;
+
         foreach (var c in constraints)
         {
             VillagerData v = new();
+
+            v.index = i;
+            i++;
 
             Gender chosenGender =
                 c.AllowedGenders[UnityEngine.Random.Range(0, c.AllowedGenders.Length)];

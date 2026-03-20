@@ -52,6 +52,9 @@ public class SwipeHandler : MonoBehaviour
 
     private void HandleSwipe()
     {
+        if (!gameObject.activeSelf)
+            return;
+
         float deltaX = endTouchPosition.x - startTouchPosition.x;
 
         if (Mathf.Abs(deltaX) > swipeThreshold)
@@ -67,6 +70,7 @@ public class SwipeHandler : MonoBehaviour
     private IEnumerator SwipeLeftAnimation()
     {
         yield return SwipeAnimation(-exitDistance, rotationAngle);
+        roomCardUI.Pass();
         FindFirstObjectByType<RoomManager>().AdvanceToNextRoom();
         isSwiping = false; // Allow new swipes after animation
     }
@@ -74,7 +78,7 @@ public class SwipeHandler : MonoBehaviour
     private IEnumerator SwipeRightAnimation()
     {
         yield return SwipeAnimation(exitDistance, -rotationAngle);
-        roomCardUI.JoinRoom();
+        roomCardUI.Slash();
         FindFirstObjectByType<RoomManager>().AdvanceToNextRoom();
         isSwiping = false; // Allow new swipes after animation
     }

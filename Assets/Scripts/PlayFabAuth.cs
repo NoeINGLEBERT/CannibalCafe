@@ -12,6 +12,7 @@ public class PlayFabAuth : MonoBehaviour
     [SerializeField] private TMP_InputField passwordInput; // For password input
     [SerializeField] private TMP_Text feedbackText; // For displaying feedback messages
 
+    [SerializeField] private FirebaseManager firebaseManager; // For displaying feedback messages
     public static string PlayFabId { get; private set; } = "";
     public static string AvatarUrl { get; private set; } = "";
 
@@ -137,6 +138,7 @@ public class PlayFabAuth : MonoBehaviour
         PlayFabId = result.PlayFabId;
 
         FirebaseManager.Subscribe(PlayFabId);
+        firebaseManager.OnLogin();
 
         // Retrieve avatar URL and set Photon nickname
         PlayFabClientAPI.GetAccountInfo(new GetAccountInfoRequest(),

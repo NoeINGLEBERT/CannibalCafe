@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine.Networking;
 using Newtonsoft.Json;
+using System;
+using System.Linq;
 #if UNITY_ANDROID && !UNITY_EDITOR
 using UnityEngine.Android;
 #endif
@@ -48,12 +50,15 @@ public class FirebaseManager : MonoBehaviour
 
         dbReference = FirebaseDatabase.GetInstance(app).RootReference;
 
-        roomManager.InitializeFirebase(FirebaseDatabase.GetInstance(app).GetReference("rooms"));
-
         FirebaseMessaging.TokenReceived += OnTokenReceived;
         FirebaseMessaging.MessageReceived += OnMessageReceived;
 
         RequestNotificationPermission();
+    }
+
+    public void OnLogin()
+    {
+        roomManager.InitializeFirebase(dbReference.Child("rooms"));
     }
 
     void RequestNotificationPermission()
@@ -103,24 +108,24 @@ public class FirebaseManager : MonoBehaviour
 
         if (request.result == UnityWebRequest.Result.Success)
         {
-            Debug.Log("✅ Notification sent successfully: " + request.downloadHandler.text);
+            Debug.Log("Notification sent successfully: " + request.downloadHandler.text);
         }
         else
         {
-            Debug.LogError("❌ Notification sending failed: " + request.error);
+            Debug.LogError("Notification sending failed: " + request.error);
             Debug.LogError("Response: " + request.downloadHandler.text);
         }
     }
 
     void OnTokenReceived(object sender, TokenReceivedEventArgs token)
     {
-        Debug.Log($"📲 FCM Token: {token.Token}");
+        Debug.Log($"FCM Token: {token.Token}");
         // Optional: Send this token to your backend for targeted notifications
     }
 
     void OnMessageReceived(object sender, MessageReceivedEventArgs e)
     {
-        Debug.Log("📩 FCM Message received");
+        Debug.Log("FCM Message received");
         if (e.Message.Notification != null)
         {
             Debug.Log($"Title: {e.Message.Notification.Title}");
@@ -132,85 +137,75 @@ public class FirebaseManager : MonoBehaviour
         }
     }
 
-    // Method to create a room in Firebase
-    public void CreateRoom(string roomName, int maxPlayers, string masterPlayFabID)
+    public void CheckIfPathExists(string path, Action<bool> callback)
     {
-        string roomPath = "rooms/" + roomName;
-
-        RoomData newRoom = new RoomData
-        {
-            roomName = roomName,
-            maxPlayers = maxPlayers,
-            players = new List<string> { masterPlayFabID }
-        };
-
-        string json = JsonUtility.ToJson(newRoom);
-        dbReference.Child(roomPath).SetRawJsonValueAsync(json).ContinueWithOnMainThread(task =>
-        {
-            if (task.IsCompleted)
-            {
-                Debug.Log($"✅ Room '{roomName}' created successfully.");
-            }
-            else
-            {
-                Debug.LogError($"❌ Failed to create room '{roomName}': {task.Exception}");
-            }
-        });
-    }
-
-    // Method to join a room
-    public void JoinRoom(string roomName, string playerPlayFabID)
-    {
-        string roomPlayersPath = $"rooms/{roomName}/players";
-
-        dbReference.Child(roomPlayersPath).GetValueAsync().ContinueWithOnMainThread(task =>
+        dbReference.Child(path).GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
             {
                 DataSnapshot snapshot = task.Result;
-                List<string> players = new List<string>();
-
-                if (snapshot.Exists)
-                {
-                    foreach (var child in snapshot.Children)
-                    {
-                        players.Add(child.Value.ToString());
-                    }
-                }
-
-                if (!players.Contains(playerPlayFabID))
-                {
-                    players.Add(playerPlayFabID);
-                    dbReference.Child(roomPlayersPath).SetValueAsync(players).ContinueWithOnMainThread(updateTask =>
-                    {
-                        if (updateTask.IsCompleted)
-                        {
-                            Debug.Log($"✅ Player '{playerPlayFabID}' joined room '{roomName}'.");
-                        }
-                        else
-                        {
-                            Debug.LogError($"❌ Failed to join room '{roomName}': {updateTask.Exception}");
-                        }
-                    });
-                }
-                else
-                {
-                    Debug.LogWarning($"⚠️ Player '{playerPlayFabID}' is already in room '{roomName}'.");
-                }
+                bool exists = snapshot.Exists;
+                callback?.Invoke(exists);
             }
             else
             {
-                Debug.LogError($"❌ Failed to retrieve room '{roomName}': {task.Exception}");
+                Debug.LogError($"Failed to check path '{path}': {task.Exception}");
+                callback?.Invoke(false);
             }
+        });
+    }
+
+    public void SetValueAtPath(string path, object data, Action<bool> callback = null)
+    {
+        string json = JsonConvert.SerializeObject(data);
+
+        dbReference.Child(path).SetRawJsonValueAsync(json).ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted)
+            {
+                Debug.Log($"Data written at '{path}'");
+                callback?.Invoke(true);
+            }
+            else
+            {
+                Debug.LogError($"Failed to write at '{path}': {task.Exception}");
+                callback?.Invoke(false);
+            }
+        });
+    }
+
+    public void AddToArray(string path, int data)
+    {
+        dbReference.Child(path).GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (!task.IsCompleted)
+            {
+                Debug.LogError("Failed to read data: " + task.Exception);
+                return;
+            }
+
+            List<int> list = new List<int>();
+
+            DataSnapshot snapshot = task.Result;
+
+            // Rebuild list from Firebase
+            if (snapshot.Exists)
+            {
+                foreach (var child in snapshot.Children)
+                {
+                    list.Add(Convert.ToInt32(child.Value));
+                }
+            }
+
+            // Avoid duplicates (optional)
+            if (!list.Contains(data))
+            {
+                list.Add(data);
+            }
+
+            // Write full array back
+            dbReference.Child(path).SetValueAsync(list);
         });
     }
 }
 
-// RoomData structure
-[System.Serializable]
-public class RoomData
-{
-    public string roomName;
-    public int maxPlayers;
-    public List<string> players;
-}
