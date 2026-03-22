@@ -710,6 +710,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &75701997 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 285689822062877072, guid: 68d49fb3996775e48b437ed42ea3fd13, type: 3}
+  m_PrefabInstance: {fileID: 1788065113}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &78178052
 GameObject:
   m_ObjectHideFlags: 0
@@ -793,7 +804,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1395860259}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FirebaseManager, Assembly-CSharp
         m_MethodName: SendNotification
         m_Mode: 5
@@ -2110,6 +2121,17 @@ CanvasRenderer:
 --- !u!114 &310671331 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7181771520422310787, guid: 68d49fb3996775e48b437ed42ea3fd13, type: 3}
+  m_PrefabInstance: {fileID: 1788065113}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &316185693 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8672402510133904305, guid: 68d49fb3996775e48b437ed42ea3fd13, type: 3}
   m_PrefabInstance: {fileID: 1788065113}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -4543,8 +4565,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 937f0e8f38b06514eb0b3a934d0d4fd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  matchbakersText: {fileID: 0}
-  interestsText: {fileID: 0}
+  matchbakersText: {fileID: 1929212706}
+  interestsText: {fileID: 919671595}
   roomNameText: {fileID: 814276162}
   populationText: {fileID: 232998735}
   portrait: {fileID: 1242250775}
@@ -4784,55 +4806,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0956e8407b149a843af7cbcc35baeb03, type: 3}
---- !u!1 &686685686
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 686685688}
-  - component: {fileID: 686685687}
-  m_Layer: 0
-  m_Name: PlayFabAuth
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &686685687
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 686685686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a77012a0a2614ed4badfaaea1bd7fc59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  usernameInput: {fileID: 1094160479}
-  emailInput: {fileID: 1081775480}
-  passwordInput: {fileID: 1753176984}
-  feedbackText: {fileID: 1607724828}
-  firebaseManager: {fileID: 1395860259}
---- !u!4 &686685688
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 686685686}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &691040165
 GameObject:
   m_ObjectHideFlags: 0
@@ -5579,8 +5552,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 817197397}
+  - component: {fileID: 817197403}
   - component: {fileID: 817197396}
   - component: {fileID: 817197401}
+  - component: {fileID: 817197402}
   - component: {fileID: 817197400}
   - component: {fileID: 817197399}
   - component: {fileID: 817197398}
@@ -5687,6 +5662,36 @@ MonoBehaviour:
   usernameText: {fileID: 305290410}
   mmrText: {fileID: 148987198}
   avatarImage: {fileID: 365834748}
+--- !u!114 &817197402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 817197395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47329bff2e43f6f4bb34d368a55347bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomManager: {fileID: 817197400}
+--- !u!114 &817197403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 817197395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a77012a0a2614ed4badfaaea1bd7fc59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usernameInput: {fileID: 1094160479}
+  emailInput: {fileID: 1081775480}
+  passwordInput: {fileID: 1753176984}
+  feedbackText: {fileID: 1607724828}
+  firebaseManager: {fileID: 817197402}
 --- !u!1 &823460747
 GameObject:
   m_ObjectHideFlags: 0
@@ -5973,6 +5978,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding: {x: -8, y: -5, z: -8, w: -5}
   m_Softness: {x: 0, y: 0}
+--- !u!114 &919671595 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8672402510133904305, guid: 68d49fb3996775e48b437ed42ea3fd13, type: 3}
+  m_PrefabInstance: {fileID: 1819000594}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &941835295 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 739916349042697916, guid: 68d49fb3996775e48b437ed42ea3fd13, type: 3}
@@ -6511,8 +6527,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 937f0e8f38b06514eb0b3a934d0d4fd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  matchbakersText: {fileID: 0}
-  interestsText: {fileID: 0}
+  matchbakersText: {fileID: 75701997}
+  interestsText: {fileID: 316185693}
   roomNameText: {fileID: 310671331}
   populationText: {fileID: 941835295}
   portrait: {fileID: 1063027055}
@@ -9555,51 +9571,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1392936161}
   m_CullTransparentMesh: 1
---- !u!1 &1395860258
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1395860260}
-  - component: {fileID: 1395860259}
-  m_Layer: 0
-  m_Name: FirebaseManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1395860259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1395860258}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47329bff2e43f6f4bb34d368a55347bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  roomManager: {fileID: 817197400}
---- !u!4 &1395860260
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1395860258}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1296.2135, y: 979.7759, z: -314.27988}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1401493602
 GameObject:
   m_ObjectHideFlags: 0
@@ -11196,7 +11167,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 686685687}
+      - m_Target: {fileID: 817197403}
         m_TargetAssemblyTypeName: PlayFabAuth, Assembly-CSharp
         m_MethodName: Register
         m_Mode: 1
@@ -13191,7 +13162,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 686685687}
+      - m_Target: {fileID: 817197403}
         m_TargetAssemblyTypeName: PlayFabAuth, Assembly-CSharp
         m_MethodName: Login
         m_Mode: 1
@@ -13898,6 +13869,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1905452109}
   m_CullTransparentMesh: 1
+--- !u!114 &1929212706 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 285689822062877072, guid: 68d49fb3996775e48b437ed42ea3fd13, type: 3}
+  m_PrefabInstance: {fileID: 1819000594}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1961007314
 GameObject:
   m_ObjectHideFlags: 0
@@ -15724,12 +15706,10 @@ SceneRoots:
   - {fileID: 817197397}
   - {fileID: 823460751}
   - {fileID: 849292519}
-  - {fileID: 686685688}
   - {fileID: 489632168}
   - {fileID: 421766281}
   - {fileID: 954269563}
   - {fileID: 1459273838}
-  - {fileID: 1395860260}
   - {fileID: 1427721706}
   - {fileID: 1452609713}
   - {fileID: 5166346690891085236}

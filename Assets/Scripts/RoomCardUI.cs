@@ -30,6 +30,8 @@ public class RoomCardUI : MonoBehaviour
 
         VillagerData v = villager.villager;
 
+        matchbakersText.text = $"{villager.readyPlayers}/{villager.settings.playerCount} Matchbakers";
+        interestsText.text = $"Your interests: {villager.interestsNumber}/{villager.settings.playerCount}";
         roomNameText.text = villager.settings.townName;
         populationText.text = $"{villager.settings.population} inhabitants";
         portrait.Render(PortraitCoder.Decode(v.portraitCode), PortraitRenderMode.Full);

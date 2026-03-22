@@ -116,13 +116,13 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
             availableVillagers.Clear();
 
-            availableVillagers.Clear();
-
             string playerId = PlayFabAuth.PlayFabId;
 
             foreach (var room in task.Result.Children)
             {
                 string roomName = room.Key;
+
+                int interestsNumber = 0;
 
                 HashSet<int> seenIndexes = new HashSet<int>();
 
@@ -136,6 +136,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
                         seenIndexes.Add(Convert.ToInt32(i.Value));
                     }
 
+                    interestsNumber = (int)selectedSnap.ChildrenCount;
                 }
 
                 var rejectedSnap = playerSnap.Child("rejectedCharacters");
@@ -167,6 +168,28 @@ public class RoomManager : MonoBehaviourPunCallbacks
                 if (settings.secretInvite)
                     continue;
 
+                int readyPlayers = 1;
+
+                var playersSnap = room.Child("players");
+
+                if (playersSnap.Exists)
+                {
+                    foreach (var player in playersSnap.Children)
+                    {
+                        var selected = player.Child("selectedCharacters");
+
+                        if (selected.Exists)
+                        {
+                            int selectedCount = (int)selected.ChildrenCount;
+
+                            if (selectedCount >= settings.playerCount)
+                            {
+                                readyPlayers++;
+                            }
+                        }
+                    }
+                }
+
                 var villagersSnap = room.Child("villagers");
 
                 if (!villagersSnap.Exists)
@@ -185,7 +208,9 @@ public class RoomManager : MonoBehaviourPunCallbacks
                     AvailableVillager av = new AvailableVillager
                     {
                         villager = villager,
-                        settings = settings
+                        settings = settings,
+                        interestsNumber = interestsNumber,
+                        readyPlayers = readyPlayers
                     };
 
                     availableVillagers.Add(av);
@@ -354,6 +379,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
 public class AvailableVillager
 {
+    public int readyPlayers;
+    public int interestsNumber;
     public VillagerData villager;
     public RoomSettings settings;
 }

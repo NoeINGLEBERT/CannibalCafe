@@ -69,7 +69,17 @@ public class TownSettingsPanel : MonoBehaviour
         settings.settings.population = Mathf.RoundToInt(inhabitantsSlider.value);
         settings.settings.secretInvite = secretInviteToggle.IsOn;
 
-        LobbyFlowManager.Instance.OpenCharacterPanel();
+        FirebaseManager.Instance.CheckIfPathExists($"rooms/{townName}", exists =>
+        {
+            if (exists)
+            {
+                errorText.gameObject.SetActive(true);
+                errorText.text = "Town name already taken.";
+                return;
+            }
+
+            LobbyFlowManager.Instance.OpenCharacterPanel();
+        });
     }
 
     public void Back()
