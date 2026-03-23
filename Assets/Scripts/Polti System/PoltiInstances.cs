@@ -253,7 +253,6 @@ public class PoltiRelationInstance
                 case RelationCompatibility.Redundant:
                     if (this != existing)
                     {
-                        Debug.LogWarning("DUPLICATE");
                         compatibility = RelationCompatibility.Redundant;
                     }
                     continue;

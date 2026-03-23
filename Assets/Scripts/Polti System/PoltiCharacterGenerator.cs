@@ -52,6 +52,14 @@ public class PoltiCharacterGenerator : MonoBehaviour
         Debug.Log($"Generated {generatedCharacters.Count} characters.");
 
         AssignLiveRoles();
+
+        if (GetAllUnassignedLiveRoles().Count != 0)
+        {
+            Debug.LogWarning("Failed to assign all roles. Regenerating...");
+            GenerateCharacters(count);
+            return;
+        }
+
         DebugAssignedRoles();
         OnCharactersGenerated?.Invoke(generatedCharacters);
     }
@@ -389,6 +397,15 @@ public class PoltiCharacterGenerator : MonoBehaviour
         }
 
         return clonedCharacters;
+    }
+
+    private List<PoltiRoleInstance> GetAllUnassignedLiveRoles()
+    {
+        return generatedCharacters
+            .SelectMany(c => c.AssignedSituation.Roles)
+            .Where(r => !r.IsDead && !r.IsAssigned)
+            .Distinct()
+            .ToList();
     }
 }
 
