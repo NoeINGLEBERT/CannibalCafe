@@ -17,6 +17,8 @@ public class VillagerData
     public string occupation;
     public string location;
 
+    public int houseIndex;
+
     [TextArea] public string situations;
     [TextArea] public string relations;
 

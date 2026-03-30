@@ -30,10 +30,10 @@ public class RoomCardUI : MonoBehaviour
 
         VillagerData v = villager.villager;
 
-        matchbakersText.text = $"{villager.readyPlayers}/{villager.settings.playerCount} Matchbakers";
-        interestsText.text = $"Your interests: {villager.interestsNumber}/{villager.settings.playerCount}";
-        roomNameText.text = villager.settings.townName;
-        populationText.text = $"{villager.settings.population} inhabitants";
+        matchbakersText.text = $"{villager.readyPlayers}/{villager.roomData.settings.playerCount} Matchbakers";
+        interestsText.text = $"Your interests: {villager.interestsNumber}/{villager.roomData.settings.playerCount}";
+        roomNameText.text = villager.roomData.settings.townName;
+        populationText.text = $"{villager.roomData.settings.population} inhabitants";
         portrait.Render(PortraitCoder.Decode(v.portraitCode), PortraitRenderMode.Full);
         nameText.text = $"{v.name},";
         ageText.text = $" {v.age}";
@@ -47,11 +47,18 @@ public class RoomCardUI : MonoBehaviour
 
     public void Slash()
     {
-        roomManager.SelectVillager(villagerRef.settings.townName, villagerRef.villager.index);
+        int requiredPlayers = villagerRef.roomData.settings.playerCount;
+
+        bool enoughReadyPlayers = villagerRef.readyPlayers + 1 == requiredPlayers;
+        bool enoughSelections = villagerRef.interestsNumber + 1 == requiredPlayers;
+
+        bool shouldStartRoom = enoughReadyPlayers && enoughSelections;
+
+        roomManager.SelectVillager(villagerRef.roomData, villagerRef.villager.index, shouldStartRoom);
     }
 
     public void Pass()
     {
-        roomManager.RejectVillager(villagerRef.settings.townName, villagerRef.villager.index);
+        roomManager.RejectVillager(villagerRef.roomData.settings.townName, villagerRef.villager.index);
     }
 }

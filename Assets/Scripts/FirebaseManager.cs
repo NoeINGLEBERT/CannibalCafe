@@ -21,6 +21,10 @@ public class FirebaseManager : MonoBehaviour
 
     [SerializeField] private RoomManager roomManager;
 
+    private float debugTimer = 0f;
+    private bool isChecking = false;
+    private bool isDebuging = true;
+
     void Awake()
     {
         if (Instance == null)
@@ -141,6 +145,8 @@ public class FirebaseManager : MonoBehaviour
     {
         dbReference.Child(path).GetValueAsync().ContinueWithOnMainThread(task =>
         {
+            isDebuging = false;
+
             if (task.IsCompleted)
             {
                 DataSnapshot snapshot = task.Result;
@@ -161,6 +167,8 @@ public class FirebaseManager : MonoBehaviour
 
         dbReference.Child(path).SetRawJsonValueAsync(json).ContinueWithOnMainThread(task =>
         {
+            isDebuging = false;
+
             if (task.IsCompleted)
             {
                 Debug.Log($"Data written at '{path}'");
@@ -185,26 +193,80 @@ public class FirebaseManager : MonoBehaviour
             }
 
             List<int> list = new List<int>();
-
             DataSnapshot snapshot = task.Result;
 
-            // Rebuild list from Firebase
             if (snapshot.Exists)
             {
                 foreach (var child in snapshot.Children)
-                {
                     list.Add(Convert.ToInt32(child.Value));
+            }
+
+            if (!list.Contains(data))
+                list.Add(data);
+
+            dbReference.Child(path).SetValueAsync(list);
+        });
+    }
+
+    void Update()
+    {
+        debugTimer += Time.deltaTime;
+
+        // Avoid spamming every frame (Firebase would explode)
+        if (debugTimer >= 2f && !isChecking && isDebuging)
+        {
+            debugTimer = 0f;
+            DebugDatabaseAccess();
+        }
+    }
+
+    void DebugDatabaseAccess()
+    {
+        if (dbReference == null)
+        {
+            Debug.LogError("❌ DB REFERENCE IS NULL");
+            return;
+        }
+
+        isChecking = true;
+
+        Debug.Log("🔄 Checking Firebase access...");
+
+        dbReference.GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            isChecking = false;
+
+            if (task.IsFaulted)
+            {
+                Debug.LogError("❌ DATABASE ACCESS FAILED");
+                Debug.LogError(task.Exception);
+                return;
+            }
+
+            if (task.IsCanceled)
+            {
+                Debug.LogError("❌ DATABASE ACCESS CANCELED");
+                return;
+            }
+
+            if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result;
+
+                Debug.Log("✅ DATABASE ACCESS OK");
+
+                if (snapshot.Exists)
+                {
+                    string json = snapshot.GetRawJsonValue();
+
+                    Debug.Log("📦 FULL DB:");
+                    Debug.Log(json);
+                }
+                else
+                {
+                    Debug.LogWarning("⚠️ DATABASE IS EMPTY OR NO PERMISSION");
                 }
             }
-
-            // Avoid duplicates (optional)
-            if (!list.Contains(data))
-            {
-                list.Add(data);
-            }
-
-            // Write full array back
-            dbReference.Child(path).SetValueAsync(list);
         });
     }
 }

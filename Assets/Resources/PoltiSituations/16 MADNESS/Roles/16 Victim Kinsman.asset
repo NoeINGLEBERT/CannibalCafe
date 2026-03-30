@@ -18,7 +18,7 @@ MonoBehaviour:
   IsDead: 1
   MinAge: 18
   MaxAge: 81
-  AllowedGenders: 
+  AllowedGenders: 0000000001000000
   Relations:
   - rid: 6224462071570104380
   - rid: 6325083888939958346

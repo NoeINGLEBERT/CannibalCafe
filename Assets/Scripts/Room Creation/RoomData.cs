@@ -22,6 +22,7 @@ public class RoomData
 public class RoomSettings
 {
     public string townName;
+    public int mapIndex;
     public int playerCount;
     public int population;
     public bool secretInvite;

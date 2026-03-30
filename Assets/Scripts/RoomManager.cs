@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using Firebase.Database;
 using Firebase.Extensions;
 using System;
+using System.Collections;
+using Google.MiniJSON;
+using Newtonsoft.Json;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
@@ -20,7 +23,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
     [SerializeField] private PreviousRoomsManager previousRoomsManager;
     [SerializeField] private LobbyFlowManager lobbyFlowManager;
     [SerializeField] private VillagerPanel villagerPanel;
-
 
     private DatabaseReference roomsRef;
     private List<AvailableVillager> availableVillagers = new List<AvailableVillager>();
@@ -63,11 +65,192 @@ public class RoomManager : MonoBehaviourPunCallbacks
         FirebaseManager.Instance.SetValueAtPath(path, lobbyFlowManager.roomData);
     }
 
-    public void SelectVillager(string roomName, int villagerIndex)
+    private void DebugRoomData(RoomData roomData)
     {
-        string path = $"rooms/{roomName}/players/{PlayFabAuth.PlayFabId}/selectedCharacters";
+        if (roomData == null)
+        {
+            Debug.LogError("RoomData is NULL!");
+            return;
+        }
 
-        FirebaseManager.Instance.AddToArray(path, villagerIndex);
+        Debug.Log("===== START ROOM DEBUG =====");
+
+        // Settings
+        if (roomData.settings != null)
+        {
+            Debug.Log($"Room: {roomData.settings.townName}");
+            Debug.Log($"PlayerCount: {roomData.settings.playerCount}");
+            Debug.Log($"Population: {roomData.settings.population}");
+        }
+        else
+        {
+            Debug.LogWarning("Settings is NULL");
+        }
+
+        // Players
+        if (roomData.players != null)
+        {
+            Debug.Log($"Players count: {roomData.players.Count}");
+
+            foreach (var player in roomData.players)
+            {
+                string playerId = player.Key;
+                var data = player.Value;
+
+                string selected = data.selectedCharacters != null
+                    ? string.Join(",", data.selectedCharacters)
+                    : "NULL";
+
+                string rejected = data.rejectedCharacters != null
+                    ? string.Join(",", data.rejectedCharacters)
+                    : "NULL";
+
+                Debug.Log($"Player {playerId} | Selected: [{selected}] | Rejected: [{rejected}]");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Players is NULL");
+        }
+
+        // Villagers
+        if (roomData.villagers != null)
+        {
+            Debug.Log($"Villagers count: {roomData.villagers.Count}");
+        }
+        else
+        {
+            Debug.LogWarning("Villagers is NULL");
+        }
+
+        Debug.Log("===== END ROOM DEBUG =====");
+    }
+
+    private void StartRoom(RoomData roomData)
+    {
+        DebugRoomData(roomData);
+
+        string roomName = roomData.settings.townName;
+
+        // Convert to ActiveRoomData
+        ActiveRoomData activeRoom = ConvertToActiveRoom(roomData);
+
+        // Firebase paths
+        string activePath = $"activeRooms/{roomName}";
+        string waitingPath = $"rooms/{roomName}";
+
+        // Write active room then delete old one
+        FirebaseManager.Instance.SetValueAtPath(activePath, activeRoom, (success) =>
+        {
+            if (success)
+            {
+                FirebaseManager.Instance.SetValueAtPath(waitingPath, null, (success) =>
+                {
+                    if (success)
+                        Debug.Log($"Room {roomName} removed from rooms.");
+                });
+                Debug.Log($"Room {roomName} started and moved to activeRooms.");
+            }
+            else
+            {
+                Debug.LogError($"Failed to move room {roomName} to activeRooms.");
+            }
+        });
+    }
+
+    private ActiveRoomData ConvertToActiveRoom(RoomData roomData)
+    {
+        ActiveRoomData active = new ActiveRoomData();
+
+        active.settings = roomData.settings;
+        active.players = new Dictionary<string, PlayerState>();
+        active.villagers = roomData.villagers;
+
+        active.villagerToHouse = new Dictionary<int, int>(); // leave empty for now
+        active.conversations = new Dictionary<string, ConversationLog>();
+
+        // --- CHARACTER ASSIGNMENT ---
+        Dictionary<string, int> assignments = AssignUniqueCharacters(roomData.players);
+
+        foreach (var kvp in assignments)
+        {
+            active.players[kvp.Key] = new PlayerState
+            {
+                villagerIndex = kvp.Value,
+                kill = null
+            };
+        }
+
+        return active;
+    }
+
+    private Dictionary<string, int> AssignUniqueCharacters(Dictionary<string, PlayerRoomData> players)
+    {
+        var rng = new System.Random();
+
+        List<string> playerIds = new List<string>(players.Keys);
+
+        // Try multiple times in case of conflicts
+        for (int attempt = 0; attempt < 50; attempt++)
+        {
+            var used = new HashSet<int>();
+            var result = new Dictionary<string, int>();
+
+            // Shuffle players each attempt
+            Shuffle(playerIds, rng);
+
+            bool success = true;
+
+            foreach (var playerId in playerIds)
+            {
+                var choices = players[playerId].selectedCharacters;
+
+                // Filter available ones
+                List<int> available = choices.FindAll(c => !used.Contains(c));
+
+                if (available.Count == 0)
+                {
+                    success = false;
+                    break;
+                }
+
+                int chosen = available[rng.Next(available.Count)];
+
+                result[playerId] = chosen;
+                used.Add(chosen);
+            }
+
+            if (success)
+                return result;
+        }
+
+        Debug.LogError("Failed to assign unique characters after multiple attempts.");
+        return new Dictionary<string, int>();
+    }
+
+    private void Shuffle<T>(List<T> list, System.Random rng)
+    {
+        for (int i = list.Count - 1; i > 0; i--)
+        {
+            int j = rng.Next(i + 1);
+            (list[i], list[j]) = (list[j], list[i]);
+        }
+    }
+
+    public void SelectVillager(RoomData roomData, int villagerIndex, bool tryStartRoom = false)
+    {
+        if (tryStartRoom)
+        {
+            roomData.players[PlayFabAuth.PlayFabId].selectedCharacters.Add(villagerIndex);
+
+            StartRoom(roomData);
+        }
+        else
+        {
+            string path = $"rooms/{roomData.settings.townName}/players/{PlayFabAuth.PlayFabId}/selectedCharacters";
+
+            FirebaseManager.Instance.AddToArray(path, villagerIndex);
+        }
     }
 
     public void RejectVillager(string roomName, int villagerIndex)
@@ -81,7 +264,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         roomsRef.ChildChanged += HandleRoomUpdated;
         roomsRef.ChildAdded += HandleRoomUpdated;
-        //roomsRef.ChildRemoved += HandleRoomUpdated;
+        roomsRef.ChildRemoved += HandleRoomUpdated;
 
         // Initial fetch
         FetchAvailableRooms();
@@ -148,24 +331,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
                     }
                 }
 
-                RoomSettings settings = new RoomSettings();
-                var settingsSnap = room.Child("settings");
 
-                if (settingsSnap.Exists)
-                {
-                    settings.townName = settingsSnap.Child("townName").Value?.ToString();
+                RoomData roomData = JsonConvert.DeserializeObject<RoomData>(room.GetRawJsonValue());
 
-                    if (settingsSnap.Child("playerCount").Value != null)
-                        int.TryParse(settingsSnap.Child("playerCount").Value.ToString(), out settings.playerCount);
-
-                    if (settingsSnap.Child("population").Value != null)
-                        int.TryParse(settingsSnap.Child("population").Value.ToString(), out settings.population);
-
-                    if (settingsSnap.Child("secretInvite").Value != null)
-                        bool.TryParse(settingsSnap.Child("secretInvite").Value.ToString(), out settings.secretInvite);
-                }
-
-                if (settings.secretInvite)
+                if (roomData.settings.secretInvite)
                     continue;
 
                 int readyPlayers = 1;
@@ -182,7 +351,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
                         {
                             int selectedCount = (int)selected.ChildrenCount;
 
-                            if (selectedCount >= settings.playerCount)
+                            if (selectedCount >= roomData.settings.playerCount)
                             {
                                 readyPlayers++;
                             }
@@ -208,7 +377,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
                     AvailableVillager av = new AvailableVillager
                     {
                         villager = villager,
-                        settings = settings,
+                        roomData = roomData,
                         interestsNumber = interestsNumber,
                         readyPlayers = readyPlayers
                     };
@@ -382,5 +551,5 @@ public class AvailableVillager
     public int readyPlayers;
     public int interestsNumber;
     public VillagerData villager;
-    public RoomSettings settings;
+    public RoomData roomData;
 }
