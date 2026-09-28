@@ -41,6 +41,8 @@ public class PortraitRenderer : MonoBehaviour
 
         PortraitBody body = currentBody.GetComponent<PortraitBody>();
 
+        body.hair.sprite = data.isMale ? database.hairMale[data.hairIndex] : database.hairFemale[data.hairIndex];
+
         if (data.hasEyes)
         {
             body.eyes.sprite = database.eyes[data.eyesIndex];

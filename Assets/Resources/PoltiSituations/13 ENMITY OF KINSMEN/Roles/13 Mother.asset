@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Index: 2
   Name: Mother
-  Sentence: Married to {00}, he hates her son, {10}
+  Sentence: Married to {00}, who hates her son, {10}
   IsDead: 0
   MinAge: 35
   MaxAge: 50

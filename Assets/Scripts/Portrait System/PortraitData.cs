@@ -5,6 +5,9 @@ public struct PortraitData
 {
     public int bodyIndex;
 
+    public bool isMale;
+    public int hairIndex;
+
     public int backgroundIndex;
     public float backgroundRedness;
 
@@ -28,6 +31,12 @@ public static class PortraitCoder
         int shift = 0;
 
         value |= ((ulong)data.bodyIndex) << shift;
+        shift += 6;
+
+        value |= (data.isMale ? 1UL : 0UL) << shift;
+        shift += 1;
+
+        value |= ((ulong)data.hairIndex) << shift;
         shift += 6;
 
         value |= ((ulong)data.backgroundIndex) << shift;
@@ -68,6 +77,12 @@ public static class PortraitCoder
         int shift = 0;
 
         data.bodyIndex = (int)((value >> shift) & 0b111111);
+        shift += 6;
+
+        data.isMale = ((value >> shift) & 1) == 1;
+        shift += 1;
+
+        data.hairIndex = (int)((value >> shift) & 0b111111);
         shift += 6;
 
         data.backgroundIndex = (int)((value >> shift) & 0b111111);

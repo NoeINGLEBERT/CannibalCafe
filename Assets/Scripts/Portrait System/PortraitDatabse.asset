@@ -28,6 +28,34 @@ MonoBehaviour:
   - {fileID: 4063809298425909431, guid: 95b6181022682c94ba365c5a0310329f, type: 3}
   - {fileID: 3304060417223396173, guid: ab5cc8a9849358d48a1cdd60fbd5c2b2, type: 3}
   - {fileID: 1374524254458505147, guid: 20bd7f72db5095b46841042bc01200a4, type: 3}
+  hairMale:
+  - {fileID: 21300000, guid: 8d889aa5c09033849aa3b0d1aa085c9b, type: 3}
+  - {fileID: 21300000, guid: 364cee204ad2b094fb45190420c03e65, type: 3}
+  - {fileID: 21300000, guid: c05d34f9541439048bbd599854e0940a, type: 3}
+  - {fileID: 21300000, guid: 3e2a85fcf615add47bf556a4afde2066, type: 3}
+  - {fileID: 21300000, guid: d58ecae0c1cfc044bb7b59c808361dbd, type: 3}
+  - {fileID: 21300000, guid: 23758e0b79aa46b40a0cf544c1ed0ce9, type: 3}
+  - {fileID: 21300000, guid: 90eaaaf0dfafc634097a6b8b30005a38, type: 3}
+  - {fileID: 21300000, guid: 3bc3dd861e26ab240a9efa3ec9934c0d, type: 3}
+  - {fileID: 21300000, guid: d735b53d707b4294da3ef38ac838df1b, type: 3}
+  - {fileID: 21300000, guid: 55d5441c2d439e24092f139fd2025d9f, type: 3}
+  - {fileID: 21300000, guid: 7d13a6d3c28c4854a855e8ac3770367f, type: 3}
+  - {fileID: 21300000, guid: 4018200d56413ca4f825ba0f028b4b94, type: 3}
+  - {fileID: 21300000, guid: fce3e9f071d593d4f9959e414ae143b0, type: 3}
+  hairFemale:
+  - {fileID: 21300000, guid: ccd088603cb288e499226d43de785093, type: 3}
+  - {fileID: 21300000, guid: 3e2a85fcf615add47bf556a4afde2066, type: 3}
+  - {fileID: 21300000, guid: d58ecae0c1cfc044bb7b59c808361dbd, type: 3}
+  - {fileID: 21300000, guid: 44f3423dcbc1aa34e8af574cb8ab8b30, type: 3}
+  - {fileID: 21300000, guid: 076c5a0074c2e4f4e86f19eb704eb3f0, type: 3}
+  - {fileID: 21300000, guid: 3bc3dd861e26ab240a9efa3ec9934c0d, type: 3}
+  - {fileID: 21300000, guid: 26330374ede06434db97220bdc9bdedb, type: 3}
+  - {fileID: 21300000, guid: d735b53d707b4294da3ef38ac838df1b, type: 3}
+  - {fileID: 21300000, guid: da2ea22c8262b5940a2badaa6dfc6c3b, type: 3}
+  - {fileID: 21300000, guid: 4c76f3f2512b7d54dab3ad447b084011, type: 3}
+  - {fileID: 21300000, guid: 55d5441c2d439e24092f139fd2025d9f, type: 3}
+  - {fileID: 21300000, guid: f750d8c6e43e4ca4b93e7e806dcf9a35, type: 3}
+  - {fileID: 21300000, guid: fce3e9f071d593d4f9959e414ae143b0, type: 3}
   backgrounds:
   - {fileID: 21300000, guid: 08f58085a68386c4cad510139a3fa5bf, type: 3}
   - {fileID: 21300000, guid: fa8e527b935e0064f9401cc533a9c7d9, type: 3}

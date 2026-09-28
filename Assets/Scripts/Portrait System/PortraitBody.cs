@@ -6,4 +6,5 @@ public class PortraitBody : MonoBehaviour
     public Image eyes;
     public Image mouth;
     public Image blood;
+    public Image hair;
 }

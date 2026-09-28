@@ -8,6 +8,10 @@ public static class PortraitGenerator
 
         data.bodyIndex = Random.Range(0, db.bodyPrefabs.Length);
 
+        data.isMale = Random.value > 0.5f;
+        int hairLength = data.isMale ? db.hairMale.Length : db.hairFemale.Length;
+        data.hairIndex = Random.Range(0, hairLength);
+
         data.backgroundIndex = Random.Range(0, db.backgrounds.Length);
         data.backgroundRedness = Random.value;
 
